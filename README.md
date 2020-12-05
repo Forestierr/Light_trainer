@@ -3,6 +3,5 @@
 
 ### But :
 Le but est de réaliser des Light d'entrainement.
-Les Light doivent communiquer entre elle et pouvoir communiquer avec un appareil externe.
-Pour cela je souhaite utiliser le WiFi.
-Pour controller les Light, je souhaite héberger un site web.
+Chaqcune des Light poura communiquer avec les autre via WiFi. 
+L'utulisateur pourra gérer les mode d'tilisation via le WiFi généréer par les Light en se rendant sur un site.
