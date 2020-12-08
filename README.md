@@ -7,7 +7,7 @@
 
 ### But :
 Le but est de réaliser des Light d'entrainement.
-Chaqcune des Light poura communiquer avec les autre via WiFi. 
+Chacune des Light poura communiquer avec les autre via WiFi. 
 L'utulisateur pourra gérer les mode d'tilisation via le WiFi généré par les Light en se rendant sur un site.
 
 ### License : [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
