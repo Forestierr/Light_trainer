@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name Light_trainer-rescue)(type Legacy)(uri ${KIPRJMOD}/Light_trainer-rescue.lib)(options "")(descr ""))
+)
