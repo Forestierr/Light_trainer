@@ -2229,15 +2229,4 @@ Wire Notes Line
 	5200 7300 5200 9750
 Text Notes 5200 7250 0    50   ~ 0
 LED néo-pixel
-$Comp
-L Device:C C?
-U 1 1 60165D5E
-P 6300 7500
-F 0 "C?" H 6415 7546 50  0000 L CNN
-F 1 "10pF" H 6415 7455 50  0000 L CNN
-F 2 "" H 6338 7350 50  0001 C CNN
-F 3 "~" H 6300 7500 50  0001 C CNN
-	1    6300 7500
-	0    -1   -1   0   
-$EndComp
 $EndSCHEMATC
