@@ -1,4 +1,4 @@
-18921433611422576
+18923043464013320
 Battery
 BAT_1043
 
@@ -1987,6 +1987,13 @@ DIP Switch SPST Slide 7.62mm 300mil
 0
 24
 24
+Button_Switch_THT
+SW_DP3T
+
+
+0
+8
+8
 Button_Switch_THT
 SW_E-Switch_EG1224_SPDT_Angled
 E-Switch slide switch, EG series, SPDT, right angle, http://spec_sheets.e-switch.com/specs/P040042.pdf
