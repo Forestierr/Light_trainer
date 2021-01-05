@@ -3132,6 +3132,6 @@
     )
   )
 
-  (gr_circle (center 94.488 86.36) (end 136.012 85.344) (layer F.SilkS) (width 0.15))
+  (gr_circle (center 95.115573 86.36) (end 136.639573 85.344) (layer F.SilkS) (width 0.15))
 
 )

@@ -1,4 +1,4 @@
-18923043464013320
+18918655432408958
 Battery
 BAT_1043
 
@@ -1987,13 +1987,6 @@ DIP Switch SPST Slide 7.62mm 300mil
 0
 24
 24
-Button_Switch_THT
-SW_DP3T
-
-
-0
-8
-8
 Button_Switch_THT
 SW_E-Switch_EG1224_SPDT_Angled
 E-Switch slide switch, EG series, SPDT, right angle, http://spec_sheets.e-switch.com/specs/P040042.pdf
@@ -53581,13 +53574,6 @@ Inductor_SMD
 L_Wuerth_WE-TPC-3816
 L_Wuerth_WE-TPC-3816 StepUp generated footprint, http://katalog.we-online.de/pbs/datasheet/7440310047.pdf
 wurth wuerth smd inductor
-0
-2
-2
-Inductor_SMD
-L_Wuerth_WE_PMI
-
-
 0
 2
 2
