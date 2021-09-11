@@ -14,2617 +14,579 @@ Comment3 "V_00"
 Comment4 "Robin Forestier"
 $EndDescr
 $Comp
-L power:+BATT #PWR08
-U 1 1 5FD076AE
-P 5200 2300
-F 0 "#PWR08" H 5200 2150 50  0001 C CNN
-F 1 "+BATT" H 5215 2473 50  0000 C CNN
-F 2 "" H 5200 2300 50  0001 C CNN
-F 3 "" H 5200 2300 50  0001 C CNN
-	1    5200 2300
-	1    0    0    -1  
-$EndComp
-$Comp
-L Switch:SW_Push SW3
+L Light_trainer-rescue:SW_Push-Switch SW3
 U 1 1 5FD2E185
-P 5800 7850
-F 0 "SW3" H 5800 8135 50  0000 C CNN
-F 1 "SW_Push" H 5800 8044 50  0000 C CNN
-F 2 "Button_Switch_SMD:SW_SPST_PTS645" H 5800 8050 50  0001 C CNN
-F 3 "https://www.ckswitches.com/media/1471/pts645.pdf" H 5800 8050 50  0001 C CNN
-F 4 "Digikey" H 5800 7850 50  0001 C CNN "Fournisseur"
-F 5 "0,22" H 5800 7850 50  0001 C CNN "Prix total"
-F 6 "1,32" H 5800 7850 50  0001 C CNN "prix unité"
-	1    5800 7850
+P 1800 4600
+F 0 "SW3" H 1800 4885 50  0000 C CNN
+F 1 "SW_Push" H 1800 4794 50  0000 C CNN
+F 2 "Button_Switch_SMD:SW_SPST_PTS645" H 1800 4800 50  0001 C CNN
+F 3 "https://www.ckswitches.com/media/1471/pts645.pdf" H 1800 4800 50  0001 C CNN
+F 4 "Digikey" H 1800 4600 50  0001 C CNN "Fournisseur"
+F 5 "0,22" H 1800 4600 50  0001 C CNN "Prix total"
+F 6 "1,32" H 1800 4600 50  0001 C CNN "prix unité"
+	1    1800 4600
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:R R2
-U 1 1 5FD3083C
-P 6200 2200
-F 0 "R2" V 6300 2300 50  0000 L CNN
-F 1 "150" V 6300 2050 50  0000 L CNN
-F 2 "Resistor_SMD:R_0805_2012Metric" V 6130 2200 50  0001 C CNN
-F 3 "~" H 6200 2200 50  0001 C CNN
-F 4 "Digikey" H 6200 2200 50  0001 C CNN "Fournisseur"
-	1    6200 2200
-	0    -1   -1   0   
-$EndComp
-$Comp
-L Device:LED D1
-U 1 1 5FD1318A
-P 6600 2200
-F 0 "D1" H 6593 2417 50  0000 C CNN
-F 1 "LED_R" H 6593 2326 50  0000 C CNN
-F 2 "LED_SMD:LED_1806_4516Metric" H 6600 2200 50  0001 C CNN
-F 3 "https://www.kingbrightusa.com/images/catalog/SPEC/APA3010SRCPRV-GX.pdf" H 6600 2200 50  0001 C CNN
-F 4 "Digitek" H 6600 2200 50  0001 C CNN "Fournisseur"
-F 5 "0,32" H 6600 2200 50  0001 C CNN "Prix total"
-F 6 "0,32" H 6600 2200 50  0001 C CNN "prix unité"
-	1    6600 2200
-	1    0    0    -1  
-$EndComp
-$Comp
-L Battery_Management:MCP73831-2-OT U1
-U 1 1 5FD0A3D5
-P 4100 2450
-F 0 "U1" H 4250 2750 50  0000 C CNN
-F 1 "MCP73831-2-OT" H 3700 2750 50  0000 C CNN
-F 2 "Package_TO_SOT_SMD:SOT-23-5" H 4150 2200 50  0001 L CIN
-F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/20001984g.pdf" H 3950 2400 50  0001 C CNN
-F 4 "0,51" H 4100 2450 50  0001 C CNN "Prix total"
-F 5 "0,51" H 4100 2450 50  0001 C CNN "prix unité"
-F 6 "Digikey" H 4100 2450 50  0001 C CNN "Fournisseur"
-	1    4100 2450
-	1    0    0    -1  
-$EndComp
-$Comp
-L power:GND #PWR011
-U 1 1 5FD0CF55
-P 1450 2700
-F 0 "#PWR011" H 1450 2450 50  0001 C CNN
-F 1 "GND" H 1600 2650 50  0000 C CNN
-F 2 "" H 1450 2700 50  0001 C CNN
-F 3 "" H 1450 2700 50  0001 C CNN
-	1    1450 2700
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	1400 2550 1400 2650
-Wire Wire Line
-	1400 2650 1450 2650
-Connection ~ 1450 2650
-Wire Wire Line
-	1450 2650 1450 2700
-Wire Wire Line
-	1450 2650 1500 2650
-Wire Wire Line
-	1500 2650 1500 2550
-$Comp
-L Connector:USB_B_Micro J1
-U 1 1 5FD0CF61
-P 1500 2150
-F 0 "J1" H 1557 2617 50  0000 C CNN
-F 1 "USB_B_Micro" H 1557 2526 50  0000 C CNN
-F 2 "Connector_USB:USB_Micro-B_Wuerth_629105150521_CircularHoles" H 1650 2100 50  0001 C CNN
-F 3 "https://www.distrelec.ch/Web/Downloads/40/32/629105150521.pdf" H 1650 2100 50  0001 C CNN
-F 4 "Digikey" H 1500 2150 50  0001 C CNN "Fournisseur"
-F 5 "1.88" H 1500 2150 50  0001 C CNN "Prix total"
-F 6 "1,88" H 1500 2150 50  0001 C CNN "prix unité"
-	1    1500 2150
-	1    0    0    -1  
-$EndComp
-$Comp
-L power:GND #PWR014
-U 1 1 5FD194D4
-P 4100 2850
-F 0 "#PWR014" H 4100 2600 50  0001 C CNN
-F 1 "GND" H 4105 2677 50  0000 C CNN
-F 2 "" H 4100 2850 50  0001 C CNN
-F 3 "" H 4100 2850 50  0001 C CNN
-	1    4100 2850
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	6800 2100 6800 2200
-Wire Wire Line
-	6800 2200 6750 2200
-Wire Wire Line
-	6450 2200 6350 2200
-$Comp
-L Device:R R4
-U 1 1 5FD2341D
-P 6000 2400
-F 0 "R4" H 6070 2446 50  0000 L CNN
-F 1 "100" H 6070 2355 50  0000 L CNN
-F 2 "Resistor_SMD:R_0805_2012Metric" V 5930 2400 50  0001 C CNN
-F 3 "~" H 6000 2400 50  0001 C CNN
-F 4 "Digikey" H 6000 2400 50  0001 C CNN "Fournisseur"
-	1    6000 2400
-	-1   0    0    1   
-$EndComp
-$Comp
-L Device:LED D3
-U 1 1 5FD23423
-P 6000 2800
-F 0 "D3" H 5993 3017 50  0000 C CNN
-F 1 "LED_G" H 5993 2926 50  0000 C CNN
-F 2 "LED_SMD:LED_1806_4516Metric" H 6000 2800 50  0001 C CNN
-F 3 "https://www.kingbrightusa.com/images/catalog/SPEC/APA3010ZGC-GX.pdf" H 6000 2800 50  0001 C CNN
-F 4 "Digitek" H 6000 2800 50  0001 C CNN "Fournisseur"
-F 5 "0,56" H 6000 2800 50  0001 C CNN "Prix total"
-F 6 "0,56" H 6000 2800 50  0001 C CNN "prix unité"
-	1    6000 2800
-	0    -1   -1   0   
-$EndComp
-Wire Wire Line
-	6000 2550 6000 2650
-$Comp
-L power:GND #PWR016
-U 1 1 5FD243DD
-P 6000 3000
-F 0 "#PWR016" H 6000 2750 50  0001 C CNN
-F 1 "GND" H 6005 2827 50  0000 C CNN
-F 2 "" H 6000 3000 50  0001 C CNN
-F 3 "" H 6000 3000 50  0001 C CNN
-	1    6000 3000
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	6000 2950 6000 3000
-Text GLabel 5950 2200 0    50   Input ~ 0
-stat
-Wire Wire Line
-	5950 2200 6000 2200
-Wire Wire Line
-	6000 2200 6000 2250
-Connection ~ 6000 2200
-Wire Wire Line
-	6000 2200 6050 2200
-Text GLabel 4600 2550 2    50   Output ~ 0
-stat
-$Comp
-L Device:R R6
-U 1 1 5FD31BB7
-P 3550 2750
-F 0 "R6" H 3620 2796 50  0000 L CNN
-F 1 "2K" H 3620 2705 50  0000 L CNN
-F 2 "Resistor_SMD:R_0805_2012Metric" V 3480 2750 50  0001 C CNN
-F 3 "~" H 3550 2750 50  0001 C CNN
-F 4 "Digikey" H 3550 2750 50  0001 C CNN "Fournisseur"
-	1    3550 2750
-	-1   0    0    1   
-$EndComp
-$Comp
-L power:GND #PWR015
-U 1 1 5FD32503
-P 3550 3000
-F 0 "#PWR015" H 3550 2750 50  0001 C CNN
-F 1 "GND" H 3555 2827 50  0000 C CNN
-F 2 "" H 3550 3000 50  0001 C CNN
-F 3 "" H 3550 3000 50  0001 C CNN
-	1    3550 3000
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	3550 3000 3550 2900
-Wire Wire Line
-	3700 2550 3550 2550
-Wire Wire Line
-	3550 2550 3550 2600
-Wire Wire Line
-	4600 2550 4500 2550
-$Comp
-L Device:C C5
-U 1 1 5FD3A8E3
-P 5000 2550
-F 0 "C5" H 5115 2596 50  0000 L CNN
-F 1 "10uF" H 5115 2505 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric" H 5038 2400 50  0001 C CNN
-F 3 "~" H 5000 2550 50  0001 C CNN
-	1    5000 2550
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	4500 2350 5000 2350
-Wire Wire Line
-	5000 2350 5000 2400
-$Comp
-L power:GND #PWR012
-U 1 1 5FD3C441
-P 5000 2800
-F 0 "#PWR012" H 5000 2550 50  0001 C CNN
-F 1 "GND" H 5005 2627 50  0000 C CNN
-F 2 "" H 5000 2800 50  0001 C CNN
-F 3 "" H 5000 2800 50  0001 C CNN
-	1    5000 2800
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	5000 2800 5000 2700
-Wire Wire Line
-	4100 2750 4100 2850
-Wire Wire Line
-	5200 2350 5000 2350
-Connection ~ 5000 2350
-Wire Wire Line
-	4100 2000 4100 2150
-Wire Wire Line
-	5200 2300 5200 2350
-$Comp
-L Switch:SW_Push SW4
+L Light_trainer-rescue:SW_Push-Switch SW4
 U 1 1 5FD62CD6
-P 5800 8200
-F 0 "SW4" H 5800 8485 50  0000 C CNN
-F 1 "SW_Push" H 5800 8394 50  0000 C CNN
-F 2 "Button_Switch_SMD:SW_SPST_PTS645" H 5800 8400 50  0001 C CNN
-F 3 "https://www.ckswitches.com/media/1471/pts645.pdf" H 5800 8400 50  0001 C CNN
-F 4 "Digikey" H 5800 8200 50  0001 C CNN "Fournisseur"
-F 5 "0,22" H 5800 8200 50  0001 C CNN "Prix total"
-F 6 "1,32" H 5800 8200 50  0001 C CNN "prix unité"
-	1    5800 8200
+P 1800 4950
+F 0 "SW4" H 1800 5235 50  0000 C CNN
+F 1 "SW_Push" H 1800 5144 50  0000 C CNN
+F 2 "Button_Switch_SMD:SW_SPST_PTS645" H 1800 5150 50  0001 C CNN
+F 3 "https://www.ckswitches.com/media/1471/pts645.pdf" H 1800 5150 50  0001 C CNN
+F 4 "Digikey" H 1800 4950 50  0001 C CNN "Fournisseur"
+F 5 "0,22" H 1800 4950 50  0001 C CNN "Prix total"
+F 6 "1,32" H 1800 4950 50  0001 C CNN "prix unité"
+	1    1800 4950
 	1    0    0    -1  
 $EndComp
 $Comp
-L Switch:SW_Push SW5
+L Light_trainer-rescue:SW_Push-Switch SW5
 U 1 1 5FD65B5A
-P 5800 8550
-F 0 "SW5" H 5800 8835 50  0000 C CNN
-F 1 "SW_Push" H 5800 8744 50  0000 C CNN
-F 2 "Button_Switch_SMD:SW_SPST_PTS645" H 5800 8750 50  0001 C CNN
-F 3 "https://www.ckswitches.com/media/1471/pts645.pdf" H 5800 8750 50  0001 C CNN
-F 4 "Digikey" H 5800 8550 50  0001 C CNN "Fournisseur"
-F 5 "0,22" H 5800 8550 50  0001 C CNN "Prix total"
-F 6 "1,32" H 5800 8550 50  0001 C CNN "prix unité"
-	1    5800 8550
+P 1800 5300
+F 0 "SW5" H 1800 5585 50  0000 C CNN
+F 1 "SW_Push" H 1800 5494 50  0000 C CNN
+F 2 "Button_Switch_SMD:SW_SPST_PTS645" H 1800 5500 50  0001 C CNN
+F 3 "https://www.ckswitches.com/media/1471/pts645.pdf" H 1800 5500 50  0001 C CNN
+F 4 "Digikey" H 1800 5300 50  0001 C CNN "Fournisseur"
+F 5 "0,22" H 1800 5300 50  0001 C CNN "Prix total"
+F 6 "1,32" H 1800 5300 50  0001 C CNN "prix unité"
+	1    1800 5300
 	1    0    0    -1  
 $EndComp
 $Comp
-L Switch:SW_Push SW7
+L Light_trainer-rescue:SW_Push-Switch SW7
 U 1 1 5FD68A79
-P 5800 8900
-F 0 "SW7" H 5800 9185 50  0000 C CNN
-F 1 "SW_Push" H 5800 9094 50  0000 C CNN
-F 2 "Button_Switch_SMD:SW_SPST_PTS645" H 5800 9100 50  0001 C CNN
-F 3 "https://www.ckswitches.com/media/1471/pts645.pdf" H 5800 9100 50  0001 C CNN
-F 4 "Digikey" H 5800 8900 50  0001 C CNN "Fournisseur"
-F 5 "0,22" H 5800 8900 50  0001 C CNN "Prix total"
-F 6 "1,32" H 5800 8900 50  0001 C CNN "prix unité"
-	1    5800 8900
+P 1800 5650
+F 0 "SW7" H 1800 5935 50  0000 C CNN
+F 1 "SW_Push" H 1800 5844 50  0000 C CNN
+F 2 "Button_Switch_SMD:SW_SPST_PTS645" H 1800 5850 50  0001 C CNN
+F 3 "https://www.ckswitches.com/media/1471/pts645.pdf" H 1800 5850 50  0001 C CNN
+F 4 "Digikey" H 1800 5650 50  0001 C CNN "Fournisseur"
+F 5 "0,22" H 1800 5650 50  0001 C CNN "Prix total"
+F 6 "1,32" H 1800 5650 50  0001 C CNN "prix unité"
+	1    1800 5650
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	5500 7750 5500 7850
+	1500 4500 1500 4600
 Wire Wire Line
-	5500 7850 5600 7850
+	1500 4600 1600 4600
 Wire Wire Line
-	5500 7850 5500 8200
+	1500 4600 1500 4950
 Wire Wire Line
-	5500 8200 5600 8200
-Connection ~ 5500 7850
+	1500 4950 1600 4950
+Connection ~ 1500 4600
 Wire Wire Line
-	5500 8200 5500 8550
+	1500 4950 1500 5300
 Wire Wire Line
-	5500 8550 5600 8550
-Connection ~ 5500 8200
+	1500 5300 1600 5300
+Connection ~ 1500 4950
 Wire Wire Line
-	5500 8550 5500 8900
+	1500 5300 1500 5650
 Wire Wire Line
-	5500 8900 5600 8900
-Connection ~ 5500 8550
+	1500 5650 1600 5650
+Connection ~ 1500 5300
 $Comp
-L Device:R R17
+L Light_trainer-rescue:R-Device R17
 U 1 1 5FD7C917
-P 6150 9150
-F 0 "R17" H 6220 9196 50  0000 L CNN
-F 1 "10k" H 6220 9105 50  0000 L CNN
-F 2 "Resistor_SMD:R_0805_2012Metric" V 6080 9150 50  0001 C CNN
-F 3 "~" H 6150 9150 50  0001 C CNN
-F 4 "Digikey" H 6150 9150 50  0001 C CNN "Fournisseur"
-	1    6150 9150
+P 2150 5900
+F 0 "R17" H 2220 5946 50  0000 L CNN
+F 1 "10k" H 2220 5855 50  0000 L CNN
+F 2 "Resistor_SMD:R_0805_2012Metric" V 2080 5900 50  0001 C CNN
+F 3 "~" H 2150 5900 50  0001 C CNN
+F 4 "Digikey" H 2150 5900 50  0001 C CNN "Fournisseur"
+	1    2150 5900
 	-1   0    0    1   
 $EndComp
 Wire Wire Line
-	6150 8900 6150 9000
+	2150 5650 2150 5750
 Wire Wire Line
-	6150 8900 6000 8900
+	2150 5650 2000 5650
 Wire Wire Line
-	6150 8900 6150 8550
+	2150 5650 2150 5300
 Wire Wire Line
-	6150 8550 6000 8550
-Connection ~ 6150 8900
+	2150 5300 2000 5300
+Connection ~ 2150 5650
 Wire Wire Line
-	6150 8550 6150 8200
+	2150 5300 2150 4950
 Wire Wire Line
-	6150 8200 6000 8200
-Connection ~ 6150 8550
+	2150 4950 2000 4950
+Connection ~ 2150 5300
 Wire Wire Line
-	6000 7850 6150 7850
+	2000 4600 2150 4600
 Wire Wire Line
-	6150 7850 6150 8200
-Connection ~ 6150 8200
-Text GLabel 6350 7850 2    50   Output ~ 0
+	2150 4600 2150 4950
+Connection ~ 2150 4950
+Text GLabel 2350 4600 2    50   Output ~ 0
 switch
 Wire Wire Line
-	6150 7850 6350 7850
-Connection ~ 6150 7850
+	2150 4600 2350 4600
+Connection ~ 2150 4600
 Wire Notes Line
-	5200 9750 6750 9750
+	1200 6500 2750 6500
 Wire Notes Line
-	6750 9750 6750 7350
+	2750 6500 2750 4100
 Wire Notes Line
-	6750 7350 5200 7350
+	2750 4100 1200 4100
 Wire Notes Line
-	5200 7350 5200 9750
-Text Notes 5200 7300 0    50   ~ 0
+	1200 4100 1200 6500
+Text Notes 1200 4050 0    50   ~ 0
 Switch
+Wire Wire Line
+	2150 6100 2150 6050
 $Comp
-L Power_Protection:ESDA6V1BC6 D2
-U 1 1 5FDBBD1F
-P 2100 2800
-F 0 "D2" H 2430 2846 50  0000 L CNN
-F 1 "ESDA6V1BC6" H 2430 2755 50  0000 L CNN
-F 2 "Package_TO_SOT_SMD:SOT-23-6" H 2100 2450 50  0001 C CNN
-F 3 "http://www.st.com/content/ccc/resource/technical/document/datasheet/21/07/21/e3/a8/df/42/a2/CD00001906.pdf/files/CD00001906.pdf/jcr:content/translations/en.CD00001906.pdf" V 2100 2800 50  0001 C CNN
-	1    2100 2800
-	1    0    0    -1  
-$EndComp
-NoConn ~ 1900 2500
-NoConn ~ 1800 2350
-Text GLabel 2450 2150 2    50   Output ~ 0
-D+
-Text GLabel 2450 2250 2    50   Output ~ 0
-D-
-$Comp
-L power:GND #PWR017
-U 1 1 5FE028C7
-P 2100 3200
-F 0 "#PWR017" H 2100 2950 50  0001 C CNN
-F 1 "GND" H 2105 3027 50  0000 C CNN
-F 2 "" H 2100 3200 50  0001 C CNN
-F 3 "" H 2100 3200 50  0001 C CNN
-	1    2100 3200
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	2100 3100 2100 3200
-Text Notes 3300 1700 0    50   ~ 0
-Charge
-Text Notes 5650 1800 0    50   ~ 0
-status de la charge
-Text Notes 1250 1500 0    50   ~ 0
-usb avec protect ESD
-Wire Wire Line
-	1800 2250 2300 2250
-Wire Wire Line
-	1800 2150 2200 2150
-Wire Wire Line
-	1800 1950 2000 1950
-Wire Wire Line
-	2000 2500 2000 1950
-Wire Wire Line
-	2200 2500 2200 2150
-Connection ~ 2200 2150
-Wire Wire Line
-	2200 2150 2450 2150
-Wire Wire Line
-	2300 2250 2300 2500
-Connection ~ 2300 2250
-Wire Wire Line
-	2300 2250 2450 2250
-Wire Wire Line
-	12650 8700 12650 8750
-Wire Wire Line
-	12650 8750 12950 8750
-Text GLabel 12950 8750 2    50   Output ~ 0
-IO0
-Wire Wire Line
-	6150 9350 6150 9300
-Wire Notes Line
-	1150 3450 3150 3450
-Wire Notes Line
-	3150 1550 1150 1550
-Wire Notes Line
-	3300 1750 3300 3250
-Wire Notes Line
-	5650 1850 5650 3250
-Wire Notes Line
-	5650 3250 6950 3250
-Wire Notes Line
-	6950 3250 6950 1850
-Wire Notes Line
-	6950 1850 5650 1850
-Wire Wire Line
-	12150 4850 12150 4800
-Wire Wire Line
-	15150 6550 15150 6600
-Wire Wire Line
-	15050 6550 15150 6550
-Wire Wire Line
-	15400 7900 15250 7900
-Text GLabel 15400 7900 2    50   Output ~ 0
-RTS
-Wire Wire Line
-	15400 7300 15250 7300
-Text GLabel 15400 7300 2    50   Output ~ 0
-DTR
-Text GLabel 12900 7600 2    50   Output ~ 0
-EN
-Text GLabel 11750 8500 0    50   Input ~ 0
-RTS
-Text GLabel 11750 7850 0    50   Input ~ 0
-DTR
-Connection ~ 11850 8500
-Wire Wire Line
-	11850 8500 11750 8500
-Connection ~ 11900 7850
-Wire Wire Line
-	11900 7850 11750 7850
-Wire Wire Line
-	12650 7600 12900 7600
-Wire Wire Line
-	12650 7650 12650 7600
-Wire Wire Line
-	11850 8500 12000 8500
-Wire Wire Line
-	11850 8100 11850 8500
-Wire Wire Line
-	12650 8050 12650 8100
-Wire Wire Line
-	12650 8250 12650 8300
-Wire Wire Line
-	11900 8250 12650 8250
-Wire Wire Line
-	11900 7850 11900 8250
-Wire Wire Line
-	12000 7850 11900 7850
-$Comp
-L Device:R R11
-U 1 1 5FF6D08B
-P 12150 8500
-F 0 "R11" V 12250 8500 50  0000 L CNN
-F 1 "10K" V 12050 8450 50  0000 L CNN
-F 2 "Resistor_SMD:R_0805_2012Metric" V 12080 8500 50  0001 C CNN
-F 3 "~" H 12150 8500 50  0001 C CNN
-F 4 "Digikey" H 12150 8500 50  0001 C CNN "Fournisseur"
-	1    12150 8500
-	0    -1   -1   0   
-$EndComp
-$Comp
-L Device:R R10
-U 1 1 5FF65671
-P 12150 7850
-F 0 "R10" V 12250 7850 50  0000 L CNN
-F 1 "10K" V 12050 7800 50  0000 L CNN
-F 2 "Resistor_SMD:R_0805_2012Metric" V 12080 7850 50  0001 C CNN
-F 3 "~" H 12150 7850 50  0001 C CNN
-F 4 "Digikey" H 12150 7850 50  0001 C CNN "Fournisseur"
-	1    12150 7850
-	0    -1   -1   0   
-$EndComp
-$Comp
-L Transistor_BJT:S8050 Q3
-U 1 1 5FF5E722
-P 12550 8500
-F 0 "Q3" H 12740 8546 50  0000 L CNN
-F 1 "S8050" H 12740 8455 50  0000 L CNN
-F 2 "Package_TO_SOT_SMD:SOT-23" H 12750 8425 50  0001 L CIN
-F 3 "https://www.mccsemi.com/pdf/Products/MMSS8050(SOT-23).pdf" H 12550 8500 50  0001 L CNN
-F 4 "Digikey" H 12550 8500 50  0001 C CNN "Fournisseur"
-	1    12550 8500
-	1    0    0    -1  
-$EndComp
-$Comp
-L Transistor_BJT:S8050 Q2
-U 1 1 5FF5C817
-P 12550 7850
-F 0 "Q2" H 12740 7896 50  0000 L CNN
-F 1 "S8050" H 12740 7805 50  0000 L CNN
-F 2 "Package_TO_SOT_SMD:SOT-23" H 12750 7775 50  0001 L CIN
-F 3 "https://www.mccsemi.com/pdf/Products/MMSS8050(SOT-23).pdf" H 12550 7850 50  0001 L CNN
-F 4 "Digikey" H 12550 7850 50  0001 C CNN "Fournisseur"
-	1    12550 7850
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	15400 7600 15250 7600
-Text GLabel 15400 7600 2    50   Output ~ 0
-TXD
-Wire Wire Line
-	15400 7700 15250 7700
-Text GLabel 15400 7700 2    50   Output ~ 0
-RXD
-$Comp
-L power:GND #PWR034
-U 1 1 5FEA4206
-P 15150 6600
-F 0 "#PWR034" H 15150 6350 50  0001 C CNN
-F 1 "GND" H 15155 6427 50  0000 C CNN
-F 2 "" H 15150 6600 50  0001 C CNN
-F 3 "" H 15150 6600 50  0001 C CNN
-	1    15150 6600
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:C C12
-U 1 1 5FE63D62
-P 14900 6550
-F 0 "C12" V 15150 6550 50  0000 L CNN
-F 1 "1uF" V 15050 6500 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric" H 14938 6400 50  0001 C CNN
-F 3 "~" H 14900 6550 50  0001 C CNN
-	1    14900 6550
-	0    -1   -1   0   
-$EndComp
-Wire Wire Line
-	13650 7600 13850 7600
-Text GLabel 13650 7600 0    50   Input ~ 0
-D-
-Wire Wire Line
-	13650 7700 13850 7700
-Text GLabel 13650 7700 0    50   Input ~ 0
-D+
-Text Notes 11350 5800 0    50   ~ 0
-USB to UART
-$Comp
-L RF_Module:ESP32-WROOM-32 U2
-U 1 1 5FDF7FEF
-P 12150 3400
-F 0 "U2" H 11400 4850 50  0000 C CNN
-F 1 "ESP32-WROOM-32" H 11700 4750 50  0000 C CNN
-F 2 "RF_Module:ESP32-WROOM-32" H 12150 1900 50  0001 C CNN
-F 3 "https://www.espressif.com/sites/default/files/documentation/esp32-wroom-32_datasheet_en.pdf" H 11850 3450 50  0001 C CNN
-F 4 "Digikey" H 12150 3400 50  0001 C CNN "Fournisseur"
-F 5 "3,82" H 12150 3400 50  0001 C CNN "Prix total"
-F 6 "3,82" H 12150 3400 50  0001 C CNN "prix unité"
-	1    12150 3400
-	1    0    0    -1  
-$EndComp
-Wire Notes Line
-	11350 5850 11350 9750
-Wire Notes Line
-	11350 9750 15850 9750
-Wire Notes Line
-	11350 5850 15850 5850
-$Comp
-L power:+3.3V #PWR044
+L Light_trainer-rescue:+3.3V-power #PWR044
 U 1 1 6047DC4D
-P 5500 7750
-F 0 "#PWR044" H 5500 7600 50  0001 C CNN
-F 1 "+3.3V" H 5515 7923 50  0000 C CNN
-F 2 "" H 5500 7750 50  0001 C CNN
-F 3 "" H 5500 7750 50  0001 C CNN
-	1    5500 7750
+P 1500 4500
+F 0 "#PWR044" H 1500 4350 50  0001 C CNN
+F 1 "+3.3V" H 1515 4673 50  0000 C CNN
+F 2 "" H 1500 4500 50  0001 C CNN
+F 3 "" H 1500 4500 50  0001 C CNN
+	1    1500 4500
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	12300 7850 12350 7850
-Wire Wire Line
-	12300 8500 12350 8500
-Wire Wire Line
-	12650 8100 11850 8100
-$Comp
-L Device:R R1
-U 1 1 6051FD72
-P 11050 2000
-F 0 "R1" H 11120 2046 50  0000 L CNN
-F 1 "10k" H 11120 1955 50  0000 L CNN
-F 2 "Resistor_SMD:R_0805_2012Metric" V 10980 2000 50  0001 C CNN
-F 3 "~" H 11050 2000 50  0001 C CNN
-F 4 "Digikey" H 11050 2000 50  0001 C CNN "Fournisseur"
-	1    11050 2000
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:C C4
-U 1 1 60530180
-P 11050 2400
-F 0 "C4" H 11165 2446 50  0000 L CNN
-F 1 "4,7uF" H 11165 2355 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric" H 11088 2250 50  0001 C CNN
-F 3 "~" H 11050 2400 50  0001 C CNN
-	1    11050 2400
-	1    0    0    -1  
-$EndComp
-$Comp
-L power:+3.3V #PWR02
-U 1 1 6055D138
-P 11050 1750
-F 0 "#PWR02" H 11050 1600 50  0001 C CNN
-F 1 "+3.3V" H 11065 1923 50  0000 C CNN
-F 2 "" H 11050 1750 50  0001 C CNN
-F 3 "" H 11050 1750 50  0001 C CNN
-	1    11050 1750
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	11050 1750 11050 1850
-Wire Wire Line
-	11550 2200 11050 2200
-Wire Wire Line
-	11050 2200 11050 2150
-Wire Wire Line
-	11050 2250 11050 2200
-Connection ~ 11050 2200
-Wire Wire Line
-	11050 2600 11050 2550
-Wire Wire Line
-	12150 1800 12150 2000
-Connection ~ 12150 1800
-Wire Wire Line
-	12150 1800 12300 1800
-Wire Wire Line
-	12150 1600 12150 1800
-Connection ~ 12150 1600
-Wire Wire Line
-	12300 1600 12150 1600
-Connection ~ 12700 1800
-Wire Wire Line
-	12700 1600 12600 1600
-Wire Wire Line
-	12700 1800 12700 1600
-Wire Wire Line
-	12700 1800 12700 1850
-Wire Wire Line
-	12600 1800 12700 1800
-Wire Wire Line
-	12150 1550 12150 1600
-$Comp
-L power:GND #PWR03
-U 1 1 6059DACF
-P 12700 1850
-F 0 "#PWR03" H 12700 1600 50  0001 C CNN
-F 1 "GND" H 12705 1677 50  0000 C CNN
-F 2 "" H 12700 1850 50  0001 C CNN
-F 3 "" H 12700 1850 50  0001 C CNN
-	1    12700 1850
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:C C1
-U 1 1 6059DAD5
-P 12450 1600
-F 0 "C1" V 12600 1450 50  0000 L CNN
-F 1 "22uF" V 12600 1600 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric" H 12488 1450 50  0001 C CNN
-F 3 "~" H 12450 1600 50  0001 C CNN
-	1    12450 1600
-	0    -1   -1   0   
-$EndComp
-$Comp
-L Device:C C2
-U 1 1 6059DADB
-P 12450 1800
-F 0 "C2" V 12300 1650 50  0000 L CNN
-F 1 "0,1uF" V 12300 1800 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric" H 12488 1650 50  0001 C CNN
-F 3 "~" H 12450 1800 50  0001 C CNN
-	1    12450 1800
-	0    -1   -1   0   
-$EndComp
-$Comp
-L power:+3.3V #PWR01
-U 1 1 6059DAE1
-P 12150 1550
-F 0 "#PWR01" H 12150 1400 50  0001 C CNN
-F 1 "+3.3V" H 12165 1723 50  0000 C CNN
-F 2 "" H 12150 1550 50  0001 C CNN
-F 3 "" H 12150 1550 50  0001 C CNN
-	1    12150 1550
-	1    0    0    -1  
-$EndComp
-Text GLabel 13050 2500 2    50   Input ~ 0
-TXD
-Wire Wire Line
-	13050 2300 12750 2300
-Text GLabel 13050 2300 2    50   Input ~ 0
-RXD
-Wire Wire Line
-	13050 2500 12750 2500
-Text Notes 11850 9550 0    50   ~ 0
-     Auto program\n\nDTR RTS --> EN IO0\n 1   1         1   1\n 0   0         1   1\n 1   0         0   1\n 0   1         1   0
-$Comp
-L Switch:SW_DIP_x04 SW6
-U 1 1 606190DB
-P 1850 8850
-F 0 "SW6" H 1850 9317 50  0000 C CNN
-F 1 "SW_DIP_x04" H 1850 9226 50  0000 C CNN
-F 2 "Package_DIP:SMDIP-8_W7.62mm" H 1850 8850 50  0001 C CNN
-F 3 "https://www.ctscorp.com/wp-content/uploads/219.pdf" H 1850 8850 50  0001 C CNN
-F 4 "Digikey" H 1850 8850 50  0001 C CNN "Fournisseur"
-F 5 "0,45" H 1850 8850 50  0001 C CNN "Prix total"
-F 6 "0,45" H 1850 8850 50  0001 C CNN "prix unité"
-	1    1850 8850
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:R R13
-U 1 1 6062F8E5
-P 2250 9150
-F 0 "R13" H 2250 9300 50  0000 L CNN
-F 1 "10K" H 2700 8950 50  0001 L CNN
-F 2 "Resistor_SMD:R_0805_2012Metric" V 2180 9150 50  0001 C CNN
-F 3 "~" H 2250 9150 50  0001 C CNN
-F 4 "Digikey" H 2250 9150 50  0001 C CNN "Fournisseur"
-	1    2250 9150
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:R R14
-U 1 1 6063FE0C
-P 2350 9150
-F 0 "R14" H 2350 9300 50  0000 L CNN
-F 1 "10K" V 3000 9050 50  0001 L CNN
-F 2 "Resistor_SMD:R_0805_2012Metric" V 2280 9150 50  0001 C CNN
-F 3 "~" H 2350 9150 50  0001 C CNN
-F 4 "Digikey" H 2350 9150 50  0001 C CNN "Fournisseur"
-	1    2350 9150
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:R R15
-U 1 1 60650291
-P 2450 9150
-F 0 "R15" H 2450 9300 50  0000 L CNN
-F 1 "10K" H 2650 9100 50  0001 L CNN
-F 2 "Resistor_SMD:R_0805_2012Metric" V 2380 9150 50  0001 C CNN
-F 3 "~" H 2450 9150 50  0001 C CNN
-F 4 "Digikey" H 2450 9150 50  0001 C CNN "Fournisseur"
-	1    2450 9150
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:R R16
-U 1 1 606608AC
-P 2550 9150
-F 0 "R16" H 2550 9300 50  0000 L CNN
-F 1 "10K" H 2050 9150 50  0000 L CNN
-F 2 "Resistor_SMD:R_0805_2012Metric" V 2480 9150 50  0001 C CNN
-F 3 "~" H 2550 9150 50  0001 C CNN
-F 4 "Digikey" H 2550 9150 50  0001 C CNN "Fournisseur"
-	1    2550 9150
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	2150 8950 2250 8950
-Wire Wire Line
-	2250 8950 2250 9000
-Wire Wire Line
-	2350 9000 2350 8850
-Wire Wire Line
-	2350 8850 2150 8850
-Wire Wire Line
-	2150 8750 2450 8750
-Wire Wire Line
-	2450 8750 2450 9000
-Wire Wire Line
-	2550 9000 2550 8650
-Wire Wire Line
-	2550 8650 2150 8650
-Wire Wire Line
-	2250 9300 2250 9400
-Wire Wire Line
-	2250 9400 2350 9400
-Wire Wire Line
-	2400 9400 2400 9450
-Wire Wire Line
-	2350 9400 2350 9300
-Connection ~ 2350 9400
-Wire Wire Line
-	2350 9400 2400 9400
-Wire Wire Line
-	2400 9400 2450 9400
-Wire Wire Line
-	2450 9400 2450 9300
-Connection ~ 2400 9400
-Wire Wire Line
-	2450 9400 2550 9400
-Wire Wire Line
-	2550 9400 2550 9300
-Connection ~ 2450 9400
-$Comp
-L power:+3.3V #PWR049
-U 1 1 6077C750
-P 1450 8550
-F 0 "#PWR049" H 1450 8400 50  0001 C CNN
-F 1 "+3.3V" H 1465 8723 50  0000 C CNN
-F 2 "" H 1450 8550 50  0001 C CNN
-F 3 "" H 1450 8550 50  0001 C CNN
-	1    1450 8550
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	1450 8550 1450 8650
-Wire Wire Line
-	1450 8650 1550 8650
-Wire Wire Line
-	1550 8750 1450 8750
-Wire Wire Line
-	1450 8750 1450 8650
-Connection ~ 1450 8650
-Wire Wire Line
-	1550 8850 1450 8850
-Wire Wire Line
-	1450 8850 1450 8750
-Connection ~ 1450 8750
-Wire Wire Line
-	1550 8950 1450 8950
-Wire Wire Line
-	1450 8950 1450 8850
-Connection ~ 1450 8850
-Wire Notes Line
-	1250 8250 1250 9750
-Wire Notes Line
-	1150 1550 1150 3450
-Wire Notes Line
-	3150 1550 3150 3450
-Text Notes 1250 8200 0    50   ~ 0
-Scélection master / slave
 Text Notes 6700 950  0    236  ~ 47
 LightTrainer V00
-Wire Notes Line
-	5450 1750 5450 3250
-Wire Notes Line style dash_dot rgb(75, 190, 75)
-	7600 1300 7600 6050
-Wire Notes Line style dash_dot rgb(75, 190, 75)
-	850  6050 850  1300
-Wire Notes Line style dash_dot rgb(75, 190, 75)
-	850  1300 7600 1300
-Wire Notes Line style dash_dot rgb(75, 190, 75)
-	850  6050 7600 6050
-Text Notes 850  1250 0    79   ~ 16
-Charge et protection de la batterie
-Text Notes 6050 2850 0    50   ~ 0
-LED_G - LED_R\n 1  -  0 -> Chargée\n 0  -  1 -> Charge\n 1  -  1 -> Error
 $Comp
-L LED:SK6812 D5
+L Light_trainer-rescue:SK6812-LED D5
 U 1 1 5FDB63B9
-P 7750 7900
-F 0 "D5" H 7500 8250 50  0000 L CNN
-F 1 "SK6812" H 7400 8150 50  0000 L CNN
-F 2 "LED_SMD:LED_SK6812_PLCC4_5.0x5.0mm_P3.2mm" H 7800 7600 50  0001 L TNN
-F 3 "https://cdn-shop.adafruit.com/product-files/1138/SK6812+LED+datasheet+.pdf" H 7850 7525 50  0001 L TNN
-F 4 "Digikey" H 7750 7900 50  0001 C CNN "Fournisseur"
-F 5 "0,41" H 7750 7900 50  0001 C CNN "Prix total"
-F 6 "4,1" H 7750 7900 50  0001 C CNN "prix unité"
-	1    7750 7900
+P 3750 4650
+F 0 "D5" H 3500 5000 50  0000 L CNN
+F 1 "SK6812" H 3400 4900 50  0000 L CNN
+F 2 "LED_SMD:LED_SK6812_PLCC4_5.0x5.0mm_P3.2mm" H 3800 4350 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/product-files/1138/SK6812+LED+datasheet+.pdf" H 3850 4275 50  0001 L TNN
+F 4 "Digikey" H 3750 4650 50  0001 C CNN "Fournisseur"
+F 5 "0,41" H 3750 4650 50  0001 C CNN "Prix total"
+F 6 "4,1" H 3750 4650 50  0001 C CNN "prix unité"
+	1    3750 4650
 	1    0    0    -1  
 $EndComp
 $Comp
-L Regulator_Switching:LTC3525-5 U3
-U 1 1 5FDACBF8
-P 5650 4750
-F 0 "U3" H 5750 5100 50  0000 C CNN
-F 1 "LTC3525-5" H 5900 5000 50  0000 C CNN
-F 2 "Package_TO_SOT_SMD:SOT-363_SC-70-6" H 5700 4500 50  0001 L CNN
-F 3 "https://www.analog.com/media/en/technical-documentation/data-sheets/3525fc.pdf" H 5650 4750 50  0001 C CNN
-F 4 "Digikey" H 5650 4750 50  0001 C CNN "Fournisseur"
-F 5 "4,1" H 5650 4750 50  0001 C CNN "Prix total"
-F 6 "4,1" H 5650 4750 50  0001 C CNN "prix unité"
-	1    5650 4750
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:C C6
-U 1 1 5FDAE609
-P 5850 4150
-F 0 "C6" H 5965 4196 50  0000 L CNN
-F 1 "1uF" H 5965 4105 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric" H 5888 4000 50  0001 C CNN
-F 3 "~" H 5850 4150 50  0001 C CNN
-	1    5850 4150
-	0    -1   -1   0   
-$EndComp
-$Comp
-L Device:C C10
-U 1 1 5FDB7720
-P 6150 5100
-F 0 "C10" H 6265 5146 50  0000 L CNN
-F 1 "10uF" H 6265 5055 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric" H 6188 4950 50  0001 C CNN
-F 3 "~" H 6150 5100 50  0001 C CNN
-	1    6150 5100
-	1    0    0    -1  
-$EndComp
-$Comp
-L pspice:INDUCTOR L1
-U 1 1 5FDC0E77
-P 6400 4650
-F 0 "L1" H 6400 4865 50  0000 C CNN
-F 1 "10uH" H 6400 4774 50  0000 C CNN
-F 2 "Inductor_SMD:L_Wuerth_WE_PMI" H 6400 4650 50  0001 C CNN
-F 3 "https://www.we-online.de/katalog/datasheet/74479887310A.pdf" H 6400 4650 50  0001 C CNN
-F 4 "Digikey" H 6400 4650 50  0001 C CNN "Fournisseur"
-F 5 "1,09" H 6400 4650 50  0001 C CNN "Prix total"
-F 6 "1,09" H 6400 4650 50  0001 C CNN "prix unité"
-	1    6400 4650
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	6050 4850 6150 4850
-Wire Wire Line
-	6150 4850 6150 4950
-Wire Wire Line
-	6150 4650 6050 4650
-Wire Wire Line
-	6700 4600 6700 4650
-Wire Wire Line
-	6700 4650 6650 4650
-Wire Wire Line
-	6050 4200 6050 4150
-Wire Wire Line
-	6000 4150 6050 4150
-Wire Wire Line
-	5650 4150 5700 4150
-Wire Wire Line
-	5650 4150 5650 4450
-Connection ~ 5650 4150
-Wire Wire Line
-	5200 4700 5200 4750
-Wire Wire Line
-	5250 4750 5200 4750
-Wire Notes Line
-	4950 5600 6950 5600
-Wire Notes Line
-	6950 5600 6950 3800
-Wire Notes Line
-	6950 3800 4950 3800
-Wire Notes Line
-	4950 3800 4950 5600
-Text Notes 4950 3750 0    50   ~ 0
-3V - 4.2V to 5V
-Connection ~ 6150 4850
-$Comp
-L LED:SK6812 D6
+L Light_trainer-rescue:SK6812-LED D6
 U 1 1 5FEF28E1
-P 8400 7900
-F 0 "D6" H 8150 8250 50  0000 L CNN
-F 1 "SK6812" H 8050 8150 50  0000 L CNN
-F 2 "LED_SMD:LED_SK6812_PLCC4_5.0x5.0mm_P3.2mm" H 8450 7600 50  0001 L TNN
-F 3 "https://cdn-shop.adafruit.com/product-files/1138/SK6812+LED+datasheet+.pdf" H 8500 7525 50  0001 L TNN
-F 4 "Digikey" H 8400 7900 50  0001 C CNN "Fournisseur"
-F 5 "0,41" H 8400 7900 50  0001 C CNN "Prix total"
-F 6 "4,1" H 8400 7900 50  0001 C CNN "prix unité"
-	1    8400 7900
+P 4400 4650
+F 0 "D6" H 4150 5000 50  0000 L CNN
+F 1 "SK6812" H 4050 4900 50  0000 L CNN
+F 2 "LED_SMD:LED_SK6812_PLCC4_5.0x5.0mm_P3.2mm" H 4450 4350 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/product-files/1138/SK6812+LED+datasheet+.pdf" H 4500 4275 50  0001 L TNN
+F 4 "Digikey" H 4400 4650 50  0001 C CNN "Fournisseur"
+F 5 "0,41" H 4400 4650 50  0001 C CNN "Prix total"
+F 6 "4,1" H 4400 4650 50  0001 C CNN "prix unité"
+	1    4400 4650
 	1    0    0    -1  
 $EndComp
 $Comp
-L LED:SK6812 D7
+L Light_trainer-rescue:SK6812-LED D7
 U 1 1 5FF375C6
-P 9050 7900
-F 0 "D7" H 8800 8250 50  0000 L CNN
-F 1 "SK6812" H 8700 8150 50  0000 L CNN
-F 2 "LED_SMD:LED_SK6812_PLCC4_5.0x5.0mm_P3.2mm" H 9100 7600 50  0001 L TNN
-F 3 "https://cdn-shop.adafruit.com/product-files/1138/SK6812+LED+datasheet+.pdf" H 9150 7525 50  0001 L TNN
-F 4 "Digikey" H 9050 7900 50  0001 C CNN "Fournisseur"
-F 5 "0,41" H 9050 7900 50  0001 C CNN "Prix total"
-F 6 "4,1" H 9050 7900 50  0001 C CNN "prix unité"
-	1    9050 7900
+P 5050 4650
+F 0 "D7" H 4800 5000 50  0000 L CNN
+F 1 "SK6812" H 4700 4900 50  0000 L CNN
+F 2 "LED_SMD:LED_SK6812_PLCC4_5.0x5.0mm_P3.2mm" H 5100 4350 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/product-files/1138/SK6812+LED+datasheet+.pdf" H 5150 4275 50  0001 L TNN
+F 4 "Digikey" H 5050 4650 50  0001 C CNN "Fournisseur"
+F 5 "0,41" H 5050 4650 50  0001 C CNN "Prix total"
+F 6 "4,1" H 5050 4650 50  0001 C CNN "prix unité"
+	1    5050 4650
 	1    0    0    -1  
 $EndComp
 $Comp
-L LED:SK6812 D8
+L Light_trainer-rescue:SK6812-LED D8
 U 1 1 5FF375CF
-P 9700 7900
-F 0 "D8" H 9450 8250 50  0000 L CNN
-F 1 "SK6812" H 9350 8150 50  0000 L CNN
-F 2 "LED_SMD:LED_SK6812_PLCC4_5.0x5.0mm_P3.2mm" H 9750 7600 50  0001 L TNN
-F 3 "https://cdn-shop.adafruit.com/product-files/1138/SK6812+LED+datasheet+.pdf" H 9800 7525 50  0001 L TNN
-F 4 "Digikey" H 9700 7900 50  0001 C CNN "Fournisseur"
-F 5 "0,41" H 9700 7900 50  0001 C CNN "Prix total"
-F 6 "4,1" H 9700 7900 50  0001 C CNN "prix unité"
-	1    9700 7900
+P 5700 4650
+F 0 "D8" H 5450 5000 50  0000 L CNN
+F 1 "SK6812" H 5350 4900 50  0000 L CNN
+F 2 "LED_SMD:LED_SK6812_PLCC4_5.0x5.0mm_P3.2mm" H 5750 4350 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/product-files/1138/SK6812+LED+datasheet+.pdf" H 5800 4275 50  0001 L TNN
+F 4 "Digikey" H 5700 4650 50  0001 C CNN "Fournisseur"
+F 5 "0,41" H 5700 4650 50  0001 C CNN "Prix total"
+F 6 "4,1" H 5700 4650 50  0001 C CNN "prix unité"
+	1    5700 4650
 	1    0    0    -1  
 $EndComp
 $Comp
-L LED:SK6812 D13
+L Light_trainer-rescue:SK6812-LED D13
 U 1 1 5FF51111
-P 7750 9050
-F 0 "D13" H 7500 9400 50  0000 L CNN
-F 1 "SK6812" H 7400 9300 50  0000 L CNN
-F 2 "LED_SMD:LED_SK6812_PLCC4_5.0x5.0mm_P3.2mm" H 7800 8750 50  0001 L TNN
-F 3 "https://cdn-shop.adafruit.com/product-files/1138/SK6812+LED+datasheet+.pdf" H 7850 8675 50  0001 L TNN
-F 4 "Digikey" H 7750 9050 50  0001 C CNN "Fournisseur"
-F 5 "0,41" H 7750 9050 50  0001 C CNN "Prix total"
-F 6 "4,1" H 7750 9050 50  0001 C CNN "prix unité"
-	1    7750 9050
+P 3750 5800
+F 0 "D13" H 3500 6150 50  0000 L CNN
+F 1 "SK6812" H 3400 6050 50  0000 L CNN
+F 2 "LED_SMD:LED_SK6812_PLCC4_5.0x5.0mm_P3.2mm" H 3800 5500 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/product-files/1138/SK6812+LED+datasheet+.pdf" H 3850 5425 50  0001 L TNN
+F 4 "Digikey" H 3750 5800 50  0001 C CNN "Fournisseur"
+F 5 "0,41" H 3750 5800 50  0001 C CNN "Prix total"
+F 6 "4,1" H 3750 5800 50  0001 C CNN "prix unité"
+	1    3750 5800
 	1    0    0    -1  
 $EndComp
 $Comp
-L LED:SK6812 D14
+L Light_trainer-rescue:SK6812-LED D14
 U 1 1 5FF5111A
-P 8400 9050
-F 0 "D14" H 8150 9400 50  0000 L CNN
-F 1 "SK6812" H 8050 9300 50  0000 L CNN
-F 2 "LED_SMD:LED_SK6812_PLCC4_5.0x5.0mm_P3.2mm" H 8450 8750 50  0001 L TNN
-F 3 "https://cdn-shop.adafruit.com/product-files/1138/SK6812+LED+datasheet+.pdf" H 8500 8675 50  0001 L TNN
-F 4 "Digikey" H 8400 9050 50  0001 C CNN "Fournisseur"
-F 5 "0,41" H 8400 9050 50  0001 C CNN "Prix total"
-F 6 "4,1" H 8400 9050 50  0001 C CNN "prix unité"
-	1    8400 9050
+P 4400 5800
+F 0 "D14" H 4150 6150 50  0000 L CNN
+F 1 "SK6812" H 4050 6050 50  0000 L CNN
+F 2 "LED_SMD:LED_SK6812_PLCC4_5.0x5.0mm_P3.2mm" H 4450 5500 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/product-files/1138/SK6812+LED+datasheet+.pdf" H 4500 5425 50  0001 L TNN
+F 4 "Digikey" H 4400 5800 50  0001 C CNN "Fournisseur"
+F 5 "0,41" H 4400 5800 50  0001 C CNN "Prix total"
+F 6 "4,1" H 4400 5800 50  0001 C CNN "prix unité"
+	1    4400 5800
 	1    0    0    -1  
 $EndComp
 $Comp
-L LED:SK6812 D15
+L Light_trainer-rescue:SK6812-LED D15
 U 1 1 5FF51123
-P 9050 9050
-F 0 "D15" H 8800 9400 50  0000 L CNN
-F 1 "SK6812" H 8700 9300 50  0000 L CNN
-F 2 "LED_SMD:LED_SK6812_PLCC4_5.0x5.0mm_P3.2mm" H 9100 8750 50  0001 L TNN
-F 3 "https://cdn-shop.adafruit.com/product-files/1138/SK6812+LED+datasheet+.pdf" H 9150 8675 50  0001 L TNN
-F 4 "Digikey" H 9050 9050 50  0001 C CNN "Fournisseur"
-F 5 "0,41" H 9050 9050 50  0001 C CNN "Prix total"
-F 6 "4,1" H 9050 9050 50  0001 C CNN "prix unité"
-	1    9050 9050
+P 5050 5800
+F 0 "D15" H 4800 6150 50  0000 L CNN
+F 1 "SK6812" H 4700 6050 50  0000 L CNN
+F 2 "LED_SMD:LED_SK6812_PLCC4_5.0x5.0mm_P3.2mm" H 5100 5500 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/product-files/1138/SK6812+LED+datasheet+.pdf" H 5150 5425 50  0001 L TNN
+F 4 "Digikey" H 5050 5800 50  0001 C CNN "Fournisseur"
+F 5 "0,41" H 5050 5800 50  0001 C CNN "Prix total"
+F 6 "4,1" H 5050 5800 50  0001 C CNN "prix unité"
+	1    5050 5800
 	1    0    0    -1  
 $EndComp
 $Comp
-L LED:SK6812 D16
+L Light_trainer-rescue:SK6812-LED D16
 U 1 1 5FF5112C
-P 9700 9050
-F 0 "D16" H 9450 9400 50  0000 L CNN
-F 1 "SK6812" H 9350 9300 50  0000 L CNN
-F 2 "LED_SMD:LED_SK6812_PLCC4_5.0x5.0mm_P3.2mm" H 9750 8750 50  0001 L TNN
-F 3 "https://cdn-shop.adafruit.com/product-files/1138/SK6812+LED+datasheet+.pdf" H 9800 8675 50  0001 L TNN
-F 4 "Digikey" H 9700 9050 50  0001 C CNN "Fournisseur"
-F 5 "0,41" H 9700 9050 50  0001 C CNN "Prix total"
-F 6 "4,1" H 9700 9050 50  0001 C CNN "prix unité"
-	1    9700 9050
+P 5700 5800
+F 0 "D16" H 5450 6150 50  0000 L CNN
+F 1 "SK6812" H 5350 6050 50  0000 L CNN
+F 2 "LED_SMD:LED_SK6812_PLCC4_5.0x5.0mm_P3.2mm" H 5750 5500 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/product-files/1138/SK6812+LED+datasheet+.pdf" H 5800 5425 50  0001 L TNN
+F 4 "Digikey" H 5700 5800 50  0001 C CNN "Fournisseur"
+F 5 "0,41" H 5700 5800 50  0001 C CNN "Prix total"
+F 6 "4,1" H 5700 5800 50  0001 C CNN "prix unité"
+	1    5700 5800
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	8050 7900 8100 7900
+	4050 4650 4100 4650
 Wire Wire Line
-	8700 7900 8750 7900
+	4700 4650 4750 4650
 Wire Wire Line
-	9350 7900 9400 7900
+	5350 4650 5400 4650
 Wire Wire Line
-	10000 7900 10050 7900
+	6000 4650 6050 4650
 Wire Wire Line
-	10050 9050 10000 9050
+	6050 5800 6000 5800
 Wire Wire Line
-	9400 9050 9350 9050
+	5400 5800 5350 5800
 Wire Wire Line
-	8750 9050 8700 9050
+	4750 5800 4700 5800
 Wire Wire Line
-	8050 9050 8100 9050
+	4050 5800 4100 5800
 Wire Wire Line
-	7750 8250 7750 8200
+	3750 5000 3750 4950
 Wire Wire Line
-	8400 8250 8400 8200
+	4400 5000 4400 4950
 Wire Wire Line
-	9050 8250 9050 8200
+	5050 5000 5050 4950
 Wire Wire Line
-	9700 8250 9700 8200
+	5700 5000 5700 4950
 Wire Wire Line
-	9700 9400 9700 9350
+	5700 6150 5700 6100
 Wire Wire Line
-	9050 9400 9050 9350
+	5050 6150 5050 6100
 Wire Wire Line
-	8400 9400 8400 9350
+	4400 6150 4400 6100
 Wire Wire Line
-	7750 9400 7750 9350
+	3750 6150 3750 6100
 Wire Wire Line
-	7750 7550 7750 7600
+	3750 4300 3750 4350
 Wire Wire Line
-	8400 7550 8400 7600
+	4400 4300 4400 4350
 Wire Wire Line
-	9700 7550 9700 7600
+	5700 4300 5700 4350
 Wire Wire Line
-	9050 7550 9050 7600
+	5050 4300 5050 4350
 Wire Wire Line
-	9700 8700 9700 8750
+	5700 5450 5700 5500
 Wire Wire Line
-	9050 8700 9050 8750
+	5050 5450 5050 5500
 Wire Wire Line
-	7750 8700 7750 8750
+	3750 5450 3750 5500
 Wire Wire Line
-	8400 8700 8400 8750
-Text GLabel 7350 9050 0    50   Input ~ 0
+	4400 5450 4400 5500
+Text GLabel 3350 5800 0    50   Input ~ 0
 DOUT
 Wire Wire Line
-	7350 9050 7450 9050
-Text GLabel 10050 7900 2    50   Output ~ 0
+	3350 5800 3450 5800
+Text GLabel 6050 4650 2    50   Output ~ 0
 DOUT
-$Comp
-L Switch:SW_Push SW1
-U 1 1 600FA458
-P 12200 6250
-F 0 "SW1" H 12200 6500 50  0000 C CNN
-F 1 "SW_Push" H 12200 6400 50  0000 C CNN
-F 2 "Button_Switch_SMD:SW_SPST_PTS645" H 12200 6450 50  0001 C CNN
-F 3 "https://www.ckswitches.com/media/1471/pts645.pdf" H 12200 6450 50  0001 C CNN
-F 4 "Digikey" H 12200 6250 50  0001 C CNN "Fournisseur"
-F 5 "0,22" H 12200 6250 50  0001 C CNN "Prix total"
-F 6 "1,32" H 12200 6250 50  0001 C CNN "prix unité"
-	1    12200 6250
-	1    0    0    -1  
-$EndComp
-$Comp
-L Switch:SW_Push SW2
-U 1 1 60108309
-P 12200 6900
-F 0 "SW2" H 12200 7150 50  0000 C CNN
-F 1 "SW_Push" H 12200 7050 50  0000 C CNN
-F 2 "Button_Switch_SMD:SW_SPST_PTS645" H 12200 7100 50  0001 C CNN
-F 3 "https://www.ckswitches.com/media/1471/pts645.pdf" H 12200 7100 50  0001 C CNN
-F 4 "Digikey" H 12200 6900 50  0001 C CNN "Fournisseur"
-F 5 "0,22" H 12200 6900 50  0001 C CNN "Prix total"
-F 6 "1,32" H 12200 6900 50  0001 C CNN "prix unité"
-	1    12200 6900
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:C C11
-U 1 1 60116593
-P 12200 6400
-F 0 "C11" V 12250 6450 50  0000 L CNN
-F 1 "0,1uF" V 12350 6450 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric" H 12238 6250 50  0001 C CNN
-F 3 "~" H 12200 6400 50  0001 C CNN
-	1    12200 6400
-	0    1    1    0   
-$EndComp
-$Comp
-L Device:C C13
-U 1 1 601244B2
-P 12200 7100
-F 0 "C13" V 12250 7150 50  0000 L CNN
-F 1 "0,1uF" V 12350 7150 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric" H 12238 6950 50  0001 C CNN
-F 3 "~" H 12200 7100 50  0001 C CNN
-	1    12200 7100
-	0    1    1    0   
-$EndComp
-Text GLabel 7200 7900 0    50   Input ~ 0
+Text GLabel 3200 4650 0    50   Input ~ 0
 LED
-Text Notes 6950 7250 0    50   ~ 0
+Text Notes 2950 4000 0    50   ~ 0
 LED néo-pixel
 $Comp
-L power:+BATT #PWR06
-U 1 1 5FDF6111
-P 13600 2000
-F 0 "#PWR06" H 13600 1850 50  0001 C CNN
-F 1 "+BATT" H 13615 2173 50  0000 C CNN
-F 2 "" H 13600 2000 50  0001 C CNN
-F 3 "" H 13600 2000 50  0001 C CNN
-	1    13600 2000
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	13600 2000 13600 2050
-$Comp
-L Device:R R3
-U 1 1 5FE04B03
-P 13600 2200
-F 0 "R3" H 13670 2246 50  0000 L CNN
-F 1 "4k" H 13670 2155 50  0000 L CNN
-F 2 "Resistor_SMD:R_0805_2012Metric" V 13530 2200 50  0001 C CNN
-F 3 "~" H 13600 2200 50  0001 C CNN
-F 4 "Digikey" H 13600 2200 50  0001 C CNN "Fournisseur"
-	1    13600 2200
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:R R5
-U 1 1 5FE054D4
-P 13600 2600
-F 0 "R5" H 13670 2646 50  0000 L CNN
-F 1 "10k" H 13670 2555 50  0000 L CNN
-F 2 "Resistor_SMD:R_0805_2012Metric" V 13530 2600 50  0001 C CNN
-F 3 "~" H 13600 2600 50  0001 C CNN
-F 4 "Digikey" H 13600 2600 50  0001 C CNN "Fournisseur"
-	1    13600 2600
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	13600 2350 13600 2400
-Wire Wire Line
-	13600 2750 13600 2800
-$Comp
-L power:GND #PWR013
-U 1 1 5FE3132C
-P 13600 2800
-F 0 "#PWR013" H 13600 2550 50  0001 C CNN
-F 1 "GND" H 13605 2627 50  0000 C CNN
-F 2 "" H 13600 2800 50  0001 C CNN
-F 3 "" H 13600 2800 50  0001 C CNN
-	1    13600 2800
-	1    0    0    -1  
-$EndComp
-Connection ~ 13600 2400
-Wire Wire Line
-	13600 2400 13600 2450
-Text GLabel 13050 3600 2    50   Output ~ 0
-LED
-Wire Wire Line
-	12050 6400 11950 6400
-Wire Wire Line
-	11950 6400 11950 6250
-Wire Wire Line
-	11950 6250 12000 6250
-Wire Wire Line
-	12050 7100 11950 7100
-Wire Wire Line
-	11950 7100 11950 6900
-Wire Wire Line
-	11950 6900 12000 6900
-$Comp
-L power:GND #PWR038
-U 1 1 5FE9C565
-P 11950 7200
-F 0 "#PWR038" H 11950 6950 50  0001 C CNN
-F 1 "GND" H 11850 7200 50  0000 C CNN
-F 2 "" H 11950 7200 50  0001 C CNN
-F 3 "" H 11950 7200 50  0001 C CNN
-	1    11950 7200
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	11950 7200 11950 7100
-Connection ~ 11950 7100
-$Comp
-L power:GND #PWR033
-U 1 1 5FEE889C
-P 11950 6500
-F 0 "#PWR033" H 11950 6250 50  0001 C CNN
-F 1 "GND" H 11850 6500 50  0000 C CNN
-F 2 "" H 11950 6500 50  0001 C CNN
-F 3 "" H 11950 6500 50  0001 C CNN
-	1    11950 6500
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	11950 6500 11950 6400
-Connection ~ 11950 6400
-Wire Wire Line
-	12350 6400 12450 6400
-Wire Wire Line
-	12450 6400 12450 6250
-Wire Wire Line
-	12450 6250 12400 6250
-Wire Wire Line
-	12350 7100 12450 7100
-Wire Wire Line
-	12450 7100 12450 6900
-Wire Wire Line
-	12450 6900 12400 6900
-Text GLabel 12700 6250 2    50   Output ~ 0
-IO0
-Wire Wire Line
-	12700 6250 12450 6250
-Connection ~ 12450 6250
-Text GLabel 12700 6900 2    50   Output ~ 0
-EN
-Wire Wire Line
-	12700 6900 12450 6900
-Connection ~ 12450 6900
-$Comp
-L Regulator_Linear:AP2112K-3.3 U4
-U 1 1 5FF40274
-P 2900 4650
-F 0 "U4" H 2900 4992 50  0000 C CNN
-F 1 "AP2112K-3.3" H 2900 4901 50  0000 C CNN
-F 2 "Package_TO_SOT_SMD:SOT-23-5" H 2900 4975 50  0001 C CNN
-F 3 "https://www.diodes.com/assets/Datasheets/AP2112.pdf" H 2900 4750 50  0001 C CNN
-F 4 "Digikey" H 2900 4650 50  0001 C CNN "Fournisseur"
-F 5 "0,13" H 2900 4650 50  0001 C CNN "Prix total"
-F 6 "0,13" H 2900 4650 50  0001 C CNN "prix unité"
-	1    2900 4650
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:R R8
-U 1 1 5FF421F9
-P 2300 4800
-F 0 "R8" H 2370 4846 50  0000 L CNN
-F 1 "10k" H 2370 4755 50  0000 L CNN
-F 2 "Resistor_SMD:R_0805_2012Metric" V 2230 4800 50  0001 C CNN
-F 3 "~" H 2300 4800 50  0001 C CNN
-F 4 "Digikey" H 2300 4800 50  0001 C CNN "Fournisseur"
-	1    2300 4800
-	1    0    0    -1  
-$EndComp
-$Comp
-L power:GND #PWR029
-U 1 1 5FF77FE5
-P 2900 5050
-F 0 "#PWR029" H 2900 4800 50  0001 C CNN
-F 1 "GND" H 2905 4877 50  0000 C CNN
-F 2 "" H 2900 5050 50  0001 C CNN
-F 3 "" H 2900 5050 50  0001 C CNN
-	1    2900 5050
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	2900 5050 2900 4950
-Wire Wire Line
-	2300 4650 2300 4550
-Wire Wire Line
-	2300 4550 2600 4550
-Wire Wire Line
-	2600 4650 2550 4650
-Wire Wire Line
-	2550 4650 2550 5000
-Wire Wire Line
-	2550 5000 2300 5000
-Wire Wire Line
-	2300 5000 2300 4950
-$Comp
-L power:+3.3V #PWR020
-U 1 1 6006E919
-P 3300 4400
-F 0 "#PWR020" H 3300 4250 50  0001 C CNN
-F 1 "+3.3V" H 3315 4573 50  0000 C CNN
-F 2 "" H 3300 4400 50  0001 C CNN
-F 3 "" H 3300 4400 50  0001 C CNN
-	1    3300 4400
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	3200 4550 3300 4550
-Wire Wire Line
-	3300 4550 3300 4400
-$Comp
-L Device:C C8
-U 1 1 60084162
-P 3300 4800
-F 0 "C8" H 3415 4846 50  0000 L CNN
-F 1 "10uF" H 3350 4950 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric" H 3338 4650 50  0001 C CNN
-F 3 "~" H 3300 4800 50  0001 C CNN
-	1    3300 4800
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:C C9
-U 1 1 60098333
-P 3600 4800
-F 0 "C9" H 3715 4846 50  0000 L CNN
-F 1 "1uF" H 3650 4950 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric" H 3638 4650 50  0001 C CNN
-F 3 "~" H 3600 4800 50  0001 C CNN
-	1    3600 4800
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	3300 4550 3300 4650
-Connection ~ 3300 4550
-$Comp
-L power:GND #PWR030
-U 1 1 600C1292
-P 3300 5050
-F 0 "#PWR030" H 3300 4800 50  0001 C CNN
-F 1 "GND" H 3305 4877 50  0000 C CNN
-F 2 "" H 3300 5050 50  0001 C CNN
-F 3 "" H 3300 5050 50  0001 C CNN
-	1    3300 5050
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	3300 5050 3300 4950
-$Comp
-L power:GND #PWR031
-U 1 1 600D5A20
-P 3600 5050
-F 0 "#PWR031" H 3600 4800 50  0001 C CNN
-F 1 "GND" H 3605 4877 50  0000 C CNN
-F 2 "" H 3600 5050 50  0001 C CNN
-F 3 "" H 3600 5050 50  0001 C CNN
-	1    3600 5050
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	3600 5050 3600 4950
-$Comp
-L power:+3.3V #PWR021
-U 1 1 600EA733
-P 3600 4400
-F 0 "#PWR021" H 3600 4250 50  0001 C CNN
-F 1 "+3.3V" H 3615 4573 50  0000 C CNN
-F 2 "" H 3600 4400 50  0001 C CNN
-F 3 "" H 3600 4400 50  0001 C CNN
-	1    3600 4400
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	3600 4400 3600 4650
-$Comp
-L Connector:Conn_01x02_Female J2
-U 1 1 6012C36F
-P 4200 5150
-F 0 "J2" H 4200 4900 50  0000 L CNN
-F 1 "Conn_01x02_Batterie" H 3650 4700 50  0000 L CNN
-F 2 "Connector_JST:JST_PH_B2B-PH-K_1x02_P2.00mm_Vertical" H 4200 5150 50  0001 C CNN
-F 3 "~" H 4200 5150 50  0001 C CNN
-	1    4200 5150
-	-1   0    0    1   
-$EndComp
-$Comp
-L power:GND #PWR026
-U 1 1 60157F02
-P 4500 5250
-F 0 "#PWR026" H 4500 5000 50  0001 C CNN
-F 1 "GND" H 4505 5077 50  0000 C CNN
-F 2 "" H 4500 5250 50  0001 C CNN
-F 3 "" H 4500 5250 50  0001 C CNN
-	1    4500 5250
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	4500 5250 4500 5150
-Wire Wire Line
-	4400 5150 4500 5150
-Wire Wire Line
-	4400 5050 4500 5050
-Wire Wire Line
-	4500 4950 4500 5050
-$Comp
-L power:+BATT #PWR023
-U 1 1 601D8136
-P 4500 4950
-F 0 "#PWR023" H 4500 4800 50  0001 C CNN
-F 1 "+BATT" H 4515 5123 50  0000 C CNN
-F 2 "" H 4500 4950 50  0001 C CNN
-F 3 "" H 4500 4950 50  0001 C CNN
-	1    4500 4950
-	1    0    0    -1  
-$EndComp
-Wire Notes Line
-	3300 3250 5450 3250
-Wire Notes Line
-	5450 1750 3300 1750
-$Comp
-L power:VBUS #PWR04
-U 1 1 602ACAE2
-P 2000 1900
-F 0 "#PWR04" H 2000 1750 50  0001 C CNN
-F 1 "VBUS" H 2015 2073 50  0000 C CNN
-F 2 "" H 2000 1900 50  0001 C CNN
-F 3 "" H 2000 1900 50  0001 C CNN
-	1    2000 1900
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	2000 1900 2000 1950
-Connection ~ 2000 1950
-$Comp
-L power:VBUS #PWR05
-U 1 1 6031DC91
-P 4100 2000
-F 0 "#PWR05" H 4100 1850 50  0001 C CNN
-F 1 "VBUS" H 4115 2173 50  0000 C CNN
-F 2 "" H 4100 2000 50  0001 C CNN
-F 3 "" H 4100 2000 50  0001 C CNN
-	1    4100 2000
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:C C3
-U 1 1 6032F97A
-P 2800 2200
-F 0 "C3" H 2915 2246 50  0000 L CNN
-F 1 "10uF" H 2915 2155 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric" H 2838 2050 50  0001 C CNN
-F 3 "~" H 2800 2200 50  0001 C CNN
-	1    2800 2200
-	1    0    0    -1  
-$EndComp
-$Comp
-L power:GND #PWR09
-U 1 1 6032F980
-P 2800 2450
-F 0 "#PWR09" H 2800 2200 50  0001 C CNN
-F 1 "GND" H 2805 2277 50  0000 C CNN
-F 2 "" H 2800 2450 50  0001 C CNN
-F 3 "" H 2800 2450 50  0001 C CNN
-	1    2800 2450
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	2800 2450 2800 2350
-Wire Wire Line
-	2800 2050 2800 1950
-Wire Wire Line
-	2800 1950 2000 1950
-$Comp
-L power:+5V #PWR022
-U 1 1 60352F73
-P 6300 4800
-F 0 "#PWR022" H 6300 4650 50  0001 C CNN
-F 1 "+5V" H 6150 4850 50  0000 C CNN
-F 2 "" H 6300 4800 50  0001 C CNN
-F 3 "" H 6300 4800 50  0001 C CNN
-	1    6300 4800
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	6300 4800 6300 4850
-Wire Wire Line
-	6150 4850 6300 4850
-$Comp
-L Connector:TestPoint TP5
+L Light_trainer-rescue:TestPoint-Connector TP5
 U 1 1 60377721
-P 10050 9000
-F 0 "TP5" H 10108 9118 50  0000 L CNN
-F 1 "TestPoint" H 10108 9027 50  0000 L CNN
-F 2 "TestPoint:TestPoint_THTPad_2.5x2.5mm_Drill1.2mm" H 10250 9000 50  0001 C CNN
-F 3 "~" H 10250 9000 50  0001 C CNN
-F 4 "~" H 10050 9000 50  0001 C CNN "Fournisseur"
-F 5 "~" H 10050 9000 50  0001 C CNN "Prix total"
-F 6 " ~" H 10050 9000 50  0001 C CNN "prix unité"
-	1    10050 9000
+P 6050 5750
+F 0 "TP5" H 6108 5868 50  0000 L CNN
+F 1 "TestPoint" H 6108 5777 50  0000 L CNN
+F 2 "TestPoint:TestPoint_THTPad_2.5x2.5mm_Drill1.2mm" H 6250 5750 50  0001 C CNN
+F 3 "~" H 6250 5750 50  0001 C CNN
+F 4 "~" H 6050 5750 50  0001 C CNN "Fournisseur"
+F 5 "~" H 6050 5750 50  0001 C CNN "Prix total"
+F 6 " ~" H 6050 5750 50  0001 C CNN "prix unité"
+	1    6050 5750
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	10050 9000 10050 9050
+	6050 5750 6050 5800
 $Comp
-L power:GND #PWR025
-U 1 1 6038A741
-P 5650 5100
-F 0 "#PWR025" H 5650 4850 50  0001 C CNN
-F 1 "GND" H 5655 4927 50  0000 C CNN
-F 2 "" H 5650 5100 50  0001 C CNN
-F 3 "" H 5650 5100 50  0001 C CNN
-	1    5650 5100
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	5650 5050 5650 5100
-$Comp
-L power:GND #PWR032
-U 1 1 603BF1B1
-P 6150 5300
-F 0 "#PWR032" H 6150 5050 50  0001 C CNN
-F 1 "GND" H 6155 5127 50  0000 C CNN
-F 2 "" H 6150 5300 50  0001 C CNN
-F 3 "" H 6150 5300 50  0001 C CNN
-	1    6150 5300
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	6150 5250 6150 5300
-$Comp
-L power:GND #PWR060
+L Light_trainer-rescue:GND-power #PWR060
 U 1 1 603F42F0
-P 9700 9400
-F 0 "#PWR060" H 9700 9150 50  0001 C CNN
-F 1 "GND" H 9705 9227 50  0000 C CNN
-F 2 "" H 9700 9400 50  0001 C CNN
-F 3 "" H 9700 9400 50  0001 C CNN
-	1    9700 9400
+P 5700 6150
+F 0 "#PWR060" H 5700 5900 50  0001 C CNN
+F 1 "GND" H 5705 5977 50  0000 C CNN
+F 2 "" H 5700 6150 50  0001 C CNN
+F 3 "" H 5700 6150 50  0001 C CNN
+	1    5700 6150
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR059
+L Light_trainer-rescue:GND-power #PWR059
 U 1 1 60405B0D
-P 9050 9400
-F 0 "#PWR059" H 9050 9150 50  0001 C CNN
-F 1 "GND" H 9055 9227 50  0000 C CNN
-F 2 "" H 9050 9400 50  0001 C CNN
-F 3 "" H 9050 9400 50  0001 C CNN
-	1    9050 9400
+P 5050 6150
+F 0 "#PWR059" H 5050 5900 50  0001 C CNN
+F 1 "GND" H 5055 5977 50  0000 C CNN
+F 2 "" H 5050 6150 50  0001 C CNN
+F 3 "" H 5050 6150 50  0001 C CNN
+	1    5050 6150
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR058
+L Light_trainer-rescue:GND-power #PWR058
 U 1 1 6041735D
-P 8400 9400
-F 0 "#PWR058" H 8400 9150 50  0001 C CNN
-F 1 "GND" H 8405 9227 50  0000 C CNN
-F 2 "" H 8400 9400 50  0001 C CNN
-F 3 "" H 8400 9400 50  0001 C CNN
-	1    8400 9400
+P 4400 6150
+F 0 "#PWR058" H 4400 5900 50  0001 C CNN
+F 1 "GND" H 4405 5977 50  0000 C CNN
+F 2 "" H 4400 6150 50  0001 C CNN
+F 3 "" H 4400 6150 50  0001 C CNN
+	1    4400 6150
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR057
+L Light_trainer-rescue:GND-power #PWR057
 U 1 1 60428BE3
-P 7750 9400
-F 0 "#PWR057" H 7750 9150 50  0001 C CNN
-F 1 "GND" H 7755 9227 50  0000 C CNN
-F 2 "" H 7750 9400 50  0001 C CNN
-F 3 "" H 7750 9400 50  0001 C CNN
-	1    7750 9400
+P 3750 6150
+F 0 "#PWR057" H 3750 5900 50  0001 C CNN
+F 1 "GND" H 3755 5977 50  0000 C CNN
+F 2 "" H 3750 6150 50  0001 C CNN
+F 3 "" H 3750 6150 50  0001 C CNN
+	1    3750 6150
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR045
+L Light_trainer-rescue:GND-power #PWR045
 U 1 1 6043A369
-P 7750 8250
-F 0 "#PWR045" H 7750 8000 50  0001 C CNN
-F 1 "GND" H 7755 8077 50  0000 C CNN
-F 2 "" H 7750 8250 50  0001 C CNN
-F 3 "" H 7750 8250 50  0001 C CNN
-	1    7750 8250
+P 3750 5000
+F 0 "#PWR045" H 3750 4750 50  0001 C CNN
+F 1 "GND" H 3755 4827 50  0000 C CNN
+F 2 "" H 3750 5000 50  0001 C CNN
+F 3 "" H 3750 5000 50  0001 C CNN
+	1    3750 5000
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR046
+L Light_trainer-rescue:GND-power #PWR046
 U 1 1 6044BBB6
-P 8400 8250
-F 0 "#PWR046" H 8400 8000 50  0001 C CNN
-F 1 "GND" H 8405 8077 50  0000 C CNN
-F 2 "" H 8400 8250 50  0001 C CNN
-F 3 "" H 8400 8250 50  0001 C CNN
-	1    8400 8250
+P 4400 5000
+F 0 "#PWR046" H 4400 4750 50  0001 C CNN
+F 1 "GND" H 4405 4827 50  0000 C CNN
+F 2 "" H 4400 5000 50  0001 C CNN
+F 3 "" H 4400 5000 50  0001 C CNN
+	1    4400 5000
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR047
+L Light_trainer-rescue:GND-power #PWR047
 U 1 1 6045D3E7
-P 9050 8250
-F 0 "#PWR047" H 9050 8000 50  0001 C CNN
-F 1 "GND" H 9055 8077 50  0000 C CNN
-F 2 "" H 9050 8250 50  0001 C CNN
-F 3 "" H 9050 8250 50  0001 C CNN
-	1    9050 8250
+P 5050 5000
+F 0 "#PWR047" H 5050 4750 50  0001 C CNN
+F 1 "GND" H 5055 4827 50  0000 C CNN
+F 2 "" H 5050 5000 50  0001 C CNN
+F 3 "" H 5050 5000 50  0001 C CNN
+	1    5050 5000
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR048
+L Light_trainer-rescue:GND-power #PWR048
 U 1 1 6046ECE6
-P 9700 8250
-F 0 "#PWR048" H 9700 8000 50  0001 C CNN
-F 1 "GND" H 9705 8077 50  0000 C CNN
-F 2 "" H 9700 8250 50  0001 C CNN
-F 3 "" H 9700 8250 50  0001 C CNN
-	1    9700 8250
+P 5700 5000
+F 0 "#PWR048" H 5700 4750 50  0001 C CNN
+F 1 "GND" H 5705 4827 50  0000 C CNN
+F 2 "" H 5700 5000 50  0001 C CNN
+F 3 "" H 5700 5000 50  0001 C CNN
+	1    5700 5000
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR056
+L Light_trainer-rescue:GND-power #PWR056
 U 1 1 60491CDF
-P 6150 9350
-F 0 "#PWR056" H 6150 9100 50  0001 C CNN
-F 1 "GND" H 6155 9177 50  0000 C CNN
-F 2 "" H 6150 9350 50  0001 C CNN
-F 3 "" H 6150 9350 50  0001 C CNN
-	1    6150 9350
+P 2150 6100
+F 0 "#PWR056" H 2150 5850 50  0001 C CNN
+F 1 "GND" H 2155 5927 50  0000 C CNN
+F 2 "" H 2150 6100 50  0001 C CNN
+F 3 "" H 2150 6100 50  0001 C CNN
+	1    2150 6100
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR061
-U 1 1 604B4AE7
-P 2400 9450
-F 0 "#PWR061" H 2400 9200 50  0001 C CNN
-F 1 "GND" H 2405 9277 50  0000 C CNN
-F 2 "" H 2400 9450 50  0001 C CNN
-F 3 "" H 2400 9450 50  0001 C CNN
-	1    2400 9450
-	1    0    0    -1  
-$EndComp
-$Comp
-L power:GND #PWR010
-U 1 1 604C6319
-P 11050 2600
-F 0 "#PWR010" H 11050 2350 50  0001 C CNN
-F 1 "GND" H 11055 2427 50  0000 C CNN
-F 2 "" H 11050 2600 50  0001 C CNN
-F 3 "" H 11050 2600 50  0001 C CNN
-	1    11050 2600
-	1    0    0    -1  
-$EndComp
-$Comp
-L power:GND #PWR024
-U 1 1 604D7C36
-P 12150 4850
-F 0 "#PWR024" H 12150 4600 50  0001 C CNN
-F 1 "GND" H 12155 4677 50  0000 C CNN
-F 2 "" H 12150 4850 50  0001 C CNN
-F 3 "" H 12150 4850 50  0001 C CNN
-	1    12150 4850
-	1    0    0    -1  
-$EndComp
-$Comp
-L power:+5V #PWR039
+L Light_trainer-rescue:+5V-power #PWR039
 U 1 1 604E998D
-P 7750 7550
-F 0 "#PWR039" H 7750 7400 50  0001 C CNN
-F 1 "+5V" H 7900 7600 50  0000 C CNN
-F 2 "" H 7750 7550 50  0001 C CNN
-F 3 "" H 7750 7550 50  0001 C CNN
-	1    7750 7550
+P 3750 4300
+F 0 "#PWR039" H 3750 4150 50  0001 C CNN
+F 1 "+5V" H 3900 4350 50  0000 C CNN
+F 2 "" H 3750 4300 50  0001 C CNN
+F 3 "" H 3750 4300 50  0001 C CNN
+	1    3750 4300
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:+5V #PWR040
+L Light_trainer-rescue:+5V-power #PWR040
 U 1 1 604FB129
-P 8400 7550
-F 0 "#PWR040" H 8400 7400 50  0001 C CNN
-F 1 "+5V" H 8550 7600 50  0000 C CNN
-F 2 "" H 8400 7550 50  0001 C CNN
-F 3 "" H 8400 7550 50  0001 C CNN
-	1    8400 7550
+P 4400 4300
+F 0 "#PWR040" H 4400 4150 50  0001 C CNN
+F 1 "+5V" H 4550 4350 50  0000 C CNN
+F 2 "" H 4400 4300 50  0001 C CNN
+F 3 "" H 4400 4300 50  0001 C CNN
+	1    4400 4300
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:+5V #PWR041
+L Light_trainer-rescue:+5V-power #PWR041
 U 1 1 6050C9D7
-P 9050 7550
-F 0 "#PWR041" H 9050 7400 50  0001 C CNN
-F 1 "+5V" H 9200 7600 50  0000 C CNN
-F 2 "" H 9050 7550 50  0001 C CNN
-F 3 "" H 9050 7550 50  0001 C CNN
-	1    9050 7550
+P 5050 4300
+F 0 "#PWR041" H 5050 4150 50  0001 C CNN
+F 1 "+5V" H 5200 4350 50  0000 C CNN
+F 2 "" H 5050 4300 50  0001 C CNN
+F 3 "" H 5050 4300 50  0001 C CNN
+	1    5050 4300
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:+5V #PWR042
+L Light_trainer-rescue:+5V-power #PWR042
 U 1 1 6051E1D9
-P 9700 7550
-F 0 "#PWR042" H 9700 7400 50  0001 C CNN
-F 1 "+5V" H 9850 7600 50  0000 C CNN
-F 2 "" H 9700 7550 50  0001 C CNN
-F 3 "" H 9700 7550 50  0001 C CNN
-	1    9700 7550
+P 5700 4300
+F 0 "#PWR042" H 5700 4150 50  0001 C CNN
+F 1 "+5V" H 5850 4350 50  0000 C CNN
+F 2 "" H 5700 4300 50  0001 C CNN
+F 3 "" H 5700 4300 50  0001 C CNN
+	1    5700 4300
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:+5V #PWR053
+L Light_trainer-rescue:+5V-power #PWR053
 U 1 1 60552CBF
-P 9700 8700
-F 0 "#PWR053" H 9700 8550 50  0001 C CNN
-F 1 "+5V" H 9850 8750 50  0000 C CNN
-F 2 "" H 9700 8700 50  0001 C CNN
-F 3 "" H 9700 8700 50  0001 C CNN
-	1    9700 8700
+P 5700 5450
+F 0 "#PWR053" H 5700 5300 50  0001 C CNN
+F 1 "+5V" H 5850 5500 50  0000 C CNN
+F 2 "" H 5700 5450 50  0001 C CNN
+F 3 "" H 5700 5450 50  0001 C CNN
+	1    5700 5450
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:+5V #PWR052
+L Light_trainer-rescue:+5V-power #PWR052
 U 1 1 60564858
-P 9050 8700
-F 0 "#PWR052" H 9050 8550 50  0001 C CNN
-F 1 "+5V" H 9200 8750 50  0000 C CNN
-F 2 "" H 9050 8700 50  0001 C CNN
-F 3 "" H 9050 8700 50  0001 C CNN
-	1    9050 8700
+P 5050 5450
+F 0 "#PWR052" H 5050 5300 50  0001 C CNN
+F 1 "+5V" H 5200 5500 50  0000 C CNN
+F 2 "" H 5050 5450 50  0001 C CNN
+F 3 "" H 5050 5450 50  0001 C CNN
+	1    5050 5450
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:+5V #PWR051
+L Light_trainer-rescue:+5V-power #PWR051
 U 1 1 60576329
-P 8400 8700
-F 0 "#PWR051" H 8400 8550 50  0001 C CNN
-F 1 "+5V" H 8550 8750 50  0000 C CNN
-F 2 "" H 8400 8700 50  0001 C CNN
-F 3 "" H 8400 8700 50  0001 C CNN
-	1    8400 8700
+P 4400 5450
+F 0 "#PWR051" H 4400 5300 50  0001 C CNN
+F 1 "+5V" H 4550 5500 50  0000 C CNN
+F 2 "" H 4400 5450 50  0001 C CNN
+F 3 "" H 4400 5450 50  0001 C CNN
+	1    4400 5450
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:+5V #PWR050
+L Light_trainer-rescue:+5V-power #PWR050
 U 1 1 60587C84
-P 7750 8700
-F 0 "#PWR050" H 7750 8550 50  0001 C CNN
-F 1 "+5V" H 7900 8750 50  0000 C CNN
-F 2 "" H 7750 8700 50  0001 C CNN
-F 3 "" H 7750 8700 50  0001 C CNN
-	1    7750 8700
+P 3750 5450
+F 0 "#PWR050" H 3750 5300 50  0001 C CNN
+F 1 "+5V" H 3900 5500 50  0000 C CNN
+F 2 "" H 3750 5450 50  0001 C CNN
+F 3 "" H 3750 5450 50  0001 C CNN
+	1    3750 5450
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR019
-U 1 1 605ACED7
-P 6050 4200
-F 0 "#PWR019" H 6050 3950 50  0001 C CNN
-F 1 "GND" H 6200 4100 50  0000 C CNN
-F 2 "" H 6050 4200 50  0001 C CNN
-F 3 "" H 6050 4200 50  0001 C CNN
-	1    6050 4200
-	1    0    0    -1  
-$EndComp
-Wire Notes Line
-	1150 5600 4800 5600
-Wire Notes Line
-	4800 5600 4800 3750
-Wire Notes Line
-	4800 3750 1150 3750
-Wire Notes Line
-	1150 3750 1150 5600
-$Comp
-L power:VBUS #PWR07
-U 1 1 60665F3F
-P 6800 2100
-F 0 "#PWR07" H 6800 1950 50  0001 C CNN
-F 1 "VBUS" H 6815 2273 50  0000 C CNN
-F 2 "" H 6800 2100 50  0001 C CNN
-F 3 "" H 6800 2100 50  0001 C CNN
-	1    6800 2100
-	1    0    0    -1  
-$EndComp
-$Comp
-L power:VBUS #PWR037
-U 1 1 60688969
-P 13700 7000
-F 0 "#PWR037" H 13700 6850 50  0001 C CNN
-F 1 "VBUS" H 13600 7150 50  0000 C CNN
-F 2 "" H 13700 7000 50  0001 C CNN
-F 3 "" H 13700 7000 50  0001 C CNN
-	1    13700 7000
-	1    0    0    -1  
-$EndComp
-$Comp
-L Interface_USB:CP2104 U5
-U 1 1 6069AA9D
-P 14550 7700
-F 0 "U5" H 14000 6600 50  0000 C CNN
-F 1 "CP2104" H 14100 6700 50  0000 C CNN
-F 2 "Package_DFN_QFN:QFN-24-1EP_4x4mm_P0.5mm_EP2.6x2.6mm" H 14700 6750 50  0001 L CNN
-F 3 "https://www.silabs.com/documents/public/data-sheets/cp2104.pdf" H 14000 8950 50  0001 C CNN
-F 4 "Digikey" H 14550 7700 50  0001 C CNN "Fournisseur"
-F 5 "1,47" H 14550 7700 50  0001 C CNN "Prix total"
-F 6 "1,47" H 14550 7700 50  0001 C CNN "prix unité"
-	1    14550 7700
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	13850 7100 13700 7100
-Wire Wire Line
-	13700 7000 13700 7100
-Wire Wire Line
-	13700 7100 13700 7300
-Connection ~ 13700 7100
-Wire Wire Line
-	13700 7300 13850 7300
-Wire Wire Line
-	14550 6550 14550 6800
-Wire Wire Line
-	14550 6550 14750 6550
-Wire Wire Line
-	14550 6550 14350 6550
-Wire Wire Line
-	14350 6550 14350 6800
-Connection ~ 14550 6550
-NoConn ~ 14750 6800
-NoConn ~ 15250 8200
-NoConn ~ 15250 8400
-NoConn ~ 15250 8300
-NoConn ~ 13850 8200
-NoConn ~ 13850 8100
-NoConn ~ 13850 8000
-NoConn ~ 13850 7900
-NoConn ~ 13850 8400
-NoConn ~ 15250 8000
-NoConn ~ 15250 7200
-NoConn ~ 15250 7100
-NoConn ~ 15250 7400
-$Comp
-L power:GND #PWR054
-U 1 1 608ABFEB
-P 14550 8900
-F 0 "#PWR054" H 14550 8650 50  0001 C CNN
-F 1 "GND" H 14555 8727 50  0000 C CNN
-F 2 "" H 14550 8900 50  0001 C CNN
-F 3 "" H 14550 8900 50  0001 C CNN
-	1    14550 8900
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	14550 8700 14550 8800
-Wire Wire Line
-	14550 8800 14650 8800
-Wire Wire Line
-	14650 8800 14650 8700
-Connection ~ 14550 8800
-Wire Wire Line
-	14550 8800 14550 8900
-Wire Notes Line
-	15850 5850 15850 9750
-Wire Wire Line
-	12750 3600 13050 3600
-Wire Wire Line
-	12750 2400 13600 2400
-Text Notes 13800 2050 0    50   ~ 0
-Si Vbatt = 4.2V \nIO2 = 3V\n30 uA
-Text GLabel 13050 2600 2    50   Input ~ 0
-switch
-Wire Wire Line
-	13050 2600 12750 2600
-Text GLabel 2800 8650 2    50   Output ~ 0
-S1
-Text GLabel 2800 8750 2    50   Output ~ 0
-S2
-Text GLabel 2800 8850 2    50   Output ~ 0
-S3
-Text GLabel 2800 8950 2    50   Output ~ 0
-S4
-Wire Wire Line
-	2550 8650 2800 8650
-Connection ~ 2550 8650
-Wire Wire Line
-	2800 8750 2450 8750
-Connection ~ 2450 8750
-Wire Wire Line
-	2350 8850 2800 8850
-Connection ~ 2350 8850
-Wire Wire Line
-	2800 8950 2250 8950
-Connection ~ 2250 8950
-Wire Notes Line
-	3050 8250 3050 9750
-Wire Notes Line
-	1250 9750 3050 9750
-Wire Notes Line
-	1250 8250 3050 8250
-Text GLabel 13050 2800 2    50   Input ~ 0
-S2
-Wire Wire Line
-	13050 2800 12750 2800
-Text GLabel 13050 2700 2    50   Input ~ 0
-S1
-Wire Wire Line
-	13050 2700 12750 2700
-Text GLabel 13050 2900 2    50   Input ~ 0
-S3
-Wire Wire Line
-	13050 2900 12750 2900
-Text GLabel 13050 3000 2    50   Input ~ 0
-S4
-Wire Wire Line
-	13050 3000 12750 3000
-$Comp
-L Switch:SW_DP3T S1
-U 1 1 5FF6A386
-P 1800 6900
-F 0 "S1" V 2100 6800 50  0000 L CNN
-F 1 "SW_DP3T" V 2200 6800 50  0000 L CNN
-F 2 "Button_Switch_THT:SW_DP3T" H 1650 6600 50  0001 C CNN
-F 3 "https://www.ckswitches.com/media/1428/os.pdf" H 1650 6600 50  0001 C CNN
-F 4 "Digikey" H 1800 6900 50  0001 C CNN "Fournisseur"
-F 5 "0,77" H 1800 6900 50  0001 C CNN "Prix total"
-F 6 "0,77" H 1800 6900 50  0001 C CNN "prix unité"
-	1    1800 6900
-	0    1    1    0   
-$EndComp
-NoConn ~ 2000 6600
-NoConn ~ 1600 6600
-$Comp
-L power:+BATT #PWR036
-U 1 1 5FFCCFD2
-P 2200 6700
-F 0 "#PWR036" H 2200 6550 50  0001 C CNN
-F 1 "+BATT" H 2400 6750 50  0000 C CNN
-F 2 "" H 2200 6700 50  0001 C CNN
-F 3 "" H 2200 6700 50  0001 C CNN
-	1    2200 6700
-	1    0    0    -1  
-$EndComp
-Text GLabel 1500 7100 0    50   Output ~ 0
-info_batt
-Wire Wire Line
-	2200 6750 2000 6750
-NoConn ~ 1600 6950
-$Comp
-L power:+3.3V #PWR035
-U 1 1 60056BEB
-P 1200 6700
-F 0 "#PWR035" H 1200 6550 50  0001 C CNN
-F 1 "+3.3V" H 1215 6873 50  0000 C CNN
-F 2 "" H 1200 6700 50  0001 C CNN
-F 3 "" H 1200 6700 50  0001 C CNN
-	1    1200 6700
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:R R9
-U 1 1 600792E4
-P 1400 6750
-F 0 "R9" V 1300 6650 50  0000 L CNN
-F 1 "10K" V 1500 6650 50  0000 L CNN
-F 2 "Resistor_SMD:R_0805_2012Metric" V 1330 6750 50  0001 C CNN
-F 3 "~" H 1400 6750 50  0001 C CNN
-F 4 "Digikey" H 1400 6750 50  0001 C CNN "Fournisseur"
-	1    1400 6750
-	0    1    1    0   
-$EndComp
-Wire Wire Line
-	1600 6750 1550 6750
-Wire Wire Line
-	1250 6750 1200 6750
-Wire Wire Line
-	1500 7100 1600 7100
-Text GLabel 2150 6950 2    50   Output ~ 0
-batt_on
-Wire Wire Line
-	2050 7100 2050 6950
-Wire Wire Line
-	2050 6950 2000 6950
-Wire Wire Line
-	2050 7100 2000 7100
-Text GLabel 5600 4000 0    50   Input ~ 0
-batt_on
-Wire Wire Line
-	5600 4000 5650 4000
-Wire Wire Line
-	5650 4000 5650 4150
-Text GLabel 6700 4600 1    50   Input ~ 0
-batt_on
-Text GLabel 5200 4700 1    50   Input ~ 0
-batt_on
-Wire Wire Line
-	2200 6700 2200 6750
-Wire Wire Line
-	1200 6700 1200 6750
-Text GLabel 13050 3100 2    50   Input ~ 0
-info_batt
-Wire Wire Line
-	13050 3100 12750 3100
-Text Notes 950  6300 0    50   ~ 0
-interupteur principal + affichage batterie
-$Comp
-L power:GND #PWR055
-U 1 1 602EFED5
-P 4100 9350
-F 0 "#PWR055" H 4100 9100 50  0001 C CNN
-F 1 "GND" H 4105 9177 50  0000 C CNN
-F 2 "" H 4100 9350 50  0001 C CNN
-F 3 "" H 4100 9350 50  0001 C CNN
-	1    4100 9350
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	3550 9100 3550 9200
-Wire Wire Line
-	3550 9200 3900 9200
-Wire Wire Line
-	4100 9200 4100 9350
-Wire Wire Line
-	3900 9200 3900 9100
-Connection ~ 3900 9200
-Wire Wire Line
-	3900 9200 4100 9200
-Wire Wire Line
-	4100 9200 4250 9200
-Wire Wire Line
-	4250 9200 4250 9100
-Connection ~ 4100 9200
-Wire Wire Line
-	4250 9200 4600 9200
-Wire Wire Line
-	4600 9200 4600 9100
-Connection ~ 4250 9200
-Text GLabel 3550 8300 1    50   Input ~ 0
-LED_B_3
-Text GLabel 3900 8700 1    50   Input ~ 0
-LED_B_2
-Text GLabel 4250 8700 1    50   Input ~ 0
-LED_B_1
-Text GLabel 4600 8700 1    50   Input ~ 0
-LED_B_0
-Text GLabel 13050 3200 2    50   Output ~ 0
-LED_B_0
-Text GLabel 13050 3300 2    50   Output ~ 0
-LED_B_1
-Text GLabel 13050 3400 2    50   Output ~ 0
-LED_B_2
-Text GLabel 13050 3500 2    50   Output ~ 0
-LED_B_3
-Wire Wire Line
-	13050 3200 12750 3200
-Wire Wire Line
-	12750 3300 13050 3300
-Wire Wire Line
-	13050 3400 12750 3400
-Wire Wire Line
-	12750 3500 13050 3500
-$Comp
-L Device:R R12
-U 1 1 6049634B
-P 3550 8550
-F 0 "R12" V 3450 8450 50  0000 L CNN
-F 1 "68R" V 3650 8450 50  0000 L CNN
-F 2 "Resistor_SMD:R_0805_2012Metric" V 3480 8550 50  0001 C CNN
-F 3 "~" H 3550 8550 50  0001 C CNN
-F 4 "Digikey" H 3550 8550 50  0001 C CNN "Fournisseur"
-	1    3550 8550
-	-1   0    0    1   
-$EndComp
-Wire Wire Line
-	4600 8800 4600 8700
-Wire Wire Line
-	4250 8700 4250 8800
-Wire Wire Line
-	3900 8800 3900 8700
-Wire Wire Line
-	3550 8300 3550 8400
-Wire Wire Line
-	3550 8700 3550 8800
-Text Notes 4200 9650 0    50   ~ 0
-R G G G   Batterie\n1 1 1 1 => 100%\n1 1 1 0 => 75%\n1 1 0 0 => 50%\n1 0 0 0 => 25%
-$Comp
-L Device:LED D9
-U 1 1 605FEF0E
-P 3550 8950
-F 0 "D9" H 3543 9167 50  0000 C CNN
-F 1 "LED_R" H 3543 9076 50  0000 C CNN
-F 2 "LED_SMD:LED_1806_4516Metric" H 3550 8950 50  0001 C CNN
-F 3 "https://www.kingbrightusa.com/images/catalog/SPEC/APA3010SRCPRV-GX.pdf" H 3550 8950 50  0001 C CNN
-F 4 "Digitek" H 3550 8950 50  0001 C CNN "Fournisseur"
-F 5 "0,32" H 3550 8950 50  0001 C CNN "Prix total"
-F 6 "0,32" H 3550 8950 50  0001 C CNN "prix unité"
-	1    3550 8950
-	0    -1   -1   0   
-$EndComp
-$Comp
-L Device:LED D10
-U 1 1 6061440A
-P 3900 8950
-F 0 "D10" H 3893 9167 50  0000 C CNN
-F 1 "LED_G" H 3893 9076 50  0000 C CNN
-F 2 "LED_SMD:LED_1806_4516Metric" H 3900 8950 50  0001 C CNN
-F 3 "https://www.kingbrightusa.com/images/catalog/SPEC/APA3010ZGC-GX.pdf" H 3900 8950 50  0001 C CNN
-F 4 "Digitek" H 3900 8950 50  0001 C CNN "Fournisseur"
-F 5 "0,56" H 3900 8950 50  0001 C CNN "Prix total"
-F 6 "0,56" H 3900 8950 50  0001 C CNN "prix unité"
-	1    3900 8950
-	0    -1   -1   0   
-$EndComp
-$Comp
-L Device:LED D11
-U 1 1 606298DA
-P 4250 8950
-F 0 "D11" H 4243 9167 50  0000 C CNN
-F 1 "LED_G" H 4243 9076 50  0000 C CNN
-F 2 "LED_SMD:LED_1806_4516Metric" H 4250 8950 50  0001 C CNN
-F 3 "https://www.kingbrightusa.com/images/catalog/SPEC/APA3010ZGC-GX.pdf" H 4250 8950 50  0001 C CNN
-F 4 "Digitek" H 4250 8950 50  0001 C CNN "Fournisseur"
-F 5 "0,56" H 4250 8950 50  0001 C CNN "Prix total"
-F 6 "0,56" H 4250 8950 50  0001 C CNN "prix unité"
-	1    4250 8950
-	0    -1   -1   0   
-$EndComp
-$Comp
-L Device:LED D12
-U 1 1 6063ED42
-P 4600 8950
-F 0 "D12" H 4593 9167 50  0000 C CNN
-F 1 "LED_G" H 4593 9076 50  0000 C CNN
-F 2 "LED_SMD:LED_1806_4516Metric" H 4600 8950 50  0001 C CNN
-F 3 "https://www.kingbrightusa.com/images/catalog/SPEC/APA3010ZGC-GX.pdf" H 4600 8950 50  0001 C CNN
-F 4 "Digitek" H 4600 8950 50  0001 C CNN "Fournisseur"
-F 5 "0,56" H 4600 8950 50  0001 C CNN "Prix total"
-F 6 "0,56" H 4600 8950 50  0001 C CNN "prix unité"
-	1    4600 8950
-	0    -1   -1   0   
-$EndComp
-$Comp
-L Connector:TestPoint TP1
-U 1 1 6068B2EB
-P 13850 2350
-F 0 "TP1" H 13908 2468 50  0000 L CNN
-F 1 "TestPoint" H 13908 2377 50  0000 L CNN
-F 2 "TestPoint:TestPoint_THTPad_2.5x2.5mm_Drill1.2mm" H 14050 2350 50  0001 C CNN
-F 3 "~" H 14050 2350 50  0001 C CNN
-F 4 "~" H 13850 2350 50  0001 C CNN "Fournisseur"
-F 5 "~" H 13850 2350 50  0001 C CNN "Prix total"
-F 6 " ~" H 13850 2350 50  0001 C CNN "prix unité"
-	1    13850 2350
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	13850 2350 13850 2400
-Wire Wire Line
-	13850 2400 13600 2400
-$Comp
-L Connector:TestPoint TP3
+L Light_trainer-rescue:TestPoint-Connector TP3
 U 1 1 606B57C6
-P 6150 7700
-F 0 "TP3" H 6208 7818 50  0000 L CNN
-F 1 "TestPoint" H 6208 7727 50  0000 L CNN
-F 2 "TestPoint:TestPoint_THTPad_2.5x2.5mm_Drill1.2mm" H 6350 7700 50  0001 C CNN
-F 3 "~" H 6350 7700 50  0001 C CNN
-F 4 "~" H 6150 7700 50  0001 C CNN "Fournisseur"
-F 5 "~" H 6150 7700 50  0001 C CNN "Prix total"
-F 6 " ~" H 6150 7700 50  0001 C CNN "prix unité"
-	1    6150 7700
+P 2150 4450
+F 0 "TP3" H 2208 4568 50  0000 L CNN
+F 1 "TestPoint" H 2208 4477 50  0000 L CNN
+F 2 "TestPoint:TestPoint_THTPad_2.5x2.5mm_Drill1.2mm" H 2350 4450 50  0001 C CNN
+F 3 "~" H 2350 4450 50  0001 C CNN
+F 4 "~" H 2150 4450 50  0001 C CNN "Fournisseur"
+F 5 "~" H 2150 4450 50  0001 C CNN "Prix total"
+F 6 " ~" H 2150 4450 50  0001 C CNN "prix unité"
+	1    2150 4450
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	6150 7700 6150 7850
+	2150 4450 2150 4600
 $Comp
-L Connector:TestPoint TP2
-U 1 1 606E0322
-P 6400 4850
-F 0 "TP2" V 6400 5050 50  0000 L CNN
-F 1 "TestPoint" V 6300 4900 50  0000 L CNN
-F 2 "TestPoint:TestPoint_THTPad_2.5x2.5mm_Drill1.2mm" H 6600 4850 50  0001 C CNN
-F 3 "~" H 6600 4850 50  0001 C CNN
-F 4 "~" H 6400 4850 50  0001 C CNN "Fournisseur"
-F 5 "~" H 6400 4850 50  0001 C CNN "Prix total"
-F 6 " ~" H 6400 4850 50  0001 C CNN "prix unité"
-	1    6400 4850
-	0    1    1    0   
-$EndComp
-Wire Wire Line
-	6400 4850 6300 4850
-Connection ~ 6300 4850
-$Comp
-L Connector:TestPoint TP4
+L Light_trainer-rescue:TestPoint-Connector TP4
 U 1 1 6070C247
-P 7350 7850
-F 0 "TP4" H 7000 8150 50  0000 L CNN
-F 1 "TestPoint" H 7000 8050 50  0000 L CNN
-F 2 "TestPoint:TestPoint_THTPad_2.5x2.5mm_Drill1.2mm" H 7550 7850 50  0001 C CNN
-F 3 "~" H 7550 7850 50  0001 C CNN
-F 4 "~" H 7350 7850 50  0001 C CNN "Fournisseur"
-F 5 "~" H 7350 7850 50  0001 C CNN "Prix total"
-F 6 " ~" H 7350 7850 50  0001 C CNN "prix unité"
-	1    7350 7850
+P 3350 4600
+F 0 "TP4" H 3000 4900 50  0000 L CNN
+F 1 "TestPoint" H 3000 4800 50  0000 L CNN
+F 2 "TestPoint:TestPoint_THTPad_2.5x2.5mm_Drill1.2mm" H 3550 4600 50  0001 C CNN
+F 3 "~" H 3550 4600 50  0001 C CNN
+F 4 "~" H 3350 4600 50  0001 C CNN "Fournisseur"
+F 5 "~" H 3350 4600 50  0001 C CNN "Prix total"
+F 6 " ~" H 3350 4600 50  0001 C CNN "prix unité"
+	1    3350 4600
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	7200 7900 7350 7900
+	3200 4650 3350 4650
 Wire Wire Line
-	7350 7900 7350 7850
-Connection ~ 7350 7900
+	3350 4650 3350 4600
+Connection ~ 3350 4650
 Wire Wire Line
-	7350 7900 7450 7900
+	3350 4650 3450 4650
 Wire Notes Line
-	3250 9750 5050 9750
+	6550 4050 2950 4050
 Wire Notes Line
-	5050 9750 5050 7850
+	2950 4050 2950 6500
 Wire Notes Line
-	5050 7850 3250 7850
+	2950 6500 6550 6500
 Wire Notes Line
-	3250 7850 3250 9750
-Text Notes 3250 7800 0    50   ~ 0
-Affichage tension de la batteire
-Wire Notes Line
-	10650 5150 14550 5150
-Wire Notes Line
-	14550 5150 14550 1200
-Wire Notes Line
-	14550 1200 10650 1200
-Wire Notes Line
-	10650 1200 10650 5150
-Text Notes 10650 1150 0    79   ~ 0
-ESP 32
+	6550 4050 6550 6500
 $Comp
-L Device:C C14
-U 1 1 6084FC27
-P 2150 7350
-F 0 "C14" H 2200 7250 50  0000 L CNN
-F 1 "10uF" H 2200 7450 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric" H 2188 7200 50  0001 C CNN
-F 3 "~" H 2150 7350 50  0001 C CNN
-	1    2150 7350
+L Work_Forestier:ESP32-DevKitC-32D U1
+U 1 1 6148669D
+P 12150 2850
+F 0 "U1" H 12150 4015 50  0000 C CNN
+F 1 "ESP32-DevKitC-32D" H 12150 3924 50  0000 C CNN
+F 2 "Work_Forestier:ESP32-DevKitC-32D" H 11800 4050 50  0001 C CNN
+F 3 "https://media.digikey.com/pdf/Data%20Sheets/Espressif%20PDFs/ESP32-DevKitC_GSG_Ver1.4_2017.pdf" H 11800 4050 50  0001 C CNN
+	1    12150 2850
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:C C15
-U 1 1 608923D3
-P 2400 7350
-F 0 "C15" H 2250 7450 50  0000 L CNN
-F 1 "0,1uF" H 2150 7250 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric" H 2438 7200 50  0001 C CNN
-F 3 "~" H 2400 7350 50  0001 C CNN
-	1    2400 7350
-	-1   0    0    1   
-$EndComp
-Wire Wire Line
-	2400 7500 2400 7600
-Wire Wire Line
-	2400 7100 2400 7200
-Wire Wire Line
-	2050 6950 2150 6950
-$Comp
-L power:GND #PWR043
-U 1 1 60903FCA
-P 2250 7650
-F 0 "#PWR043" H 2250 7400 50  0001 C CNN
-F 1 "GND" H 2255 7477 50  0000 C CNN
-F 2 "" H 2250 7650 50  0001 C CNN
-F 3 "" H 2250 7650 50  0001 C CNN
-	1    2250 7650
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	2250 7650 2250 7600
-Wire Wire Line
-	2250 7600 2400 7600
-Connection ~ 2050 6950
-Wire Wire Line
-	2250 7600 2150 7600
-Wire Wire Line
-	2150 7600 2150 7500
-Connection ~ 2250 7600
-Wire Notes Line
-	950  6350 950  7950
-Wire Notes Line
-	950  7950 2700 7950
-Wire Notes Line
-	2700 7950 2700 6350
-Wire Notes Line
-	2700 6350 950  6350
-Text GLabel 10900 2200 0    50   Input ~ 0
-EN
-Wire Wire Line
-	10900 2200 11050 2200
-Text GLabel 13050 2200 2    50   Input ~ 0
-IO0
-Wire Wire Line
-	12750 2200 13050 2200
-NoConn ~ 11550 3400
-NoConn ~ 11550 3500
-NoConn ~ 11550 3600
-NoConn ~ 11550 3700
-NoConn ~ 11550 3800
-NoConn ~ 11550 3900
-NoConn ~ 12750 4500
-NoConn ~ 12750 4400
-NoConn ~ 12750 4300
-NoConn ~ 12750 4200
-NoConn ~ 12750 4100
-NoConn ~ 12750 4000
-NoConn ~ 12750 3900
-NoConn ~ 12750 3800
-NoConn ~ 12750 3700
-Wire Wire Line
-	2400 7100 2150 7100
-Connection ~ 2050 7100
-Wire Wire Line
-	2150 7200 2150 7100
-Connection ~ 2150 7100
-Wire Wire Line
-	2150 7100 2050 7100
-Wire Notes Line
-	10550 7300 6950 7300
-Wire Notes Line
-	6950 7300 6950 9750
-Wire Notes Line
-	6950 9750 10550 9750
-Wire Notes Line
-	10550 7300 10550 9750
-$Comp
-L Diode:MBR0540 D4
-U 1 1 5FF8BEAA
-P 1750 4550
-F 0 "D4" H 1750 4333 50  0000 C CNN
-F 1 "MBR0540" H 1750 4424 50  0000 C CNN
-F 2 "Diode_SMD:D_SOD-123" H 1750 4375 50  0001 C CNN
-F 3 "http://www.mccsemi.com/up_pdf/MBR0520~MBR0580(SOD123).pdf" H 1750 4550 50  0001 C CNN
-	1    1750 4550
-	-1   0    0    1   
-$EndComp
-Wire Wire Line
-	1900 4550 2000 4550
-Connection ~ 2000 4550
-$Comp
-L Device:C C7
-U 1 1 5FF8BEB3
-P 2000 4800
-F 0 "C7" H 2115 4846 50  0000 L CNN
-F 1 "10uF" H 2050 4950 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric" H 2038 4650 50  0001 C CNN
-F 3 "~" H 2000 4800 50  0001 C CNN
-	1    2000 4800
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	2300 4550 2000 4550
-Wire Wire Line
-	2000 4650 2000 4550
-$Comp
-L power:GND #PWR018
-U 1 1 5FF8BEBB
-P 2000 5050
-F 0 "#PWR018" H 2000 4800 50  0001 C CNN
-F 1 "GND" H 2005 4877 50  0000 C CNN
-F 2 "" H 2000 5050 50  0001 C CNN
-F 3 "" H 2000 5050 50  0001 C CNN
-	1    2000 5050
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	2000 5050 2000 4950
-Text GLabel 1550 4550 0    50   Input ~ 0
-batt_on
-Wire Wire Line
-	1550 4550 1600 4550
-Connection ~ 2300 4550
-$Comp
-L Connector:Conn_01x09_Female J3
-U 1 1 60061142
-P 3950 7050
-F 0 "J3" H 3950 7450 50  0000 L CNN
-F 1 "Conn_01x09_Female" H 3300 7550 50  0000 L CNN
-F 2 "Connector_PinHeader_1.00mm:PinHeader_1x09_P1.00mm_Vertical" H 3950 7050 50  0001 C CNN
-F 3 "~" H 3950 7050 50  0001 C CNN
-F 4 "~" H 3950 7050 50  0001 C CNN "Fournisseur"
-F 5 "~" H 3950 7050 50  0001 C CNN "Prix total"
-F 6 "~" H 3950 7050 50  0001 C CNN "prix unité"
-	1    3950 7050
-	1    0    0    -1  
-$EndComp
-Text GLabel 3600 6650 0    50   Input ~ 0
-batt_on
-$Comp
-L power:+BATT #PWR027
-U 1 1 60090AF0
-P 3600 6750
-F 0 "#PWR027" H 3600 6600 50  0001 C CNN
-F 1 "+BATT" V 3600 7000 50  0000 C CNN
-F 2 "" H 3600 6750 50  0001 C CNN
-F 3 "" H 3600 6750 50  0001 C CNN
-	1    3600 6750
-	0    -1   -1   0   
-$EndComp
-$Comp
-L power:+3.3V #PWR062
-U 1 1 600BD569
-P 3600 6850
-F 0 "#PWR062" H 3600 6700 50  0001 C CNN
-F 1 "+3.3V" V 3600 7100 50  0000 C CNN
-F 2 "" H 3600 6850 50  0001 C CNN
-F 3 "" H 3600 6850 50  0001 C CNN
-	1    3600 6850
-	0    -1   -1   0   
-$EndComp
-Wire Wire Line
-	3600 6650 3750 6650
-Wire Wire Line
-	3600 6750 3750 6750
-Wire Wire Line
-	3600 6850 3750 6850
-Text GLabel 3600 6950 0    50   Input ~ 0
-info_batt
-Wire Wire Line
-	3750 6950 3600 6950
-$Comp
-L power:GND #PWR064
-U 1 1 60199323
-P 3600 7450
-F 0 "#PWR064" H 3600 7200 50  0001 C CNN
-F 1 "GND" V 3600 7250 50  0000 C CNN
-F 2 "" H 3600 7450 50  0001 C CNN
-F 3 "" H 3600 7450 50  0001 C CNN
-	1    3600 7450
-	0    1    1    0   
-$EndComp
-Wire Wire Line
-	3600 7450 3750 7450
-Text GLabel 3600 7050 0    50   Input ~ 0
-LED_B_0
-Text GLabel 3600 7150 0    50   Input ~ 0
-LED_B_1
-Text GLabel 3600 7250 0    50   Input ~ 0
-LED_B_2
-Text GLabel 3600 7350 0    50   Input ~ 0
-LED_B_3
-Wire Wire Line
-	3600 7050 3750 7050
-Wire Wire Line
-	3600 7150 3750 7150
-Wire Wire Line
-	3600 7250 3750 7250
-Wire Wire Line
-	3600 7350 3750 7350
-$Comp
-L Connector:Conn_01x09_Female J4
-U 1 1 60281D5F
-P 4250 7050
-F 0 "J4" H 4250 7450 50  0000 L CNN
-F 1 "Conn_01x09_Female" H 3600 7550 50  0000 L CNN
-F 2 "Connector_PinHeader_1.00mm:PinHeader_1x09_P1.00mm_Vertical" H 4250 7050 50  0001 C CNN
-F 3 "~" H 4250 7050 50  0001 C CNN
-F 4 "~" H 4250 7050 50  0001 C CNN "Fournisseur"
-F 5 "~" H 4250 7050 50  0001 C CNN "Prix total"
-F 6 "~" H 4250 7050 50  0001 C CNN "prix unité"
-	1    4250 7050
-	-1   0    0    -1  
-$EndComp
-Text GLabel 4600 6650 2    50   Input ~ 0
-batt_on
-$Comp
-L power:+BATT #PWR028
-U 1 1 60281D66
-P 4600 6750
-F 0 "#PWR028" H 4600 6600 50  0001 C CNN
-F 1 "+BATT" V 4600 7000 50  0000 C CNN
-F 2 "" H 4600 6750 50  0001 C CNN
-F 3 "" H 4600 6750 50  0001 C CNN
-	1    4600 6750
-	0    1    -1   0   
-$EndComp
-$Comp
-L power:+3.3V #PWR063
-U 1 1 60281D6C
-P 4600 6850
-F 0 "#PWR063" H 4600 6700 50  0001 C CNN
-F 1 "+3.3V" V 4600 7100 50  0000 C CNN
-F 2 "" H 4600 6850 50  0001 C CNN
-F 3 "" H 4600 6850 50  0001 C CNN
-	1    4600 6850
-	0    1    -1   0   
-$EndComp
-Wire Wire Line
-	4600 6650 4450 6650
-Wire Wire Line
-	4600 6750 4450 6750
-Wire Wire Line
-	4600 6850 4450 6850
-Text GLabel 4600 6950 2    50   Input ~ 0
-info_batt
-Wire Wire Line
-	4450 6950 4600 6950
-$Comp
-L power:GND #PWR065
-U 1 1 60281D77
-P 4600 7450
-F 0 "#PWR065" H 4600 7200 50  0001 C CNN
-F 1 "GND" V 4600 7250 50  0000 C CNN
-F 2 "" H 4600 7450 50  0001 C CNN
-F 3 "" H 4600 7450 50  0001 C CNN
-	1    4600 7450
-	0    -1   1    0   
-$EndComp
-Wire Wire Line
-	4600 7450 4450 7450
-Text GLabel 4600 7050 2    50   Input ~ 0
-LED_B_0
-Text GLabel 4600 7150 2    50   Input ~ 0
-LED_B_1
-Text GLabel 4600 7250 2    50   Input ~ 0
-LED_B_2
-Text GLabel 4600 7350 2    50   Input ~ 0
-LED_B_3
-Wire Wire Line
-	4600 7050 4450 7050
-Wire Wire Line
-	4600 7150 4450 7150
-Wire Wire Line
-	4600 7250 4450 7250
-Wire Wire Line
-	4600 7350 4450 7350
-Wire Notes Line
-	5100 7600 5100 6400
-Wire Notes Line
-	5100 6400 3100 6400
-Wire Notes Line
-	3100 6400 3100 7600
-Wire Notes Line
-	3100 7600 5100 7600
-$Comp
-L Connector:Conn_01x02_Female J5
-U 1 1 5FFDC6C0
-P 4200 4300
-F 0 "J5" H 4200 4050 50  0000 L CNN
-F 1 "Conn_01x02_Batterie" H 3700 3850 50  0000 L CNN
-F 2 "Connector_Wire:SolderWire-0.1sqmm_1x02_P3.6mm_D0.4mm_OD1mm" H 4200 4300 50  0001 C CNN
-F 3 "~" H 4200 4300 50  0001 C CNN
-	1    4200 4300
-	-1   0    0    1   
-$EndComp
-$Comp
-L power:GND #PWR067
-U 1 1 5FFF5AA7
-P 4500 4400
-F 0 "#PWR067" H 4500 4150 50  0001 C CNN
-F 1 "GND" H 4505 4227 50  0000 C CNN
-F 2 "" H 4500 4400 50  0001 C CNN
-F 3 "" H 4500 4400 50  0001 C CNN
-	1    4500 4400
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	4500 4400 4500 4300
-Wire Wire Line
-	4400 4300 4500 4300
-Wire Wire Line
-	4400 4200 4500 4200
-Wire Wire Line
-	4500 4100 4500 4200
-$Comp
-L power:VBUS #PWR066
-U 1 1 6004320F
-P 4500 4100
-F 0 "#PWR066" H 4500 3950 50  0001 C CNN
-F 1 "VBUS" H 4515 4273 50  0000 C CNN
-F 2 "" H 4500 4100 50  0001 C CNN
-F 3 "" H 4500 4100 50  0001 C CNN
-	1    4500 4100
+L Device:Battery BT?
+U 1 1 613C716D
+P 1650 2350
+F 0 "BT?" H 1758 2396 50  0000 L CNN
+F 1 "Battery" H 1758 2305 50  0000 L CNN
+F 2 "" V 1650 2410 50  0001 C CNN
+F 3 "~" V 1650 2410 50  0001 C CNN
+	1    1650 2350
 	1    0    0    -1  
 $EndComp
 $EndSCHEMATC
