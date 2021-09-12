@@ -19,7 +19,7 @@ U 1 1 5FD2E185
 P 1600 4000
 F 0 "SW1" H 1600 4285 50  0000 C CNN
 F 1 "SW_Push" H 1600 4194 50  0000 C CNN
-F 2 "" H 1600 4200 50  0001 C CNN
+F 2 "Work_Forestier:SW_Cherry_MX_1.00u_PCB_3D" H 1600 4200 50  0001 C CNN
 F 3 "https://www.ckswitches.com/media/1471/pts645.pdf" H 1600 4200 50  0001 C CNN
 F 4 "Digikey" H 1600 4000 50  0001 C CNN "Fournisseur"
 F 5 "0,22" H 1600 4000 50  0001 C CNN "Prix total"
@@ -33,7 +33,7 @@ U 1 1 5FD62CD6
 P 1600 4350
 F 0 "SW2" H 1600 4635 50  0000 C CNN
 F 1 "SW_Push" H 1600 4544 50  0000 C CNN
-F 2 "" H 1600 4550 50  0001 C CNN
+F 2 "Work_Forestier:SW_Cherry_MX_1.00u_PCB_3D" H 1600 4550 50  0001 C CNN
 F 3 "https://www.ckswitches.com/media/1471/pts645.pdf" H 1600 4550 50  0001 C CNN
 F 4 "Digikey" H 1600 4350 50  0001 C CNN "Fournisseur"
 F 5 "0,22" H 1600 4350 50  0001 C CNN "Prix total"
@@ -47,7 +47,7 @@ U 1 1 5FD65B5A
 P 1600 4700
 F 0 "SW3" H 1600 4985 50  0000 C CNN
 F 1 "SW_Push" H 1600 4894 50  0000 C CNN
-F 2 "" H 1600 4900 50  0001 C CNN
+F 2 "Work_Forestier:SW_Cherry_MX_1.00u_PCB_3D" H 1600 4900 50  0001 C CNN
 F 3 "https://www.ckswitches.com/media/1471/pts645.pdf" H 1600 4900 50  0001 C CNN
 F 4 "Digikey" H 1600 4700 50  0001 C CNN "Fournisseur"
 F 5 "0,22" H 1600 4700 50  0001 C CNN "Prix total"
@@ -61,7 +61,7 @@ U 1 1 5FD68A79
 P 1600 5050
 F 0 "SW4" H 1600 5335 50  0000 C CNN
 F 1 "SW_Push" H 1600 5244 50  0000 C CNN
-F 2 "" H 1600 5250 50  0001 C CNN
+F 2 "Work_Forestier:SW_Cherry_MX_1.00u_PCB_3D" H 1600 5250 50  0001 C CNN
 F 3 "https://www.ckswitches.com/media/1471/pts645.pdf" H 1600 5250 50  0001 C CNN
 F 4 "Digikey" H 1600 5050 50  0001 C CNN "Fournisseur"
 F 5 "0,22" H 1600 5050 50  0001 C CNN "Prix total"
@@ -397,7 +397,7 @@ U 1 1 613C716D
 P 1200 2400
 F 0 "BT1" H 1308 2446 50  0000 L CNN
 F 1 "Battery" H 1308 2355 50  0000 L CNN
-F 2 "" V 1200 2460 50  0001 C CNN
+F 2 "Battery:BatteryHolder_TruPower_BH-331P_3xAA" V 1200 2460 50  0001 C CNN
 F 3 "~" V 1200 2460 50  0001 C CNN
 	1    1200 2400
 	1    0    0    -1  
