@@ -381,7 +381,7 @@ Connection ~ 1400 6750
 Wire Wire Line
 	1400 6750 1500 6750
 $Comp
-L Work_Forestier:ESP32-DevKitC-32D U2
+L Light_trainer-rescue:ESP32-DevKitC-32D-Work_Forestier U2
 U 1 1 6148669D
 P 5700 2900
 F 0 "U2" H 5700 4065 50  0000 C CNN
@@ -837,10 +837,10 @@ Wire Wire Line
 	2800 1950 2800 2000
 Connection ~ 2300 2800
 $Comp
-L Switch:SW_SPDT SW?
+L Switch:SW_SPDT SW5
 U 1 1 61410395
 P 1300 2050
-F 0 "SW?" H 1300 2335 50  0000 C CNN
+F 0 "SW5" H 1300 2335 50  0000 C CNN
 F 1 "SW_SPDT" H 1300 2244 50  0000 C CNN
 F 2 "Work_Forestier:C&K-1101M2S5CQE2" H 1300 2050 50  0001 C CNN
 F 3 "https://www.ckswitches.com/media/1429/1000.pdf" H 1300 2050 50  0001 C CNN
@@ -864,4 +864,58 @@ Wire Wire Line
 	1000 2650 1000 2800
 Wire Wire Line
 	1000 2250 1000 2050
+$Comp
+L Mechanical:MountingHole H?
+U 1 1 6141B071
+P 7000 4750
+F 0 "H?" H 7100 4796 50  0000 L CNN
+F 1 "MountingHole" H 7100 4705 50  0000 L CNN
+F 2 "MountingHole:MountingHole_3.2mm_M3" H 7000 4750 50  0001 C CNN
+F 3 "~" H 7000 4750 50  0001 C CNN
+	1    7000 4750
+	1    0    0    -1  
+$EndComp
+$Comp
+L Mechanical:MountingHole H?
+U 1 1 6141E6D1
+P 7800 4750
+F 0 "H?" H 7900 4796 50  0000 L CNN
+F 1 "MountingHole" H 7900 4705 50  0000 L CNN
+F 2 "MountingHole:MountingHole_3.2mm_M3" H 7800 4750 50  0001 C CNN
+F 3 "~" H 7800 4750 50  0001 C CNN
+	1    7800 4750
+	1    0    0    -1  
+$EndComp
+$Comp
+L Mechanical:MountingHole H?
+U 1 1 6141E94E
+P 7800 5150
+F 0 "H?" H 7900 5196 50  0000 L CNN
+F 1 "MountingHole" H 7900 5105 50  0000 L CNN
+F 2 "MountingHole:MountingHole_3.2mm_M3" H 7800 5150 50  0001 C CNN
+F 3 "~" H 7800 5150 50  0001 C CNN
+	1    7800 5150
+	1    0    0    -1  
+$EndComp
+$Comp
+L Mechanical:MountingHole H?
+U 1 1 6141EBEB
+P 7000 5150
+F 0 "H?" H 7100 5196 50  0000 L CNN
+F 1 "MountingHole" H 7100 5105 50  0000 L CNN
+F 2 "MountingHole:MountingHole_3.2mm_M3" H 7000 5150 50  0001 C CNN
+F 3 "~" H 7000 5150 50  0001 C CNN
+	1    7000 5150
+	1    0    0    -1  
+$EndComp
+Wire Notes Line
+	6800 5400 8550 5400
+Wire Notes Line
+	8550 5400 8550 4550
+Wire Notes Line
+	8550 4550 6800 4550
+Wire Notes Line
+	6800 4550 6800 5400
+Text Notes 6800 4500 0    50   ~ 0
+Trous de fixation\n
 $EndSCHEMATC
