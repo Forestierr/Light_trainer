@@ -1,0 +1,2486 @@
+/* Minification failed. Returning unminified contents.
+(2480,58-59): run-time error JS1010: Expected identifier: .
+(2480,58-59): run-time error JS1195: Expected expression: .
+(2480,74-78): run-time error JS1034: Unmatched 'else'; no 'if' defined: else
+ */
+$(document).ready(function () {
+    bindEvents();
+    var dialogMaxHeight = window.innerHeight - 25;
+
+    $.extend($.ui.dialog.prototype.options, {
+        resizable: false,
+        draggable: false,
+        modal: true,
+        closeOnEscape: true,
+        maxHeight: dialogMaxHeight,
+        //close: function (e) { $(this).dialog('destroy').remove(); },
+        close: function (e) { $(this).dialog('close'); },
+        width: 'auto',
+        maxWidth: '700px',
+        create: function (event, ui) {
+            $(this).css({ "min-width": "260px" });
+            //$(".table-overflowWrapper").css("width", window.innerWidth - 65);
+            
+        },
+        open: function (event, ui) {
+            $(".ui-dialog-buttonpane").find(':button').focus();
+        }
+    });
+
+    if ($("#AttentionViewModel_ErrorOccurred").val().toLowerCase() == "true") {
+        genericErrorDialog();
+        //$("#attention-dialog").dialog({
+        //    dialogClass: "no-close",
+        //        title: "error",
+        //            buttons: [
+        //                {
+        //                    text: "OK",
+        //                    click: function () {
+        //                        $(this).dialog("close");
+        //                    }
+        //                }
+        //            ]
+        //})
+        //$("#attention-message").html($("#AttentionViewModel_ErrorOccurredMessage").val());
+    };
+    
+    
+
+    //temporary fix for overflowing table widths in modala
+    //$(".table-overflowWrapper").css("width", window.innerWidth - 65);
+
+
+    //$.extend($.ui.dialog.prototype.options, {
+    //    modal: true,
+    //    resizable: false,
+    //    draggable: false,
+    //    width: "auto",
+    //    create: function (event, ui) {
+    //        // Set maxWidth
+    //        $(this).css({ "min-width": "260px" });
+    //        //$(this).parent().css({"position": "fixed", "top": "50%", "left": "50%", "transform": "translate(-50%, -50%)" });
+    //    }
+    //});
+    showHideDeleteButton();
+    showHideCartTools();
+
+    //if ($(".emptyCart").length > 0) {
+    //  $("#primaryButton").hide();
+    //}
+
+    //var myDir = $("html").attr("dir");
+    //if (myDir === "rtl") {
+    //    $("#addPartTabs").addClass("ui-tabs-rtl");
+    //}
+
+    //$('#primaryButton').addClass('icon-lock');
+
+
+    if ($("#textImportTextArea").val().trim() == "") {
+        $('#btnImportParts').attr("disabled", true);
+    }
+
+    var opts = {color: '#ccc'};
+    var spinner = new Spinner(opts).spin(document.getElementById("uploadToCartDiv"));
+    RequestUpload();
+
+    $('#tblManualEntry tr:eq(1)').show();
+    var displayMultiLines = $('#DisplayMultipleLines').val();
+    if (displayMultiLines == 'True') {
+        AddMoreLines();
+    }
+
+    function RequestUpload() {
+        $.ajax({
+            cache: false,
+            global: false,
+            url: '/BOM/Upload/RequestUploadToCart/',
+            type: "GET",
+            success: function (result) {
+                if ($(result).find("#UploadPartialPage").length > 0) {
+                    var dzDiv = $("#uploadToCartDiv");
+                    if (dzDiv.length > 0) {
+                        dzDiv.html(result);
+                    }
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                // don't do an error popup here. just hide the bom dependencies
+                $(".addPartTabs__tabs li[data-tabName='uploadFileTab']").remove();
+                $("#uploadFileTab").remove();
+            }
+        });
+    }
+
+    $("#btnImportParts").click(function () {
+        var parts = $("#textImportTextArea").val();
+        var addedFrom = "importParts"
+        $.ajax({
+            url: "/ordering/shoppingcart/shoppingcart/ImportParts",
+            type: "POST",
+            data: { parts: parts },
+            success: function (data) {
+                var returnObj = { successesExist: false, successIndices: "", failuresExist: false, errors: "", warnings: "" };
+
+                if (data.BaseSuccess === true) {
+                    if (data.BaseRedirectUrl == "") {
+                        processAddPartsResponse(data, addedFrom, returnObj);
+
+                        if (!returnObj.failuresExist) {
+                            refreshPage(addedFrom, returnObj);
+                            $('.AddPart').val('');
+                            $("#textImportTextArea").val('');
+                            $('#parts_0__quantity').focus();
+                        }
+                        else {
+                            refreshPage(addedFrom, returnObj);
+                        }
+                    }
+                    else {
+                        window.location.replace(data.BaseRedirectUrl);
+                    }
+                }
+                else {
+                    genericErrorDialog();
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                genericErrorDialog();
+            }
+        });
+    });
+
+    //$('.list-button').on('click', function () {
+    //    window.localStorage.setItem("view", "list");
+    //    $('.photo-button').removeClass('active-button');
+    //    $('.list-button').addClass('active-button');
+    //    $("#cartDetailsWrapper").removeClass("showPhoto").addClass("showList");
+    //    try {
+    //        utag.view({
+    //            ref_page_type: 'SC',
+    //            ref_page_sub_type: 'CO',
+    //            ref_page_id: 'AP',
+    //            ref_page_event: 'Click List View'
+
+    //        });
+    //    }
+    //    catch (e) {
+    //        // don't let analytics break the page
+    //    }
+    //});
+
+    //$('.photo-button').on('click', function () {
+    //    window.localStorage.setItem("view", "photo");
+    //    $('.list-button').removeClass('active-button');
+    //    $('.photo-button').addClass('active-button');
+    //    $("#cartDetailsWrapper").removeClass("showList").addClass("showPhoto");
+    //    try {
+    //        utag.view({
+    //            ref_page_type: 'SC',
+    //            ref_page_sub_type: 'CO',
+    //            ref_page_id: 'PV',
+    //            ref_page_event: 'Click Photo View'
+    //        });
+    //    }
+    //    catch (e) {
+    //        // don't let analytics break the page
+    //    }
+    //});
+
+    // Update Cart Name When Changed
+    $(".cart-name").change(function (elem) {
+        updateCartName(elem);
+    });
+
+    // When they press the Enter Key in the manual entry fields, call the Add Part
+    $('.AddPart').keypress(function (e) {
+        var key = e.which;
+        if (key == 13)  // the enter key code
+        {
+            // If they hold the enter key down, only call the AddToCart once.
+            var addBtnIsDisabled = $(".btnAddToCart").is(":disabled");
+            if (!addBtnIsDisabled) {
+                AddToCart();
+                $(".btnAddToCart").attr("disabled", true);
+            }
+        }
+    });
+
+    //$(".dataTable tbody tr:not(.detailRow)").remove();
+
+    $('#textImportTextArea').keyup(function () {
+        var taVal = $.trim(this.value);
+        if ($.trim(this.value) == "") {
+            $('#btnImportParts').attr("disabled", true);
+        } else {
+            $('#btnImportParts').removeAttr("disabled");
+        }
+    });
+
+    createDetailsDataTableForCart();
+    if ($("#SummaryBoxModel_CartName").val() != undefined) {
+        showHideCartName($("#SummaryBoxModel_CartName").val().trim() == "");
+    }
+
+    $(".trash-button").click(function () {
+        DeletePartDialog(true, null);
+    });
+
+    if (document.getElementById("floatingTrash")) {
+        window.addEventListener('scroll', moveTrash);
+        window.onload = windowOnLoad();
+    }
+
+    $('#parts_0__partNumber').keyup(function (e) {
+        $('.detail-error-message').hide();
+    });
+
+    $('#parts_0__quantity').focus();
+
+    if ($("#AskCurrencyChange").val() == "True") {
+        ShowCurrencyPopupDialog();
+    }
+
+    if ($("#ShowPopupFromSearch").val() == "True") {
+        var returnObj = { successesExist: false, successIndices: "", failuresExist: false, errors: "", warnings: "" }
+        processAddPartsResponse(jQuery.parseJSON($('#SearchAddOrUpdateResponse ').val()), "search", returnObj)
+    }
+
+    fixAllPricesMessage();
+    RemoveManualEntryRequiredValidation();
+
+    // Subtotals are stored in the DB and we must update them each time we come into the page for cases where parts are added outsideof  our shoppingcartapi ie. Upload File
+    if ($(".emptyCart").length <= 0) {
+        updateSubtotals();
+    }
+
+    showHideDelayedDate();
+});
+
+//function setView() {
+//    if (window.localStorage.getItem("view") != null && window.localStorage.getItem("view") == "photo") {
+//        $('.photo-button').click();
+//    }
+//}
+
+function windowOnLoad() {
+    moveTrash();
+    //fastAddAnalytics();  // This is now getting called from a callback function in analytics
+};
+
+function moveTrash() {
+    var trashCans = $(".trash-button.icon-trash");
+    if (!__helpers.checkVisible(trashCans[0]) && !__helpers.checkVisible(trashCans[1])) {
+        $("#floatingTrash").show();
+    } else if (__helpers.checkVisible(trashCans[0]) || __helpers.checkVisible(trashCans[1])) {
+        $("#floatingTrash").hide();
+    }
+};
+
+// This will get called from a callback function in analytics
+//window.fastAddAnalytics = function () {
+function fastAddAnalytics() {
+    try {
+        var DetailTag2Count = 0;
+        var fastAddDetailTagElements = $('.DetailTag2');
+        $(fastAddDetailTagElements).each(function (index, element) {
+            var tagValue = $(element).val();
+            if ($(element).val()) {
+                var action = $.parseJSON(tagValue)["tealium_event"];
+                utag.dkPartActivity(action, tagValue);
+                DetailTag2Count++;
+            }
+        });
+        if (DetailTag2Count > 0) {
+            utag.dkLastPart();
+        }
+    }
+    catch (e) {
+        // don't let analytics break the page
+    };
+};
+
+function processAddPartsResponse(data, addedFrom, returnObj) {
+    if (data.BaseSuccess == true) {
+        var parts;
+        var partsAdded = false;
+        if (data.DetailResponses !== undefined) {
+            parts = data.DetailResponses;
+        }
+        else {
+            parts = data;
+        }
+
+        if (parts.BaseSuccess == true) {
+            $('.divDelayedContainer').hide();
+            $("#ekom-message").addClass("hidden");
+            $.each(parts.partResults, function () {
+
+                if (this.ReturnValue == 1) {  // 1 == Success
+                    returnObj.successesExist = true;
+                    returnObj.successIndices += GetRowNumberOnView(this.RequestSeq) + "|";
+                    var action = $.parseJSON(this.DetailTag)["tealium_event"];
+
+                    try {
+                        utag.dkPartActivity(action, this.DetailTag);
+                    }
+                    catch (e) {
+                        // don't let analytics break the page
+                    }
+                    partsAdded = true;
+                }
+                else if (this.ReturnValue == 2) { // 2 == SuccessWithWarning
+                    returnObj.successesExist = true;
+                    returnObj.warnings += "\n\nPart: " + this.detail.partNumber + "\nWarnings: " + JSON.stringify(this.warnings) + "\nRequestSeq: " + this.RequestSeq + "\nReturnValue: " + this.ReturnValue + "\nValidPartOptions: " + this.ValidPartOptions;
+                    var action = $.parseJSON(this.DetailTag)["tealium_event"];
+                    try {
+                        utag.dkPartActivity(action, this.DetailTag);
+                    }
+                    catch (e) {
+                        // don't let analytics break the page
+                    }
+                    partsAdded = true;
+
+                    // delayed date was removed
+                    if (this.Warnings.indexOf(2) > -1) {
+                        $(".date-textbox").first().val("");
+                        $('.divDelayedContainer').show();
+                        $('.divOrderDelayed').hide();
+                    }
+                }
+                else if (this.ReturnValue == 3) {  // 3 == Failure
+                    returnObj.failuresExist = true;
+
+                    if (this.ErrorCode == 134318266 && (addedFrom == "manualEntry" || addedFrom == "search")) {
+                        // PART_NOT_FOUND
+                        var SeqNum = GetRowNumberOnView(this.RequestSeq);
+                        $('#parts_' + SeqNum + '__partNumber').addClass("input-validation-error");
+                        $('#parts_' + SeqNum + '__partNumber').parent().find('.field-validation-error').text(this.ErrorMessage);
+                        $('#parts_' + SeqNum + '__partNumber').parent().find('.field-validation-error').show();
+                    }
+                    else if (this.ErrorCode == 22 && (addedFrom == "manualEntry" || addedFrom == "search")) {
+                        // PART_NOT_FOUND
+                        var SeqNum = GetRowNumberOnView(this.RequestSeq);
+                        $('#parts_' + SeqNum + '__partNumber').addClass("input-validation-error");
+                        $('#parts_' + SeqNum + '__partNumber').parent().find('.field-validation-error').text(this.ErrorMessage);
+                        $('#parts_' + SeqNum + '__partNumber').parent().find('.field-validation-error').show();
+                    }
+                        // MP_NO_AVAILABLE_OFFER
+                    else if (this.ErrorCode == 134318630 && (addedFrom == "manualEntry" || addedFrom == "search")) {
+                        var SeqNum = GetRowNumberOnView(this.RequestSeq);
+                        $('#parts_' + SeqNum + '__partNumber').addClass("input-validation-error");
+                        $('#parts_' + SeqNum + '__partNumber').parent().find('.field-validation-error').text(this.ErrorMessage);
+                        $('#parts_' + SeqNum + '__partNumber').parent().find('.field-validation-error').show();
+                    }
+                    else if (this.ErrorCode == 134317002 && (addedFrom == "manualEntry" || addedFrom == "search")) {
+                        // FOR_PART_ERROR (denied by currency)
+                        var SeqNum = GetRowNumberOnView(this.RequestSeq);
+                        $('#parts_' + SeqNum + '__partNumber').addClass("input-validation-error");
+                        $('#parts_' + SeqNum + '__partNumber').parent().find('.field-validation-error').text(this.ErrorMessage);
+                        $('#parts_' + SeqNum + '__partNumber').parent().find('.field-validation-error').show();
+                    }
+                    else if ((this.ErrorCode == 134318274 || this.ErrorCode == 134319634 || this.ErrorCode == 134317234 ||
+                        this.ErrorCode == 134317242 || this.ErrorCode == 134318282 || this.ErrorCode == 134320186) &&
+                        (addedFrom == "manualEntry" || addedFrom == "search")) {
+                        // Restrictions
+                        var SeqNum = GetRowNumberOnView(this.RequestSeq);
+                        $('#parts_' + SeqNum + '__partNumber').addClass("input-validation-error");
+                        $('#parts_' + SeqNum + '__partNumber').parent().find('.field-validation-error').text(this.ErrorMessage);
+                        $('#parts_' + SeqNum + '__partNumber').parent().find('.field-validation-error').show();
+                    }
+                    else if (this.ErrorCode == 134319162 && (addedFrom == "manualEntry" || addedFrom == "search")) {
+                        // Duplicate Manufacturer
+                        var SeqNum = GetRowNumberOnView(this.RequestSeq);
+                        $('#parts_' + SeqNum + '__partNumber').parent().parent().parent().find('.detail-error-message').html(this.ErrorMessage);
+                        $('#parts_' + SeqNum + '__partNumber').parent().parent().parent().find('.detail-error-message').show();
+                        $('#parts_' + SeqNum + '__partNumber').parent().parent().parent().find('.detail-error-message').parent().parent().show();
+                    }
+                    else if (this.ErrorCode == 10 && (addedFrom == "manualEntry" || addedFrom == "search")) {
+                        // 10 == packtype/upsell
+                        createPackTypeUpsellPopup(this, this.detail.optionalItemSeq > 0);
+                    }
+                    else if ((this.ErrorCode == 1 || this.ErrorCode == 2 || this.ErrorCode == 3 || this.ErrorCode == 7 || this.ErrorCode == 8 || this.ErrorCode == 9 || this.ErrorCode == 12 || this.ErrorCode == 14 || this.ErrorCode == 16 || this.ErrorCode == 19 || this.ErrorCode == 20) && (addedFrom == "manualEntry" || addedFrom == "search")) {
+                        // 1 == Maximum quantity exceeded
+                        // 2 == Minimum quantity not met
+                        // 3 == Multiple of min quantity not met
+                        // 7 == Obsolete, no remaining stock (with subs)
+                        // 8 == No BO allowed, but have partial stock
+                        // 9 == Obsolete, but have partial stock
+                        // 12 == Pending Conversion Non-Stock
+                        // 14 == Discontinued, no remaining stock (with subs)
+                        // 16 == Chip Outpost No Backorders Partial Stock
+                        // 19 == Discontinued, but have partial stock
+                        if (this.ValidPartOptions != "") {
+                            if (this.detail.optionalItemSeq != 0) {
+                                createSuggestionsPopup(this, true);
+                            }
+                            else {
+                                createSuggestionsPopup(this, false);
+                            }
+                        }
+                    }
+                    else if (this.ErrorCode == 21 && (addedFrom == "manualEntry" || addedFrom == "search")) {
+                        returnObj.successesExist = false;
+                        returnObj.successIndices = '';
+                        createMultipleCRefPopup(this, addedFrom);
+                    }
+                    else if ((this.ErrorCode == 4 || this.ErrorCode == 5 || this.ErrorCode == 6 || this.ErrorCode == 13 || this.ErrorCode == 15 || this.ErrorCode == 18 || this.ErrorCode == 23) &&
+                        (addedFrom == "manualEntry" || addedFrom == "search")) {
+                        // 4 == Backorders not allowed, no stock
+                        // 5 == Product not available
+                        // 6 == Obsolete, no remaining stock (and no subs)
+                        // 13 == Discontinued, no remaining stock (and no subs)
+                        // 15 == Punchout doesn't like the part.
+                        // 18 == Invalid Customer Reference
+                        // 23 == Restrict MP parts for order models (Employee, First Robotics, Tradeshow)
+                        var SeqNum = GetRowNumberOnView(this.RequestSeq);
+                        $('#parts_' + SeqNum + '__partNumber').parent().parent().parent().find('.detail-error-message').text(this.ErrorMessage);
+                        $('#parts_' + SeqNum + '__partNumber').parent().parent().parent().find('.detail-error-message').show();
+                        $('#parts_' + SeqNum + '__partNumber').parent().parent().parent().find('.detail-error-message').parent().parent().show();
+                    }
+                    else if (this.ErrorCode == 11 && (addedFrom == "manualEntry" || addedFrom == "search")) {
+                        // 11 == packtype/upsell error
+                        genericErrorDialog();
+                    }
+                    else if (this.ErrorCode == 134318570) {
+                        // server unavailable
+                        errorDialog(this.ErrorCode, this.ErrorMessage, this.ErrorMessage);
+                    }
+                    else if (this.ErrorCode == 24 && (addedFrom == "manualEntry" || addedFrom == "search")) {
+                        // 24 == configurable_not_available
+                        genericErrorDialog(this.ErrorMessage);
+                    }
+                    else if (this.ErrorCode == 134316539) {
+                        // CONFIGURABLE_NOT_ALLOWED
+                        var SeqNum = GetRowNumberOnView(this.RequestSeq);
+                        $('#parts_' + SeqNum + '__partNumber').parent().parent().parent().find('.detail-error-message').html(this.ErrorMessage);
+                        $('#parts_' + SeqNum + '__partNumber').parent().parent().parent().find('.detail-error-message').show();
+                        $('#parts_' + SeqNum + '__partNumber').parent().parent().parent().find('.detail-error-message').parent().parent().show();
+                    }
+                    else {
+                        returnObj.errors += "\n\nPart: " + this.detail.partNumber + "\nErrorCode: " + this.ErrorCode + "\nRequestSeq: " + this.RequestSeq + "\nReturnValue: " + this.ReturnValue + "\nValidPartOptions: " + this.ValidPartOptions;
+                    }
+                }
+            });
+            if (partsAdded) {
+                try {
+                    utag.dkLastPart();
+                }
+                catch (e) {
+                    // don't let analytics break the page
+                }
+            }
+        }
+        else {
+            returnObj.successesExist = false;
+            returnObj.failuresExist = true;
+            returnObj.errors = parts.BaseErrorMessage;
+        }
+    }
+}
+
+function createSuggestionsPopup(partResult, isUpdate, originalQuanElem) {
+    var originalQty = $(originalQuanElem).data('val');
+    var url = "/ordering/ShoppingCart/ShoppingCart/GetSuggestions";
+    var itemSeq = partResult.detail.optionalItemSeq;
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data: { partResult: partResult },
+        //contentType: 'application/json',
+        success: function (returnData) {
+            // update quantity via dialog
+            if (isUpdate) {
+                var theDialog = $("#dialog-suggestions").dialog({
+                    //resizable: false,
+                    //height: "auto",
+                    //width: "auto",
+                    //modal: true,
+                    buttons: [
+                        {
+                            id: 'update-button',
+                            text: $('#BasePopupUpdateButtonText').val(),
+                            click: function () {
+
+                                var qty = 0;
+                                $("#dialog-suggestions input:radio:checked").each(function () {
+                                    var index = this.id.replace('suggestion', '');
+                                    qty = $("#validOptions_" + index + "__quantity")[0].value;
+                                });
+
+                                // get the quantity elem for the original attempted update and set it to qty
+                                $('#qty' + itemSeq, parent.document).val(qty);
+                                // call UpdateQty passing it the elem
+                                updateQuantity($('#qty' + itemSeq)[0], false);
+
+                                try {
+                                    utag.dkCookie("ref_page_event=Accept " + $('#popupTitleAnalytics').val());
+                                }
+                                catch (e) {
+                                    // don't let analytics break the page
+                                }
+
+                                $(this).dialog("close");
+                            }
+                        },
+                        {
+                            text: $('#BasePopupCancelButtonText').val(),
+                            click: function () {
+                                if (originalQuanElem != undefined) {
+                                    originalQuanElem.value = originalQty;
+                                    $(originalQuanElem).data('val', originalQty)
+                                }
+                                $(this).dialog("close");
+                            }
+                        }
+                    ],
+                    open: function () {
+                        $("#contentholder")[0].innerHTML = returnData;
+                        $(".table-overflowWrapper").css("max-width", window.innerWidth - 65);
+
+                        // This will re-center the dialog once the data is loaded into the dialog.
+                        $('#dialog-suggestions').dialog('option', 'position', 'center');
+                    },
+                    close: function () {
+                        if (originalQuanElem != undefined) {
+                            originalQuanElem.value = originalQty;
+                            $(originalQuanElem).data('val', originalQty)
+                        }
+                    }
+                });
+            }
+            // add part via popup
+            else {
+                var theDialog = $("#dialog-suggestions").dialog({
+                    //resizable: false,
+                    //height: "auto",
+                    //width: "auto",
+                    //modal: true,
+                    buttons: [
+                        {
+                            id: 'add-button',
+                            text: $('#BasePopupAddButtonText').val(),
+                            click: function () {
+                                var parts = [];
+                                $("#dialog-suggestions input:radio:checked").each(function () {
+                                    var index = this.id.replace('suggestion', '');
+                                    var obj = { quantity: $("#validOptions_" + index + "__quantity")[0].value, partNumber: $("#validOptions_" + index + "__partNumber")[0].value, cRef: $("#validOptions_" + index + "__cRef")[0].value }
+                                    parts.push(obj);
+                                });
+
+                                if (parts.length > 0) {
+                                    var addedFrom = "manualEntry";
+                                    $.ajax({
+                                        url: "/ordering/shoppingcart/shoppingcart/AddParts",
+                                        type: "POST",
+                                        //contentType: 'application/json',
+                                        data: { details: parts, overrideUpsell: false },
+                                        success: function (data) {
+                                            if (data.BaseSuccess == true) {
+                                                var returnObj = { successesExist: false, successIndices: "", failuresExist: false, errors: "", warnings: "" };
+                                                processAddPartsResponse(data, addedFrom, returnObj);
+                                                if (!returnObj.failuresExist) {
+                                                    refreshPage(addedFrom, returnObj);
+                                                    $('.AddPart').val('');
+                                                    $('#parts_0__quantity').focus();
+                                                }
+                                            }
+                                            else {
+                                                errorDialog(data.BaseStatusCode, data.BaseStatusCodeDesc, data.BaseErrorMessage);
+                                            }
+                                        },
+                                        error: function (xhr, textStatus, errorThrown) {
+                                            genericErrorDialog();
+                                        }
+                                    });
+                                    $(this).dialog("close");
+                                }
+                            }
+                        },
+                        {
+                            text: $('#BasePopupCancelButtonText').val(),
+                            click: function () {
+                                $(this).dialog("close");
+                            }
+                        }
+                    ],
+                    open: function () {
+                        $("#contentholder")[0].innerHTML = returnData;
+                        $(".table-overflowWrapper").css("max-width", window.innerWidth - 65);
+
+                        // This will re-center the dialog once the data is loaded into the dialog.
+                        $('#dialog-suggestions').dialog('option', 'position', 'center');
+                    }
+                });
+            }
+
+            $("span.ui-dialog-title").text($('#popupTitle').val());
+            $("#dialog-suggestions input:radio:first").attr('checked', true);
+            if (isUpdate) {
+                $('#update-button').focus();
+            }
+            else {
+                $('#add-button').focus();
+            }
+        },
+        error: function (req, status, error) {
+            genericErrorDialog();
+        }
+    });
+}
+
+function createMultipleCRefPopup(partResult, addedFrom) {
+    var url = "/ordering/ShoppingCart/ShoppingCart/GetSuggestions";
+    (function (addedFrom) {
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data: { partResult: partResult },
+        //contentType: 'application/json',
+        success: function (returnData) {
+            var theDialog = $("#dialog-suggestions").dialog({
+                //resizable: false,
+                //height: "auto",
+                //width: "auto",
+                //modal: true,
+                buttons: [
+                    {
+                        id: 'add-button',
+                        text: $('#BasePopupAddButtonText').val(),
+                        click: function () {
+
+                            if ($('input[name=suggestions]:checked')[0].id == 'rdoNewRef' && $('#txtNewRef').val().trim() == '') {
+                                $('#newRefRequiredMessage').show();
+                                $('#txtNewRef').addClass('input-validation-error');
+                                return false;
+                            }
+                            else {
+                                var parts = [];
+                                $("#dialog-suggestions input:radio:checked").each(function () {
+                                    var index = this.id.replace('suggestion', '');
+                                    var obj;
+                                    if (index == "rdoNewRef") {
+                                        obj = { quantity: $("#originalRequestedPart_quantity")[0].value, partNumber: $("#originalRequestedPart_partNumber")[0].value, cRef: $("#txtNewRef")[0].value }
+                                    }
+                                    else {
+                                        obj = { quantity: $("#validOptions_" + index + "__quantity")[0].value, partNumber: $("#validOptions_" + index + "__partNumber")[0].value, cRef: $("#validOptions_" + index + "__cRef")[0].value }
+                                    }
+                                    parts.push(obj);
+                                });
+
+                                if (parts.length > 0) {
+                                    //var addedFrom = "manualEntry";
+                                    $.ajax({
+                                        url: "/ordering/shoppingcart/shoppingcart/AddParts",
+                                        type: "POST",
+                                        //contentType: 'application/json',
+                                        data: { details: parts, overrideUpsell: false },
+                                        success: function (data) {
+                                            if (data.BaseSuccess == true) {
+                                                var returnObj = { successesExist: false, successIndices: "", failuresExist: false, errors: "", warnings: "" };
+                                                processAddPartsResponse(data, addedFrom, returnObj);
+                                                if (!returnObj.failuresExist) {
+                                                    if (addedFrom == "search") {
+                                                        window.location.replace("shoppingcart");
+                                                    } else {
+                                                        refreshPage("manualEntry", returnObj);
+                                                        $('.AddPart').val('');
+                                                        $('#parts_0__quantity').focus();
+                                                    }
+                                                }
+                                            }
+                                            else {
+                                                errorDialog(data.BaseStatusCode, data.BaseStatusCodeDesc, data.BaseErrorMessage);
+                                            }
+                                        },
+                                        error: function (xhr, textStatus, errorThrown) {
+                                            genericErrorDialog();
+                                        }
+                                    });
+
+                                    try {
+                                        utag.dkCookie("ref_page_event=Accept " + $('#popupTitleAnalytics').val());
+                                    }
+                                    catch (e) {
+                                        // don't let analytics break the page
+                                    }
+
+                                    $(this).dialog("close");
+                                }
+                            }
+                        }
+                    },
+                    {
+                        text: $('#BasePopupSkipButtonText').val(),
+                        click: function () {
+                            var parts = [];
+                            var obj = { quantity: $("#originalRequestedPart_quantity")[0].value, partNumber: $("#originalRequestedPart_partNumber")[0].value, cRef: "" };
+                            parts.push(obj);
+
+                            //var addedFrom = "manualEntry";
+                            $.ajax({
+                                url: "/ordering/shoppingcart/shoppingcart/AddParts",
+                                type: "POST",
+                                //contentType: 'application/json',
+                                data: { details: parts, overrideUpsell: false, overrideCustRefLookup: true },
+                                success: function (data) {
+                                    if (data.BaseSuccess == true) {
+                                        var returnObj = { successesExist: false, successIndices: "", failuresExist: false, errors: "", warnings: "" };
+                                        processAddPartsResponse(data, addedFrom, returnObj);
+                                        if (!returnObj.failuresExist) {
+                                            if (addedFrom == "search") {
+                                                window.location.replace("shoppingcart");
+                                            } else {
+                                                refreshPage("manualEntry", returnObj);
+                                                $('.AddPart').val('');
+                                                $('#parts_0__quantity').focus();
+                                            }
+                                        }
+                                    }
+                                    else {
+                                        errorDialog(data.BaseStatusCode, data.BaseStatusCodeDesc, data.BaseErrorMessage);
+                                    }
+                                },
+                                error: function (xhr, textStatus, errorThrown) {
+                                    genericErrorDialog();
+                                }
+                            });
+                            $(this).dialog("close");
+                        }
+                    }
+                ],
+                open: function () {
+                    $("#contentholder")[0].innerHTML = returnData;
+                    $(".table-overflowWrapper").css("max-width", window.innerWidth - 65);
+
+                    // This will re-center the dialog once the data is loaded into the dialog.
+                    $('#dialog-suggestions').dialog('option', 'position', 'center');
+                }
+            });
+
+            $("span.ui-dialog-title").text($('#popupTitle').val());
+            $("#dialog-suggestions input:radio:first").attr('checked', true);
+            $('#add-button').focus();
+
+            $('input[name=suggestions]').change(function () {
+                if ($('input[name=suggestions]:checked').attr("id") != 'rdoNewRef') {
+                    $('#newRefRequiredMessage').hide();
+                    $('#txtNewRef').removeClass('input-validation-error');
+                    $('#txtNewRef')[0].value = '';
+                }
+            });
+
+            $('#txtNewRef').change(function () {
+                if ($('#txtNewRef').val().trim() != '') {
+                    $('#newRefRequiredMessage').hide();
+                    $('#txtNewRef').removeClass('input-validation-error');
+                }
+            });
+
+            $('#txtNewRef').focusin(function () {
+                $("#rdoNewRef").prop("checked", true);
+            });
+        },
+        error: function (req, status, error) {
+            genericErrorDialog();
+        }
+    });
+}) (addedFrom);
+}
+
+function showHideUpsellSubOptions() {
+    if ($("#disableValueCalc").prop('checked')) {
+        $('.subOptionUpsellRow').hide("slow");
+
+        var reset = false;
+        try {
+            var radioButtons = $("input:radio[name='subOptions']");
+            reset = radioButtons[2].checked || radioButtons[3].checked;
+        }
+        catch (e) {  }
+
+        if (reset) {
+            radioButtons[0].click();
+        }
+    }
+    else {
+        $('.subOptionUpsellRow').show("slow");
+    }
+}
+
+function createPackTypeUpsellPopup(partResult, isUpdate, originalQuanElem) {
+    var originalQty = $(originalQuanElem).data('val');
+    var itemSeq = partResult.detail.optionalItemSeq;
+    var originalPartId = partResult.detail.partId;
+    var url = "/ordering/ShoppingCart/ShoppingCart/GetPackTypeUpsell";
+    var chkDisableValueCalc = "<div class='disableValueCalcDiv' id='disableValueCalcDiv'><input id='disableValueCalc' type='checkbox' onclick='showHideUpsellSubOptions();' /><label for='disableValueCalc'>" + $('#DisableValueCalcText').val() + "</label></div>"
+
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data: { partResult: partResult, isUpdate: isUpdate },
+        //contentType: 'application/json',
+        success: function (returnData) {
+            if (returnData == true) {
+                refreshPage('manualEntry', null);
+            }
+            else if (returnData == false) {
+                genericErrorDialog();
+            }
+            else {
+                if (isUpdate) {
+                    var theDialog = $("#dialog-suggestions").dialog({
+                        //resizable: false,
+                        //height: "auto",
+                        //width: "auto",
+                        //modal: true,
+                        buttons: [
+                            {
+                                id: 'update-button',
+                                text: $('#BasePopupUpdateButtonText').val(),
+                                click: function () {
+                                    var subOptionsSelected = $("#dialog-suggestions input:radio[name='subOptions']:checked").val();
+                                    var selectedRadioId = $("#dialog-suggestions input:radio[name='suggestions']:checked").attr('id').replace('suggestion', '');
+                                    var selectedPartId = $('#validOptions_' + selectedRadioId + '__partId').val();
+
+                                    // Update Original Part Qty
+                                    if (selectedPartId == originalPartId) {
+                                        qty = $("#validOptions_" + selectedRadioId + "__quantity")[0].value;
+
+                                        // get the quantity elem for the original attempted update and set it to qty
+                                        $('#qty' + itemSeq, parent.document).val(qty);
+                                        updateQuantity($('#qty' + itemSeq)[0], true);
+                                    }
+                                    else {
+                                        // Remove Original Part
+                                        var selected = [];
+                                        selected.push(itemSeq)
+                                        DeletePart(selected);
+                                    }
+
+                                    if (subOptionsSelected || (selectedPartId != originalPartId)) {
+                                        // Add New Parts
+                                        AddPackTypeUpsellToCart(this, true, originalPartId, originalQty)
+                                    }
+                                    else {
+
+                                        try {
+                                            utag.dkCookie("ref_page_event=Accept " + $('#popupTitleAnalytics').val());
+                                        }
+                                        catch (e) {
+                                            // don't let analytics break the page
+                                        }
+
+                                        $(this).dialog("close");
+                                    }
+                                },
+                            },
+                            {
+                                text: $('#BasePopupCancelButtonText').val(),
+                                click: function () {
+                                    if (originalQuanElem != undefined) {
+                                        originalQuanElem.value = originalQty;
+                                        $(originalQuanElem).data('val', originalQty)
+                                    }
+                                    $(this).dialog("close");
+                                }
+                            }
+                        ],
+                        open: function () {
+                            $("#contentholder")[0].innerHTML = returnData;
+                            $(".table-overflowWrapper").css("max-width", window.innerWidth - 65);
+
+                            // This will re-center the dialog once the data is loaded into the dialog.
+                            $('#dialog-suggestions').dialog('option', 'position', 'center');
+                        },
+                        close: function () {
+                            if (originalQuanElem != undefined) {
+                                originalQuanElem.value = originalQty;
+                                $(originalQuanElem).data('val', originalQty);
+                            }
+                        }
+                    });
+                }
+                // add part via popup
+                else {
+                    var theDialog = $("#dialog-suggestions").dialog({
+                        //resizable: false,
+                        //height: "auto",
+                        //width: "auto",
+                        //modal: true,
+                        buttons: [
+                            {
+                                id: 'add-button',
+                                text: $('#BasePopupAddButtonText').val(),
+                                click: function () {
+                                    AddPackTypeUpsellToCart(this, false);
+                                    utag.dkLink("ref_page_event=Accept " + $('#popupTitleAnalytics').val());
+                                },
+                            },
+                            {
+                                text: $('#BasePopupCancelButtonText').val(),
+                                click: function () {
+                                    $(this).dialog("close");
+                                }
+                            }
+                        ],
+                        open: function () {
+                            $("#contentholder")[0].innerHTML = returnData;
+                            $(".table-overflowWrapper").css("max-width", window.innerWidth - 65);
+
+                            // This will re-center the dialog once the data is loaded into the dialog.
+                            $('#dialog-suggestions').dialog('option', 'position', 'center');
+
+                            // add 'disable value calculator' checkbox next to buttons
+                            if (!($("#dialog-suggestions").parent().find(".ui-dialog-buttonpane").find(".disableValueCalcDiv").length) && ($('#valueCalcDisabled').val().toLowerCase() == 'false') && ($('#hasUpsell').val().toLowerCase() == 'true')) {
+                                $("#dialog-suggestions").parent().find(".ui-dialog-buttonpane").append(chkDisableValueCalc);
+                            }
+                        },
+                        close: function () {
+                            $("#disableValueCalc").attr('checked', false);
+                            $('#disableValueCalcDiv').remove();
+                        }
+                    });
+                }
+                $("input:radio[id='suggestion1']").on("click", function () {
+                    $("input:radio[name='subOptions']").removeAttr("checked");
+                    $("input:radio[name='subOptions']").attr("disabled", "true");
+                });
+
+                $("input:radio[id='suggestion0']").change(function () {
+                    if (this.checked) {
+                        $("input:radio[name='subOptions']").removeAttr("disabled");
+                        $("input:radio[name='subOptions']").first().prop("checked", true);
+                    }
+                });
+
+                $("span.ui-dialog-title").text($('#popupTitle').val());
+                $("input:radio[name='suggestions']").first().prop("checked", true);
+                if ($("#originalRequestedPartIsDkr").val() == "True") {
+                    $("#suggestion01").prop("checked", true);
+                }
+                else {
+                    $("input:radio[name='subOptions']").first().prop("checked", true);
+                }
+                if (isUpdate) {
+                    $('#update-button').focus();
+                }
+                else {
+                    $('#add-button').focus();
+                }
+                $('#add-button').focus();
+            }
+        },
+        error: function (req, status, error) {
+            genericErrorDialog();
+        }
+    });
+}
+
+function GetRowNumberOnView(seqNum) {
+    var blankRowCount = 0;
+    var nonBlankRowCount = 0;
+    var rowCount = $(".trManualEntry").length;
+
+    for (i = 0; i < rowCount; i++) {
+        if ($('#parts_' + i + '__partNumber').val().trim() == '') {
+            blankRowCount++;
+        }
+        else {
+            nonBlankRowCount++;
+        }
+
+        if (nonBlankRowCount == seqNum + 1) {
+            return seqNum + blankRowCount;
+        }
+    }
+    return seqNum;
+}
+
+// loading spinner whenever ajax is running
+function ajaxLoading() {
+    $(document)
+        .ajaxStart(function () {
+            startSpinner();
+            ajaxTimeout();
+        })
+        .ajaxStop(function () {
+            $('#loadingDiv').remove();
+            $("#content").css("opacity", "1");
+            ajaxTimeoutStop();
+        });
+}
+
+var timeoutVar;
+
+function ajaxTimeout() {
+    timeoutVar = setTimeout(function () {
+        $('#loadingDiv').remove();
+        $('#fakeLoadingDiv').remove();
+        $("#ajaxFail").dialog({
+            buttons: [{
+                text: "Replace Me!!",
+                click: function () {
+                    window.location.reload();
+                }
+            }]
+        });
+    }, 30000);
+}
+
+function ajaxTimeoutStop() {
+    clearTimeout(timeoutVar);
+}
+
+$(document).ready(function () {
+    ajaxLoading();
+});
+
+function AddToCart() {
+    $(".btnAddToCart").attr("disabled", true);  // Must do this to prevent holding the enter key on the button which will submit adding the part multiple times.
+    ValidateManualEntry();
+    if ($("#mainForm").valid()) {
+        var parts = [];
+        $('.trManualEntry').each(function (tr) {
+            var strQuantity = '#parts_' + tr + '__quantity';
+            var strPartNumber = '#parts_' + tr + '__partNumber';
+            var strCRef = '#parts_' + tr + '__cRef';
+            var q1 = $(strQuantity).val();
+            var p1 = $(strPartNumber).val();
+            var c1 = $(strCRef).val();
+            var obj = { quantity: q1, partNumber: p1, cRef: c1 };
+            parts.push(obj);
+        });
+
+        var addedFrom = "manualEntry";
+        $.ajax({
+            url: "/ordering/shoppingcart/shoppingcart/AddParts",
+            type: "POST",
+            //contentType: 'application/json',
+            data: { details: parts, overrideUpsell: false },
+            success: function (data) {
+                var returnObj = { successesExist: false, successIndices: "", failuresExist: false, errors: "", warnings: "" };
+
+                if (data.BaseSuccess == true) {
+                    processAddPartsResponse(data, addedFrom, returnObj);
+
+                    if (!returnObj.failuresExist) {
+                        refreshPage(addedFrom, returnObj);
+                        $('.AddPart').val('');
+                        $('#parts_0__quantity').focus();
+                    }
+                    else {
+                        if (returnObj.successIndices != "") {
+                            $.each(returnObj.successIndices.split('|'), function () {
+                                //parts_0__quantity
+                                $('#parts_' + this.toString() + '__quantity').val('');
+                                $('#parts_' + this.toString() + '__partNumber').val('');
+                                $('#parts_' + this.toString() + '__cRef').val('');
+                            });
+                            refreshParts(addedFrom, returnObj);
+                        }
+
+                        if (returnObj.errors.length > 0) {
+                            refreshPage(addedFrom, returnObj);
+                            errorDialog(data.BaseStatusCode, data.BaseStatusCodeDesc, 'errors:' + returnObj.errors + '\n\n\nwarnings:' + returnObj.warnings)
+                        }
+                    }
+                }
+                else {
+                    if (data.BaseRedirectUrl != "") {
+                        window.location.replace(data.BaseRedirectUrl);
+                    }
+                    else {
+                        errorDialog(data.BaseStatusCode, data.BaseStatusCodeDesc, data.BaseErrorMessage);
+                    }                  
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                genericErrorDialog();
+            }
+        });
+    }
+}
+
+function ValidateManualEntry() {
+    var customerId = $('#BaseCustomerID').val();
+
+    RemoveManualEntryValidation();
+
+    $('.trManualEntry').each(function (tr) {
+        var strQuantity = 'parts_' + tr + '__quantity';
+        var strPartNumber = 'parts_' + tr + '__partNumber';
+        var strCRef = 'parts_' + tr + '__cRef';
+
+        var q1 = $('#' + strQuantity).val();
+        var p1 = $('#' + strPartNumber).val();
+        var c1 = $('#' + strCRef).val();
+
+        if (customerId == 0) {
+            if (q1.length > 0) {
+                AddRequiredValidator(strPartNumber);
+            }
+            if (p1.length > 0) {
+                AddRequiredValidator(strQuantity);
+            }
+            if (c1.length > 0) {
+                AddRequiredValidator(strQuantity);
+                AddRequiredValidator(strPartNumber);
+            }
+        }
+        else {
+            if (p1.length > 0 || c1.length > 0) {
+                AddRequiredValidator(strQuantity);
+            }
+
+            if (q1.length > 0 && c1.length == 0) {
+                AddRequiredValidator(strPartNumber);
+            }
+            if (q1.length > 0 && p1.length == 0) {
+                AddRequiredValidator(strCRef);
+            }
+        }
+    });
+}
+
+function RemoveManualEntryValidation() {
+    $('.trManualEntry').each(function (tr) {
+        var strQuantity = 'parts_' + tr + '__quantity';
+        var strPartNumber = 'parts_' + tr + '__partNumber';
+        var strCRef = 'parts_' + tr + '__cRef';
+
+        RemoveRequiredValidator(strQuantity);
+        RemoveRequiredValidator(strPartNumber);
+        RemoveRequiredValidator(strCRef);
+
+        // Remove and validation that was manually addef for Invalid Part Number
+        $('#' + strPartNumber).removeClass("input-validation-error");
+        $('#' + strPartNumber).parent().find('#partErrorMessage').hide();
+    });
+}
+
+function ResetManualEntry() {
+    // Remove Validation
+    RemoveManualEntryValidation();
+
+    // Reset Field Values
+    $('.trManualEntry').each(function (tr) {
+        var strQuantity = '#parts_' + tr + '__quantity';
+        var strPartNumber = '#parts_' + tr + '__partNumber';
+        var strCRef = '#parts_' + tr + '__cRef';
+
+        $(strQuantity).val('');
+        $(strPartNumber).val('');
+        $(strCRef).val('');
+    });
+
+    // Disable Button
+    $(".btnAddToCart").attr("disabled", true);
+
+    // *** Hide Multiple Lines *** //
+    // Hide Lines 2-5
+    $('#tblManualEntry tr:eq(2), #tblManualEntry tr:eq(3), #tblManualEntry tr:eq(4), #tblManualEntry tr:eq(5)').hide();
+    // Show AddMoreLines Link
+    $('#AddMoreLines').show();
+    // Set Display Value To False
+    $('#DisplayMultipleLines').val('False');
+}
+
+function AddMoreLines() {
+    // Show Lines 2-5
+    $('#tblManualEntry tr:eq(2), #tblManualEntry tr:eq(3), #tblManualEntry tr:eq(4), #tblManualEntry tr:eq(5)').show();
+    // Hide AddMoreLines Link
+    $('#AddMoreLines').hide();
+    // Set Display Value To True
+    $('#DisplayMultipleLines').val('True');
+}
+
+function photoViewImageOnClick(partNumber, url) {
+    if (url.indexOf('NoPhoto_TMB.jpg') > 0) {
+        return;
+    }
+
+    // Get Large URL
+    var largeUrl = url.replace('_sml.jpg', '.jpg');
+    largeUrl = largeUrl.replace('_tmb.jpg', '.jpg');
+
+    var imageSrc = '<img src="' + largeUrl + '" style="width:100%; height:100%;" />';
+    var imgDialog = $('<div/>').html(imageSrc);
+    imgDialog.dialog(
+        {
+            dialogClass: 'noTitleOnDialog',
+            open: function () {
+                $('body').on('click', '.ui-widget-overlay', function () {
+                    imgDialog.dialog('close');
+                });
+            }
+        });
+}
+
+function ShowCartSharePopup() {
+    var url = "/ordering/ShoppingCart/CartShare";
+    var theDialog = $("#dialog-cart-share").dialog({
+        //resizable: false,
+        //height: "auto",
+        //width: "auto",
+        //modal: true,
+        buttons: [
+            {
+                text: $('#BasePopupCloseButtonText').val(),
+                click: function () {
+                    $(this).dialog("close");
+                }
+            }
+        ]
+    });
+    theDialog.load(url);
+    theDialog.dialog('open');
+}
+
+function fullOrEmpty() {
+    if ($("#cartDetails .detailRow").length <= 0 && $("#order_shoppingCart.emptyCart").length <= 0) {
+        $("#order_shoppingCart").addClass("emptyCart");
+        $("#primaryButton").hide();
+        //$("#divFreeShipBanner").addClass("emptyCart");
+        //$("#spendX").addClass("emptyCart");
+    } else if ($("#cartDetails .detailRow").length >= 1 && $("#order_shoppingCart.emptyCart").length >= 1) {
+        $("#order_shoppingCart").removeClass("emptyCart");
+        $("#primaryButton").show();
+        //$("#divFreeShipBanner").removeClass("emptyCart");
+        //$("#spendX").removeClass("emptyCart");
+    }
+}
+
+function fixAllPricesMessage() {
+    $('.all-prices')[0].innerText = $('.all-prices')[0].innerText.replace("#CURR#", $('.hdnOrderCurrency')[0].value).replace("undefined", $('.hdnOrderCurrency')[0].value).replace("Unknown", $('.hdnOrderCurrency')[0].value);
+}
+
+function refreshPage(addedFrom, returnObj) {
+    __headerLayout.getPersonalization();
+    refreshParts(addedFrom, returnObj);
+    refreshSummary();
+    refreshCartTools();
+    ResetManualEntry();
+    //showHideEmptyCartMsg(); //this one was causing issues with the qty popups
+    refreshFreeShipMsg();
+    RemoveManualEntryValidation();
+    $(".trash-button").css('visibility', 'hidden');
+    if ($("#textImportTextArea").val().trim() == "") {
+        $('#btnImportParts').attr("disabled", true);
+    }
+    if (addedFrom == "importParts") {
+        $(".active").removeClass("active");
+        $(".addPartTabs__tabs li:first-child").addClass("active");
+        $("#manualEntryTab").addClass("active");
+    }
+    bindEvents();
+    fullOrEmpty();
+    fixAllPricesMessage();
+}
+
+function refreshFreeShipMsg() {
+    if ($('#spendX').length) {
+        var url = '/ordering/ShoppingCart/ShoppingCart/UpdateFreeShipMessage';
+        $.ajax({
+            url: url,
+            type: 'GET',
+            success: function (returnData) {
+                $('#spendX')[0].innerHTML = returnData;
+            },
+            error: function (req, status, error) {
+                genericErrorDialog();
+            }
+        });
+    }
+}
+
+function hideRepriceMsg() {
+    $('#AttentionArea').hide();
+    $('#divRepricedOrderMessage').hide();
+    $('#divSchedulesExpiredMessage').hide();  
+}
+
+function refreshParts(addedFrom, returnObj) {
+    var url = '/ordering/ShoppingCart/ShoppingCart/GetDetails';
+    $.ajax({
+        url: url,
+        type: 'GET',
+        success: function (returnData) {
+            $('.subtotal').remove();
+            $('#cartDetails').replaceWith($(returnData));
+            bindEvents();
+            fullOrEmpty();
+            if (addedFrom == "manualEntry" || addedFrom == "importParts") {
+                hideRepriceMsg();
+                if (returnObj == null || returnObj.successesExist) {
+                    $("#addPartsSuccess").animate({ height: 'toggle' }, 400, function () {
+                        $(this).delay(4000).animate({ height: 'toggle' });
+                    });
+                }
+            }
+            showHideCartName();
+        },
+        error: function (req, status, error) {
+            genericErrorDialog();
+        }
+    });
+
+
+    if (returnObj == null || !returnObj.failuresExist) {
+        RemoveManualEntryValidation();
+    }
+}
+
+function refreshSummary() {
+    var url = '/ordering/ShoppingCart/ShoppingCart/GetSummary';
+    $.ajax({
+        url: url,
+        type: 'GET',
+        success: function (returnData) {
+            $('#divSummaryBox').replaceWith($(returnData));
+            showHideCartName();
+        },
+        error: function (req, status, error) {
+            genericErrorDialog();
+        }
+    });
+}
+
+function refreshCartTools() {
+    var url = '/ordering/ShoppingCart/ShoppingCart/GetCartTools';
+    $.ajax({
+        url: url,
+        type: 'GET',
+        success: function (returnData) {
+            $('#divCartTools').replaceWith($(returnData));
+            showHideCartTools();
+            $(".dataTable tbody tr:not(.detailRow)").remove(); //shouldnt be needed anymore 
+            createDetailsDataTableForCart();
+        },
+        error: function (req, status, error) {
+            genericErrorDialog();
+        }
+    });
+}
+
+function showHideCartTools() {
+    if ($('#divCartTools .cart-tools-item').length == 0) {
+        // If there are no cart items, hide the whole box.
+        $('#divCartTools').hide();
+    }
+    else {
+        $('#divCartTools').show();
+    }
+}
+
+function refreshOrderDelayed() {
+    $('.divDelayedContainer').hide();
+    var delayedOrderMessage = $("#OrderDelayedMessage").val();
+    delayedOrderMessage = delayedOrderMessage.replace("#DATE#", $("#OrderDelayedDate").val());
+    $("#spanDelayedOrderMessage").text(delayedOrderMessage);
+    $("#divDelayedDateInvalid").hide();
+    showHideDelayedDate();
+}
+
+function showHideDelayedDate() {
+    //Hidden html property
+    var orderDelayed = $("#OrderDelayed").val();
+    if (orderDelayed.toUpperCase() == "TRUE") {
+        $("#divOrderDelayed").css('display', 'block');
+    } else {
+        $("#divOrderDelayed").css('display', 'none');
+    }
+}
+
+function getScheduleUpdateButtonText() {
+    var orderDelayed = $("#OrderDelayed").val();
+    if (orderDelayed.toUpperCase() == "TRUE") {
+        return $("#BasePopupUpdateButtonText").val();
+    }
+    else {
+        return $("#BasePopupScheduleButtonText").val();
+    }
+}
+
+function openDelayOrderDialog() {
+    var originalDate = $(".date-textbox").first().val();
+
+    $("#delayOrderDialog").dialog({
+        close: function () {
+            $(".date-textbox").first().val(originalDate);
+        },
+        dialogClass: "delay-order-popup",
+        //modal: true,
+        buttons: [
+            {
+                text: $('#BasePopupDeleteButtonText').val(),
+                click: function () {
+                    // call shoppingcartcontroller action to remove date
+                    var url = '/ordering/ShoppingCart/ShoppingCart/UpdateInHouseDate';
+                    var date = encodeURIComponent($('.delayedDateField').val());
+                    $.ajax({
+                        url: url,
+                        type: 'POST',
+                        data: { date: null },
+                        //contentType: 'application/json',
+                        success: function (returnData) {
+                            if (returnData.BaseSuccess === true) {
+                                $("#OrderDelayed").val(returnData.OrderDelayed);
+                                $("#OrderDelayedDate").val(returnData.OrderDelayDateShortDateString);
+                                $('.delayedDateField').val('');
+                                refreshOrderDelayed();
+                                refreshCartTools();
+                            }
+                            else {
+                                $(".date-textbox").first().val(originalDate);
+                                errorDialog(returnData.BaseStatusCode, returnData.BaseStatusCodeDesc, returnData.BaseErrorMessage);
+                            }
+                        }
+                    });
+
+                    try {
+                        utag.dkLink("ref_page_event=Accept " + $('#OrderDelayedPopupTitleAnalytics').val());
+                    }
+                    catch (e) {
+                        // don't let analytics break the page
+                    }
+
+                    $(this).dialog("destroy");
+                },
+                class: "dialog-button-left"
+            },
+            {
+                text: getScheduleUpdateButtonText(),
+                click: function () {
+                    // call shoppingcartcontroller action to update date
+                    if ($(".date-textbox").first().val() !== originalDate) {
+                        var url = '/ordering/ShoppingCart/ShoppingCart/UpdateInHouseDate';
+                        var date = encodeURIComponent($('.delayedDateField').val());
+                        $.ajax({
+                            url: url,
+                            type: 'POST',
+                            data: { date: date },
+                            //contentType: 'application/json',
+                            success: function (returnData) {
+                                if (returnData.BaseSuccess === true) {
+                                    $("#OrderDelayed").val(returnData.OrderDelayed);
+                                    $("#OrderDelayedDate").val(returnData.OrderDelayDateShortDateString);
+                                    refreshOrderDelayed();
+                                    refreshCartTools();
+                                }
+                                else {
+                                    $(".date-textbox").first().val(originalDate);
+                                    errorDialog(returnData.BaseStatusCode, returnData.BaseStatusCodeDesc, returnData.BaseErrorMessage);
+                                }
+                            },
+                            error: function (req, status, error) {
+                                $(".date-textbox").first().val(originalDate);
+                                genericErrorDialog();
+                            }
+                        });
+                    }
+                    else {
+                        $(".date-textbox").first().val(originalDate);
+                    }
+
+                    try {
+                        utag.dkLink("ref_page_event=Accept " + $('#OrderDelayedPopupTitleAnalytics').val());
+                    }
+                    catch (e) {
+                        // don't let analytics break the page
+                    }
+
+                    $(this).dialog("destroy");
+                },
+                class: "dialog-button-middle"
+            },
+            {
+                text: $('#BasePopupCancelButtonText').val(),
+                class: 'dialog-button-right',
+                click: function () {
+                    // needs to set back to prev date...
+                    $(".date-textbox").first().val(originalDate);
+                    $(this).dialog("destroy");
+                }
+            }
+        ]
+    });
+
+    toggleScheduleUpdateButton();
+
+    $(".date-textbox").change(function () {
+        toggleScheduleUpdateButton();
+    });
+
+    var orderDelayed = $("#OrderDelayed").val();
+    if (orderDelayed.toUpperCase() == "TRUE") {
+        $(".dialog-button-left").button("enable");
+    }
+    else {
+        $(".dialog-button-left").button("disable");
+    }
+};
+
+function bindEvents() {
+    $(".loginRegisterLink").click(function () {
+        $("#loginRegisterDialog").dialog({
+            //modal: true,
+            buttons: [{
+                text: $('#BasePopupOkButtonText').val(),
+                click: function () {
+                    $(this).dialog("close");
+                }
+            }]
+        });
+    });
+
+    $(".remove-button").click(function () {
+        $(".deleteCheckbox").prop("checked", false);
+        $(this).parent().parent().prev().find("input[type='checkbox']").prop("checked", true);
+        DeletePartDialog(true, null);
+    });
+
+    $("#addPartTabs__wrapper *[data-tabname]").click(function () {
+        if ($(this).hasClass("active")) {
+            //do nothing
+        } else {
+            var activeTab = $(this).attr("data-tabname");
+            //console.log(whichMode);
+            $(".active").removeClass("active");
+            //$("h2[data-name='"+whichMode+"']").parent().addClass("active");
+            //var activeTab = $(this).find("span").attr("data-tabName");
+            $("#" + activeTab).addClass("active");
+            $("li[data-tabname='" + activeTab + "']").addClass("active");
+        }
+    });
+
+
+
+    // Remove any manual entry validation so they can "Continue to Payment"
+    $("#primaryButton").click(function () {
+        RemoveManualEntryValidation();
+        $('#mainForm').submit();
+    });
+
+    $(".deleteCheckbox").click(function () {
+        showHideDeleteButton();
+    });
+
+    $(".chkSelectAll").click(function () {
+        if (this.checked) {
+            $(".deleteCheckbox").each(function () {
+                this.checked = true;
+            })
+            showHideDeleteButton();
+        }
+        else {
+            $(".deleteCheckbox").each(function () {
+                this.checked = false;
+            })
+            showHideDeleteButton();
+        }
+    });
+
+    $(".customer-reference").off('change');
+    $(".customer-reference").change(function (elem) {
+        updateCRef(elem);
+    });
+
+    $(".part-quantity").off('focus');
+    $(".part-quantity").focus(function () {
+        getPriceBreakPanel(this);
+    });
+
+    $(".part-quantity").off('blur');
+    $(".part-quantity").blur(function () {
+        hidePriceBreak(this);
+    });
+
+    $(".part-quantity").off('change');
+    $(".part-quantity").change(function () {
+        if (this.value == 0) {
+            DeletePartDialog(false, this);
+        }
+        else {
+            updateQuantity(this, false);
+        }
+    });
+
+    // Special wireups for Internet Exploder
+    if (document.documentMode || /Edge/.test(navigator.userAgent)) {
+        //// .change is broken in IE, so we have to write our own
+        $(".part-quantity").blur(function () {
+            var origListViewValue = $('.listView #' + this.id).val();
+            var origPhotoViewValue = $('.photoView #' + this.id).val();
+            if (this.value != origListViewValue || this.value != origPhotoViewValue) {
+                $(this).change();
+            }
+        });
+
+        $(".cart-name, .customer-reference").blur(function () {
+            if (this.value != $(this).data('val')) {
+                $(this).change();
+            }
+        });
+
+        // make enter key trigger change for these. chrome/ff do this by default
+        $('.customer-reference, .part-quantity, .cart-name').keypress(function (e) {
+            var key = e.which;
+            if (key == 13)  // the enter key code
+            {
+                $(this).change();
+                $('#parts_0__quantity').focus();
+            }
+        });
+    }
+
+    // this will save the previous value of inputs to reset it if the ajax call fails.
+    // example: update cRef, call fails. Need to reset to previous value
+    $(document).on('focusin', '.customer-reference, .part-quantity, .cart-name, .delayedDateField', function () {
+        $(this).data('val', $(this).val());
+    });
+}
+
+function toggleScheduleUpdateButton() {
+    if ($(".date-textbox").first().val() == "") {
+        $(".dialog-button-middle").button("disable");
+    }
+    else {
+        if ($("#OrderDelayedDate").val().indexOf(' ') == -1) {
+
+            if ($(".date-textbox").first().val() != $("#OrderDelayedDate").val()) {
+                $(".dialog-button-middle").button("enable");
+            }
+            else {
+                $(".dialog-button-middle").button("disable");
+            }
+        }
+        else {
+            if ($(".date-textbox").first().val() != $("#OrderDelayedDate").val().substr(0, $("#OrderDelayedDate").val().indexOf(' '))) {
+                $(".dialog-button-middle").button("enable");
+            }
+            else {
+                $(".dialog-button-middle").button("disable");
+            }
+        }
+    }
+}
+
+function updateCRef(elem) {
+    if (elem.target.value.trim() !== $(elem.target).data('val')) {
+        var url = '/ordering/ShoppingCart/ShoppingCart/UpdateCRef';
+        var itemSeq = elem.target.id.replace('cRef', '');
+        var cRef = encodeURIComponent(elem.target.value.trim());
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: { itemSeq: itemSeq, cRef: cRef },
+            //contentType: 'application/json',
+            success: function (returnData) {
+                try {
+                    utag.view({
+                        ref_page_type: 'SC',
+                        ref_page_sub_type: 'CO',
+                        ref_page_event: 'Edit Customer Reference'
+                    });
+                }
+                catch (e) {
+                    // don't let analytics break the page
+                }
+
+                if (returnData.BaseSuccess === true) {
+                    refreshPage();
+                }
+                else {
+                    elem.target.value = $(elem.target).data('val');
+                    if (returnData.BaseRedirectUrl != "") {
+                        window.location.replace(returnData.BaseRedirectUrl);
+                    }
+                    else {
+                        errorDialog(returnData.BaseStatusCode, returnData.BaseStatusCodeDesc, returnData.BaseErrorMessage);
+                    }
+                }
+            },
+            error: function (req, status, error) {
+                elem.target.value = $(elem.target).data('val');
+                genericErrorDialog();
+            }
+        });
+    }
+    else {
+        elem.target.value = $(elem.target).data('val');
+    }
+}
+
+// Part Removed Dialog
+function partRemovedDialog(partRemovedTitle, partRemovedMessage, removedText, partRemovedNumbers) {
+
+    $("#partRemovedMessage").html(partRemovedMessage);
+    $("#removedText").html(removedText);
+    $('#partRemovedNumbers').html(partRemovedNumbers);
+
+    $("#partRemovedDialog").dialog(
+        {
+            dialogClass: "no-close-button",
+            title: partRemovedTitle,
+            buttons: [
+                {
+                    text: $('#BasePopupOkButtonText').val(),
+                    click: function () {
+                        $(this).dialog("close");
+                    }
+                }
+            ]
+        }
+    );
+}
+
+function updateQuantity(elem, overrideUpsell) {
+    if (elem.value !== "") {
+        var url = "/ordering/ShoppingCart/ShoppingCart/UpdateQuantity";
+        var itemSeq = elem.id.replace('qty', '');
+        var qty = elem.value;
+
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: { itemSeq: itemSeq, quantity: qty, overrideUpsell: overrideUpsell },
+            datatype: 'json',
+            //contentType: 'application/json; charset=utf-8',
+            success: function (returnData) {
+                try {
+                    utag.view({
+                        ref_page_type: 'SC',
+                        ref_page_sub_type: 'CO',
+                        ref_page_event: 'Update Quantity'
+                    });
+                }
+                catch (e) {
+                    // don't let analytics break the page
+                }
+
+                if (returnData.BaseSuccess === true) {
+                    // Transaction was successful, but resulted in a bad quantity error of some type
+                    if (returnData.partResults != undefined && returnData.partResults[0] != undefined &&
+                        (returnData.partResults[0].ErrorCode == 1 || returnData.partResults[0].ErrorCode == 2 || returnData.partResults[0].ErrorCode == 3 ||
+                            returnData.partResults[0].ErrorCode == 8 || returnData.partResults[0].ErrorCode == 9 ||
+                            returnData.partResults[0].ErrorCode == 12 || returnData.partResults[0].ErrorCode == 16 ||
+                            returnData.partResults[0].ErrorCode == 19 || returnData.partResults[0].ErrorCode == 20)) {
+                        createSuggestionsPopup(returnData.partResults[0], true, elem);
+                    }
+                    // MP_NO_AVAILABLE_OFFER
+                    else if (returnData.partResults != undefined && returnData.partResults[0] != undefined && returnData.partResults[0].ErrorCode == 134318630) {
+                        refreshPage();
+                        partRemovedDialog($('#ProductRemovedText').val(), $('#ProductsNoBackorderNoStockText').val(), $('#RemovedText').val(), returnData.partResults[0].detail.partNumber);
+                    }
+                    else if (!overrideUpsell && returnData.partResults != undefined && returnData.partResults[0] != undefined && returnData.partResults[0].ErrorCode == 10) {
+                        createPackTypeUpsellPopup(returnData.partResults[0], true, elem);
+                    }
+                    else {  
+                        refreshPage();
+                        try {
+                            var action = $.parseJSON(returnData.partResults[0].DetailTag)["tealium_event"];
+                            utag.dkPartActivity(action, returnData.partResults[0].DetailTag);
+                            utag.dkLastPart();
+                        }
+                        catch (e) {
+                            // don't let analytics break the page
+                        }
+                    }
+                }
+                else {
+                    elem.value = $(elem).data('val');
+                    if (returnData.BaseRedirectUrl != "") {
+                        window.location.replace(returnData.BaseRedirectUrl);
+                    }
+                    else {
+                        errorDialog(returnData.BaseStatusCode, returnData.BaseStatusCodeDesc, returnData.BaseErrorMessage);
+                    }
+                }
+            },
+            error: function (req, status, error) {
+                elem.target.value = $(elem).data('val');
+                genericErrorDialog();
+            }
+        });
+    }
+    else {
+        elem.value = $(elem).data('val');
+    }
+}
+
+function updateCartName(elem) {
+    if (elem.target.value.trim() !== $(elem.target).data('val')) {
+        var url = '/ordering/ShoppingCart/ShoppingCart/UpdateCartName';
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: { cartName: elem.target.value.trim() },
+            //contentType: 'application/json',
+            success: function (returnData) {
+                if (returnData.BaseSuccess === true) {
+                    showHideCartName(elem.target.value.trim() == "");
+                }
+                else {
+                    elem.target.value = $(elem.target).data('val');
+                    if (returnData.BaseRedirectUrl != "") {
+                        window.location.replace(returnData.BaseRedirectUrl);
+                    }
+                    else {
+                        errorDialog(returnData.BaseStatusCode, returnData.BaseStatusCodeDesc, returnData.BaseErrorMessage);
+                    }
+
+                }
+            },
+            error: function (req, status, error) {
+                genericErrorDialog();
+                elem.target.value = $(elem.target).data('val');
+            }
+        });
+    }
+    else {
+        elem.target.value = $(elem.target).data('val');
+    }
+
+
+}
+
+function updateSubtotals() {
+    var url = '/ordering/ShoppingCart/ShoppingCart/UpdateSubtotals';
+    $.ajax({
+        url: url,
+        type: 'POST',
+        //data: JSON.stringify({ "itemSeq": itemSeq, "cRef": cRef }),
+        //contentType: 'application/json',
+        success: function (returnData) {
+            if (returnData.BaseSuccess === true) {
+                refreshPage();
+            }
+            else {
+                errorDialog(returnData.BaseStatusCode, returnData.BaseStatusCodeDesc, returnData.BaseErrorMessage);
+            }
+        },
+        error: function (req, status, error) {
+            genericErrorDialog();
+        }
+    });
+}
+
+//function checkVisible(elm) {
+//    "use strict";
+//    var rect = elm.getBoundingClientRect();
+//    var viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
+//    return !(rect.bottom < 0 || rect.top - viewHeight >= 0);
+//};
+
+//this could be simpler I think in the selection process
+// deleteButtonClicked = true or false
+// elem = the qty txt box that was set to 0
+function DeletePartDialog(deleteButtonClicked, elem) {
+    var popupDialogContinueButton = $('#PopupDialogContinueButton').val();
+    var popupDialogCancelButton = $('#PopupDialogCancelButton').val();
+
+    $(function () {
+        $("#dialog-confirm-delete").dialog({
+            closeOnEscape: false,
+            //resizable: false,
+            //height: "auto",
+            //width: 400,
+            //modal: true,
+            buttons: [
+                {
+                    text: popupDialogContinueButton,
+                    click: function () {
+                        var url = '/ordering/ShoppingCart/ShoppingCart/DeleteDetail';
+                        var selected = [];
+
+                        // This handles cases where the select the parts to be deleted and then click the delete button.
+                        if (deleteButtonClicked == true) {
+                            $("#cartDetails input:checkbox:checked").each(function () {
+                                if ($(this).attr('class') != 'chkSelectAll') {
+                                    selected.push($(this).attr('id').replace('chkDelete', ''));
+                                }
+                            });
+                        }
+                        // This handles the case where they set the qty to 0
+                        else {
+                            selected.push(elem.id.replace('qty', ''));
+                        }
+
+                        DeletePart(selected);
+                        try {
+                            utag.view({
+                                ref_page_type: 'SC',
+                                ref_page_sub_type: 'CO',
+                                ref_page_event: 'Remove Part'
+                            });
+                        }
+                        catch (e) {
+                            // don't let analytics break the page
+                        }
+
+                        $(this).dialog("close");
+                    },
+                },
+                {
+                    text: popupDialogCancelButton,
+                    click: function () {
+                        if (deleteButtonClicked != true) {
+                            // Set qty back to original value
+                            elem.value = $(elem).data('val');
+                        }
+                        $(this).dialog("close");
+                    }
+                }
+            ],
+            close: function () {
+                $("#cartDetails").find(".chkSelectAll")[0].checked = false;
+                $(".deleteCheckbox").each(function () {
+                    this.checked = false;
+                })
+                showHideDeleteButton();
+                $(this).dialog("close");
+            }
+        });
+    });
+}
+
+function DeletePart(selected) {
+    var url = '/ordering/ShoppingCart/ShoppingCart/DeleteDetail';
+    $('.divDelayedContainer').hide();
+    $.ajax({
+        url: url,
+        type: 'POST',
+        //contentType: 'application/json',
+        data: { ids: selected },
+        traditional: true,
+        success: function (returnData) {
+            if (returnData.BaseSuccess === true) {
+                refreshPage();
+                $.each(returnData.partResults, function () {
+                    var action = $.parseJSON(this.DetailTag)["tealium_event"];
+                    try {
+                        utag.dkPartActivity(action, this.DetailTag);
+                    }
+                    catch (e) {
+                        // don't let analytics break the page
+                    }
+                });
+                try {
+                    utag.dkLastPart();
+                }
+                catch (e) {
+                    // don't let analytics break the page
+                }
+            } else {
+                if (returnData.BaseRedirectUrl != "") {
+                    window.location.replace(returnData.BaseRedirectUrl);
+                }
+                else {
+                    errorDialog(returnData.BaseStatusCode, returnData.BaseStatusCodeDesc, returnData.BaseErrorMessage);
+                }
+            }
+        },
+        error: function (xhr, err) {
+            genericErrorDialog();
+        }
+    });
+}
+
+function hidePriceBreak() {
+    //$('#PriceDiv').remove();  // This will just remove the first PriceDiv
+    $('div[id=PriceDiv]').remove(); // Sometimes there can be multiple PriceDiv, this we remove all of them.
+}
+
+function getPriceBreakPanel(element) {
+    var mpOfferId = $(element.parentElement.parentElement.parentElement).find("input[name$='MPOfferID']")[0].value;
+    // Skip for Marketplace
+    if (!(mpOfferId > 0)) {
+        var partId = $(element.parentElement.parentElement.parentElement).find("input[name$='PartId']")[0].value;
+        var itemSeq = $(element.parentElement.parentElement.parentElement).find("input[name$='ItemSeq']")[0].value;
+        var baseUrl = '/ordering/shoppingcart/pricebreak/';
+        var url = baseUrl + encodeURIComponent(partId);
+        $.ajax({
+            url: url,
+            success: function (returnData) {
+                if (returnData.status != 'failed') {
+                    var hasFocus = $(element).is(":focus");
+                    // Only add the Price Break Table if the focus is still on the Qty field.
+                    if (hasFocus) {
+                        $(element.parentElement).append($(returnData));
+                    }
+                }
+            },
+            error: function () { },
+            timeout: 5000
+        });
+    }
+}
+
+function showHideDeleteButton() {
+    if ($(".deleteCheckbox:checkbox:checked").length > 0) {
+        $(".trash-button").css('visibility', 'visible');
+        $("#floatingTrash").addClass("showTrash");
+    }
+    else {
+        $(".trash-button").css('visibility', 'hidden');
+        $(".chkSelectAll")[0].checked = false;
+        $("#floatingTrash").removeClass("showTrash");
+    }
+    if ($(".deleteCheckbox:checkbox:not(:checked)").length >= 1) {
+        $(".chkSelectAll")[0].checked = false;
+    }
+}
+
+//check these popups to see if they should be destroyed instead
+function ShowLeadTimePopup(rowIndex) {
+    //var dialogMaxHeight = window.innerHeight - 300;
+    $("#divLeadTimes" + rowIndex).dialog({
+        //modal: true,
+        //width: "auto",
+        //height: "auto",
+        //maxHeight: dialogMaxHeight,
+        buttons: [{
+            id: 'ok-button',
+            text: $('#BasePopupOkButtonText').val(),
+            click: function () {
+                $(this).dialog("close");
+            }
+        }],
+    });
+    $(".table-overflowWrapper").css("width", window.innerWidth - 65);
+    $('#ok-button').focus();
+}
+
+function ShowDuplicateItemsPopup(rowIndex) {
+    //var dialogMaxHeight = window.innerHeight - 300;
+    $("#divDuplicateItems" + rowIndex).dialog({
+        //modal: true,
+        //width: 350,
+        //height: "auto",
+        //maxHeight: dialogMaxHeight,
+        buttons: [{
+            text: $('#BasePopupOkButtonText').val(),
+            click: function () {
+                $(this).dialog("close");
+            }
+        }]
+    });
+}
+
+function ShowSubstitutesPopup(rowIndex) {
+    //var dialogMaxHeight = window.innerHeight - 300;
+
+    $("#divSubstitutes" + rowIndex).dialog({
+        //modal: true,
+        //width: "auto",
+        //height: "auto",
+        //maxHeight: dialogMaxHeight,
+        buttons: [
+            {
+                text: $('#BasePopupOkButtonText').val(),
+                id: "btnOkSub" + rowIndex,
+                click: function () {
+                    $(this).dialog("close");
+                }
+            }
+        ]
+    });
+    $(".table-overflowWrapper").css("width", window.innerWidth - 65);
+    $('#btnOkSub' + rowIndex).focus();
+}
+
+function AddPackTypeUpsellToCart(element, isUpdate, originalPartId, originalQty) {
+    var parts = [];
+
+    $("#dialog-suggestions input:radio[name='suggestions']:checked").each(function () {
+        var index = this.id.replace('suggestion', '');
+        var obj = {
+            quantity: $("#validOptions_" + index + "__quantity")[0].value,
+            partNumber: $("#validOptions_" + index + "__partNumber")[0].value,
+            cRef: $("#validOptions_" + index + "__cRef")[0].value,
+            //optionalItemSeq: $("#validOptions_" + index + "__optionalItemSeq")[0].value,  
+            partId: $("#validOptions_" + index + "__partId")[0].value
+        }
+        if (isUpdate) {
+            if (obj.partId != originalPartId) {
+                parts.push(obj);
+            }
+            //if (!(obj.partId == originalPartId && obj.quantity == originalQty)) {
+            //    parts.push(obj);
+            //}
+        }
+        else {
+            parts.push(obj);
+        }
+    });
+
+    $("#dialog-suggestions input:radio[name='subOptions']:checked").each(function () {
+        var index1 = this.id.replace('suggestion', '')[0];
+        var index2 = this.id.replace('suggestion', '')[1];
+        var obj = {
+            quantity: $("#validOptions_" + index1 + "__subOptions_" + index2 + "__quantity")[0].value,
+            partNumber: $("#validOptions_" + index1 + "__subOptions_" + index2 + "__partNumber")[0].value,
+            cRef: $("#validOptions_" + index1 + "__subOptions_" + index2 + "__cRef")[0].value,
+            //optionalItemSeq: $("#validOptions_" + index1 + "__subOptions_" + index2 + "__optionalItemSeq")[0].value,
+            partId: $("#validOptions_" + index1 + "__subOptions_" + index2 + "__partId")[0].value
+        }
+        if (isUpdate) {
+            if (!(obj.partId == originalPartId && obj.quantity == originalQty)) {
+                parts.push(obj);
+            }
+        }
+        else {
+            parts.push(obj);
+        }
+    });
+
+    if (parts.length > 0) {
+        var addedFrom = "manualEntry";
+        $.ajax({
+            url: "/ordering/shoppingcart/shoppingcart/AddParts",
+            type: "POST",
+            //contentType: 'application/json',
+            data: { details: parts, overrideUpsell: true, disableValueCalc: $("#disableValueCalc").prop('checked') },
+            success: function (data) {
+                if (data.BaseSuccess == true) {
+                    refreshPage(addedFrom);
+                    $('.AddPart').val('');
+                    $('#parts_0__quantity').focus();
+                }
+                else {
+                    errorDialog(data.BaseStatusCode, data.BaseStatusCodeDesc, data.BaseErrorMessage);
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                genericErrorDialog();
+            }
+        });
+        $(element).dialog("close");
+    }
+    $('#disableValueCalcDiv').remove();
+}
+
+function ShowLearnMoreDialog() {
+    $("#learnMoreDialog").dialog({
+        //modal: true,
+        //width: 350,
+        buttons: [{
+            text: $('#BasePopupOkButtonText').val(),
+            click: function () {
+                $(this).dialog("close");
+            }
+        }]
+    });
+}
+
+function ShowCurrencyPopupDialog() {
+    var popupDialogContinueButton = $('#PopupDialogContinueButton').val();
+    var popupDialogCancelButton = $('#PopupDialogCancelButton').val();
+
+    $("#dialog-currencyConfirmation").dialog({
+        //modal: true,
+        //width: 500,
+        buttons: [
+            {
+                text: popupDialogContinueButton,
+                click: function () {
+                    if ($('#InvalidCurrency').val() == 'True') {
+
+                        var query = document.location.search.substr(document.location.search.indexOf('blockedCurr'));
+                        var val = query.substr(query.indexOf('=') + 1);
+
+                        repriceOrder(val);
+                        window.location.href = $('#InvalidCurrRedirectUrl').val();
+                    }
+                    else {
+                        repriceOrder();
+                    }
+                    $(this).dialog("close");
+                },
+            },
+            {
+                text: popupDialogCancelButton,
+                click: function () {
+                    putCurrencyBack();
+                    $(this).dialog("close");
+                }
+            }
+        ],
+        close: function () {
+        }
+    });
+}
+
+function repriceOrder(curr) {
+
+    var redirect = true;
+    var url = '/ordering/ShoppingCart/ShoppingCart/ChangeCurrency?reprice=4'; // 4 = RepriceReason.CurrencyChangeContinue
+    if (curr != undefined && curr.length) {
+        url += '&curr=' + curr;
+        redirect = false;
+    }
+    if ($('#NewSiteCode').val() != undefined && $('#NewSiteCode').val() != '0') {
+        url += '&newSite=' + $('#NewSiteCode').val();
+    }
+
+    $.ajax({
+        url: url,
+        type: 'GET',
+        success: function (returnData) {
+            if (redirect) {
+                if (returnData.redirectUrl != "") {
+                    window.location.href = returnData.redirectUrl;
+                }
+                else {
+                    genericErrorDialog();
+                }
+            }
+            else {
+                return;
+            }
+        },
+        error: function (req, status, error) {
+            genericErrorDialog();
+        }
+
+    })
+}
+
+function putCurrencyBack() {
+    $.ajax({
+        url: '/ordering/ShoppingCart/ShoppingCart/ChangeCurrency?reprice=5&oldCurr=' + $('#OldCurrency').val(), // 5 = RepriceReason.CurrencyChangeCancel
+        type: 'GET',
+        success: function (returnData) {
+            window.location.href = "shoppingcart?display=yes";
+        },
+        error: function (req, status, error) {
+            genericErrorDialog();
+        }
+
+    });
+}
+
+
+function showHideCartName(isBlank) {
+    if (isBlank == undefined || isBlank) {
+        $("#cartNameDiv").hide();
+        $("#blankCartNameDiv").show();
+    }
+    else {
+        $("#cartNameDiv").show();
+        $("#blankCartNameDiv").hide();
+    }
+}
+
+function ValidateQty(qty) {
+    var validQty;
+    if (qty.value.length > 1) {
+        validQty = qty.value.replace(/[^0-9]/g, '');
+    }
+    else {
+        validQty = qty.value.replace(/[^1-9]/g, '');
+    }
+
+    // Remove leading zeroes if the use paste instead of typing in the qty.
+    if (validQty.length > 0) {
+        $(qty).val(parseInt(validQty, 10));
+    }
+    else {
+        $(qty).val(validQty);
+    }
+
+    RemoveManualEntryRequiredValidation();
+}
+
+function ValidatePartNumber(item) {
+    $(item).parent().find('#partErrorMessage').hide();
+    RemoveManualEntryRequiredValidation();
+}
+
+function ValidateCRef() {
+    RemoveManualEntryRequiredValidation();
+}
+
+function RemoveManualEntryRequiredValidation() {
+    var customerId = $('#BaseCustomerID').val();
+    var allBlank = true;
+
+    $('.trManualEntry').each(function (tr) {
+        var strQuantity = 'parts_' + tr + '__quantity';
+        var strPartNumber = 'parts_' + tr + '__partNumber';
+        var strCRef = 'parts_' + tr + '__cRef';
+
+        var q1 = $('#' + strQuantity).val();
+        var p1 = $('#' + strPartNumber).val();
+        var c1 = $('#' + strCRef).val();
+
+        if (q1.length > 0 || p1.length > 0 || c1.length > 0) {
+            allBlank = false;
+        }
+
+        if (customerId == 0) {
+            if (q1.length == 0 && c1.length == 0) {
+                RemoveRequiredValidator(strPartNumber);
+            }
+            if (p1.length == 0 && c1.length == 0) {
+                RemoveRequiredValidator(strQuantity);
+            }
+        }
+        else {
+            if (p1.length == 0 && c1.length == 0) {
+                RemoveRequiredValidator(strQuantity);
+            }
+
+            if (q1.length == 0 && c1.length == 0) {
+                RemoveRequiredValidator(strPartNumber);
+            }
+        }
+    });
+
+    if (allBlank) {
+        $(".btnAddToCart").attr("disabled", true)
+    }
+    else {
+        $(".btnAddToCart").attr("disabled", false)
+    }
+}
+
+// Used on both shopping cart page and submit page - this version trimmed down for cart view.
+function createDetailsDataTableForCart() {
+    var downloadButton = {
+        exportOptions: {
+            format: {
+                body: function (data, row, column, node) {
+                    return column === 9 ?
+                        node.innerText.replace('€', '').replace('HK$', '').replace('AU$', '').replace('NT$', '').replace('$', '').replace(' kr', '')
+                            .replace('¥', '').replace('₱', '').replace('£', '').replace('₩', '').replace('kr. ', '').replace('kr ', '').replace('₪', '').trim() :
+                        node.innerText.replace("\r", "").replace("\n", " ").replace(/&lrm;|\u200E/gi, '').trim();
+                }
+            }
+        },
+        filename: function () {
+            return $("input[id*='BaseFileDownloadName']").val();
+        }
+    };
+
+    $(".details .dataTable").DataTable({
+        "destroy": true,
+        "bSort": false,
+        "paging": false,
+        "bInfo": false,
+        "searching": false,
+        "autoWidth": false,
+        "iDisplayLength": -1,
+        "dom": 't<"clear"><B>',
+        "buttons": [
+            $.extend(true, {}, downloadButton, {
+                extend: "csvHtml5",
+                init: function (dt, node, config) {
+                    node.attr("id", "csvDownloadButton");
+                    node.attr("data-autoid", "downloadCsv");
+                }
+            }),
+            $.extend(true, {}, downloadButton, {
+                extend: "excelHtml5",
+                init: function (dt, node, config) {
+                    node.attr("id", "excelDownloadButton");
+                    node.attr("data-autoid", "downloadExcel");
+                }
+            })
+        ]
+    });
+}
+
+function checkoutAsGuest() {
+    $("#UserSelectedCheckoutAsGuest").val("True");
+    VerifyContinue();
+}
+
+function VerifyContinue() {
+    try {
+        // Add Tagging Event On Checkout
+        var detailTags = $(".DetailTag");
+        $.each(detailTags, function (index, value) {
+            var action = $.parseJSON(this.value)["tealium_event"];
+            utag.dkPartActivity(action, this.value);
+        });
+        utag.dkLastPart();
+    }
+    catch (e) {
+        // don't let analytics break the page
+    }
+
+    $('#mainForm').submit();
+}
+
+//function findElement(arr, propName, propValue) {
+//    for (var i = 0; i < arr.length; i++)
+//        if (arr[i][propName] == propValue)
+//            return arr[i];
+//}
+
+function openMarketplaceSeparateShippingFeeModal() {
+    // "Correct" way to use a DK modal, but problem with blurring page background
+    // dk.modal("#marketplaceSeparateShippingFeeModal").show();
+    // Using our old standard instead
+    $("#marketplaceSeparateShippingFeeText").html($('#marketplaceSeparateShippingFeeContent').html());
+    $("#marketplaceSeparateShippingFeeDialogue").dialog(
+        {
+            dialogClass: "no-close-button",
+            title: $('#marketplaceSeparateShippingFeeTitle').html(),
+            buttons: [
+                {
+                    text: $('#BasePopupOkButtonText').val(),
+                    click: function () {
+                        $(this).dialog("close");
+                    }
+                }
+            ]
+        }
+    );
+};
+
+function shareWithEkom() {
+    $("#ekom-dialog").dialog({
+        buttons: [
+            {
+                id: 'update-button',
+                text: $("#ekom-button-text").text(),
+                "class": 'dk-btn__primary',
+                click: function () {
+                    if ($("#ekom-form").valid()) {
+                        var EKOM_Name = $("#EKOM_Name").val();
+                        var EKOM_Email = $("#EKOM_Email").val();
+                        var EKOM_CompanyName = $("#EKOM_CompanyName").val();
+                        var EKOM_WebSite = $("#EKOM_WebSite").val();
+                        $.ajax({
+                            url: "/ordering/ShoppingCart/ShoppingCart/PostShareWithEKOM",
+                            type: "POST",
+                            data: { EKOM_Name, EKOM_Email, EKOM_CompanyName, EKOM_WebSite },
+                            success: function (returnData) {
+                                if (returnData === "True") {
+                                    $("#ekom-message").removeClass("hidden");
+                                } else {
+                                    genericErrorDialog($("#ekom-error").text())
+                                }
+                            }
+                        }).then(() => {
+                            $(this).dialog("close");
+                        })
+                    }
+                },
+            },
+            {
+                text: $('#BasePopupCancelButtonText').val(),
+                "class": 'dk-btn__secondary',
+                click: function () {
+                    $(this).dialog("close");
+                }
+            }
+        ]
+    })
+};
+// this is the minified version, the full version can be found here: http://fgnass.github.io/spin.js/
+(function (t, e) { if (typeof exports == "object") module.exports = e(); else if (typeof define == "function" && define.amd) define(e); else t.Spinner = e() })(this, function () { "use strict"; var t = ["webkit", "Moz", "ms", "O"], e = {}, i; function o(t, e) { var i = document.createElement(t || "div"), o; for (o in e) i[o] = e[o]; return i } function n(t) { for (var e = 1, i = arguments.length; e < i; e++) t.appendChild(arguments[e]); return t } var r = function () { var t = o("style", { type: "text/css" }); n(document.getElementsByTagName("head")[0], t); return t.sheet || t.styleSheet }(); function s(t, o, n, s) { var a = ["opacity", o, ~~(t * 100), n, s].join("-"), f = .01 + n / s * 100, l = Math.max(1 - (1 - t) / o * (100 - f), t), d = i.substring(0, i.indexOf("Animation")).toLowerCase(), u = d && "-" + d + "-" || ""; if (!e[a]) { r.insertRule("@" + u + "keyframes " + a + "{" + "0%{opacity:" + l + "}" + f + "%{opacity:" + t + "}" + (f + .01) + "%{opacity:1}" + (f + o) % 100 + "%{opacity:" + t + "}" + "100%{opacity:" + l + "}" + "}", r.cssRules.length); e[a] = 1 } return a } function a(e, i) { var o = e.style, n, r; if (o[i] !== undefined) return i; i = i.charAt(0).toUpperCase() + i.slice(1); for (r = 0; r < t.length; r++) { n = t[r] + i; if (o[n] !== undefined) return n } } function f(t, e) { for (var i in e) t.style[a(t, i) || i] = e[i]; return t } function l(t) { for (var e = 1; e < arguments.length; e++) { var i = arguments[e]; for (var o in i) if (t[o] === undefined) t[o] = i[o] } return t } function d(t) { var e = { x: t.offsetLeft, y: t.offsetTop }; while (t = t.offsetParent) e.x += t.offsetLeft, e.y += t.offsetTop; return e } var u = { lines: 12, length: 7, width: 5, radius: 10, rotate: 0, corners: 1, color: "#000", direction: 1, speed: 1, trail: 100, opacity: 1 / 4, fps: 20, zIndex: 2e9, className: "spinner", top: "auto", left: "auto", position: "relative" }; function p(t) { if (typeof this == "undefined") return new p(t); this.opts = l(t || {}, p.defaults, u) } p.defaults = {}; l(p.prototype, { spin: function (t) { this.stop(); var e = this, n = e.opts, r = e.el = f(o(0, { className: n.className }), { position: n.position, width: 0, zIndex: n.zIndex }), s = n.radius + n.length + n.width, a, l; if (t) { t.insertBefore(r, t.firstChild || null); l = d(t); a = d(r); f(r, { left: (n.left == "auto" ? l.x - a.x + (t.offsetWidth >> 1) : parseInt(n.left, 10) + s) + "px", top: (n.top == "auto" ? l.y - a.y + (t.offsetHeight >> 1) : parseInt(n.top, 10) + s) + "px" }) } r.setAttribute("role", "progressbar"); e.lines(r, e.opts); if (!i) { var u = 0, p = (n.lines - 1) * (1 - n.direction) / 2, c, h = n.fps, m = h / n.speed, y = (1 - n.opacity) / (m * n.trail / 100), g = m / n.lines; (function v() { u++; for (var t = 0; t < n.lines; t++) { c = Math.max(1 - (u + (n.lines - t) * g) % m * y, n.opacity); e.opacity(r, t * n.direction + p, c, n) } e.timeout = e.el && setTimeout(v, ~~(1e3 / h)) })() } return e }, stop: function () { var t = this.el; if (t) { clearTimeout(this.timeout); if (t.parentNode) t.parentNode.removeChild(t); this.el = undefined } return this }, lines: function (t, e) { var r = 0, a = (e.lines - 1) * (1 - e.direction) / 2, l; function d(t, i) { return f(o(), { position: "absolute", width: e.length + e.width + "px", height: e.width + "px", background: t, boxShadow: i, transformOrigin: "left", transform: "rotate(" + ~~(360 / e.lines * r + e.rotate) + "deg) translate(" + e.radius + "px" + ",0)", borderRadius: (e.corners * e.width >> 1) + "px" }) } for (; r < e.lines; r++) { l = f(o(), { position: "absolute", top: 1 + ~(e.width / 2) + "px", transform: e.hwaccel ? "translate3d(0,0,0)" : "", opacity: e.opacity, animation: i && s(e.opacity, e.trail, a + r * e.direction, e.lines) + " " + 1 / e.speed + "s linear infinite" }); if (e.shadow) n(l, f(d("#000", "0 0 4px " + "#000"), { top: 2 + "px" })); n(t, n(l, d(e.color, "0 0 1px rgba(0,0,0,.1)"))) } return t }, opacity: function (t, e, i) { if (e < t.childNodes.length) t.childNodes[e].style.opacity = i } }); function c() { function t(t, e) { return o("<" + t + ' xmlns="urn:schemas-microsoft.com:vml" class="spin-vml">', e) } r.addRule(".spin-vml", "behavior:url(#default#VML)"); p.prototype.lines = function (e, i) { var o = i.length + i.width, r = 2 * o; function s() { return f(t("group", { coordsize: r + " " + r, coordorigin: -o + " " + -o }), { width: r, height: r }) } var a = -(i.width + i.length) * 2 + "px", l = f(s(), { position: "absolute", top: a, left: a }), d; function u(e, r, a) { n(l, n(f(s(), { rotation: 360 / i.lines * e + "deg", left: ~~r }), n(f(t("roundrect", { arcsize: i.corners }), { width: o, height: i.width, left: i.radius, top: -i.width >> 1, filter: a }), t("fill", { color: i.color, opacity: i.opacity }), t("stroke", { opacity: 0 })))) } if (i.shadow) for (d = 1; d <= i.lines; d++) u(d, -2, "progid:DXImageTransform.Microsoft.Blur(pixelradius=2,makeshadow=1,shadowopacity=.3)"); for (d = 1; d <= i.lines; d++) u(d); return n(e, l) }; p.prototype.opacity = function (t, e, i, o) { var n = t.firstChild; o = o.shadow && o.lines || 0; if (n && e + o < n.childNodes.length) { n = n.childNodes[e + o]; n = n && n.firstChild; n = n && n.firstChild; if (n) n.opacity = i } } } var h = f(o("group"), { behavior: "url(#default#VML)" }); if (!a(h, "transform") && h.adj) c(); else i = a(h, "animation"); return p });
+;
