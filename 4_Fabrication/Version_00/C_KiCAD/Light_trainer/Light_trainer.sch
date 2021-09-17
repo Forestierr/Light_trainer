@@ -14,7 +14,7 @@ Comment3 "V_00"
 Comment4 "Robin Forestier"
 $EndDescr
 $Comp
-L Light_trainer-rescue:SW_Push-Switch SW1
+L archive:Light_trainer-rescue_SW_Push-Switch SW1
 U 1 1 5FD2E185
 P 1600 4000
 F 0 "SW1" H 1600 4285 50  0000 C CNN
@@ -28,7 +28,7 @@ F 6 "1,32" H 1600 4000 50  0001 C CNN "prix unité"
 	1    0    0    -1  
 $EndComp
 $Comp
-L Light_trainer-rescue:SW_Push-Switch SW2
+L archive:Light_trainer-rescue_SW_Push-Switch SW2
 U 1 1 5FD62CD6
 P 1600 4350
 F 0 "SW2" H 1600 4635 50  0000 C CNN
@@ -42,7 +42,7 @@ F 6 "1,32" H 1600 4350 50  0001 C CNN "prix unité"
 	1    0    0    -1  
 $EndComp
 $Comp
-L Light_trainer-rescue:SW_Push-Switch SW3
+L archive:Light_trainer-rescue_SW_Push-Switch SW3
 U 1 1 5FD65B5A
 P 1600 4700
 F 0 "SW3" H 1600 4985 50  0000 C CNN
@@ -56,7 +56,7 @@ F 6 "1,32" H 1600 4700 50  0001 C CNN "prix unité"
 	1    0    0    -1  
 $EndComp
 $Comp
-L Light_trainer-rescue:SW_Push-Switch SW4
+L archive:Light_trainer-rescue_SW_Push-Switch SW4
 U 1 1 5FD68A79
 P 1600 5050
 F 0 "SW4" H 1600 5335 50  0000 C CNN
@@ -89,7 +89,7 @@ Wire Wire Line
 	1300 5050 1400 5050
 Connection ~ 1300 4700
 $Comp
-L Light_trainer-rescue:R-Device R1
+L archive:Light_trainer-rescue_R-Device R1
 U 1 1 5FD7C917
 P 1950 5300
 F 0 "R1" H 2020 5346 50  0000 L CNN
@@ -137,7 +137,7 @@ Switch
 Wire Wire Line
 	1950 5500 1950 5450
 $Comp
-L Light_trainer-rescue:+3.3V-power #PWR01
+L archive:Light_trainer-rescue_+3.3V-power #PWR01
 U 1 1 6047DC4D
 P 1300 3900
 F 0 "#PWR01" H 1300 3750 50  0001 C CNN
@@ -150,7 +150,7 @@ $EndComp
 Text Notes 4400 1050 0    236  ~ 47
 LightTrainer V00
 $Comp
-L Light_trainer-rescue:SK6812-LED D1
+L archive:Light_trainer-rescue_SK6812-LED D1
 U 1 1 5FDB63B9
 P 1800 6750
 F 0 "D1" H 1550 7100 50  0000 L CNN
@@ -164,7 +164,7 @@ F 6 "4,1" H 1800 6750 50  0001 C CNN "prix unité"
 	1    0    0    -1  
 $EndComp
 $Comp
-L Light_trainer-rescue:SK6812-LED D2
+L archive:Light_trainer-rescue_SK6812-LED D2
 U 1 1 5FEF28E1
 P 2450 6750
 F 0 "D2" H 2200 7100 50  0000 L CNN
@@ -178,7 +178,7 @@ F 6 "4,1" H 2450 6750 50  0001 C CNN "prix unité"
 	1    0    0    -1  
 $EndComp
 $Comp
-L Light_trainer-rescue:SK6812-LED D3
+L archive:Light_trainer-rescue_SK6812-LED D3
 U 1 1 5FF375C6
 P 3100 6750
 F 0 "D3" H 2850 7100 50  0000 L CNN
@@ -192,7 +192,7 @@ F 6 "4,1" H 3100 6750 50  0001 C CNN "prix unité"
 	1    0    0    -1  
 $EndComp
 $Comp
-L Light_trainer-rescue:SK6812-LED D4
+L archive:Light_trainer-rescue_SK6812-LED D4
 U 1 1 5FF375CF
 P 3750 6750
 F 0 "D4" H 3500 7100 50  0000 L CNN
@@ -234,7 +234,7 @@ LED
 Text Notes 1000 6100 0    50   ~ 0
 LED néo-pixel
 $Comp
-L Light_trainer-rescue:GND-power #PWR014
+L archive:Light_trainer-rescue_GND-power #PWR014
 U 1 1 603F42F0
 P 4400 7100
 F 0 "#PWR014" H 4400 6850 50  0001 C CNN
@@ -245,7 +245,7 @@ F 3 "" H 4400 7100 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Light_trainer-rescue:GND-power #PWR03
+L archive:Light_trainer-rescue_GND-power #PWR03
 U 1 1 6043A369
 P 1800 7100
 F 0 "#PWR03" H 1800 6850 50  0001 C CNN
@@ -256,7 +256,7 @@ F 3 "" H 1800 7100 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Light_trainer-rescue:GND-power #PWR07
+L archive:Light_trainer-rescue_GND-power #PWR07
 U 1 1 6044BBB6
 P 2450 7100
 F 0 "#PWR07" H 2450 6850 50  0001 C CNN
@@ -267,7 +267,7 @@ F 3 "" H 2450 7100 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Light_trainer-rescue:GND-power #PWR010
+L archive:Light_trainer-rescue_GND-power #PWR010
 U 1 1 6045D3E7
 P 3100 7100
 F 0 "#PWR010" H 3100 6850 50  0001 C CNN
@@ -278,7 +278,7 @@ F 3 "" H 3100 7100 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Light_trainer-rescue:GND-power #PWR012
+L archive:Light_trainer-rescue_GND-power #PWR012
 U 1 1 6046ECE6
 P 3750 7100
 F 0 "#PWR012" H 3750 6850 50  0001 C CNN
@@ -289,7 +289,7 @@ F 3 "" H 3750 7100 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Light_trainer-rescue:GND-power #PWR04
+L archive:Light_trainer-rescue_GND-power #PWR04
 U 1 1 60491CDF
 P 1950 5500
 F 0 "#PWR04" H 1950 5250 50  0001 C CNN
@@ -300,7 +300,7 @@ F 3 "" H 1950 5500 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Light_trainer-rescue:+5V-power #PWR02
+L archive:Light_trainer-rescue_+5V-power #PWR02
 U 1 1 604E998D
 P 1800 6400
 F 0 "#PWR02" H 1800 6250 50  0001 C CNN
@@ -311,7 +311,7 @@ F 3 "" H 1800 6400 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Light_trainer-rescue:+5V-power #PWR06
+L archive:Light_trainer-rescue_+5V-power #PWR06
 U 1 1 604FB129
 P 2450 6400
 F 0 "#PWR06" H 2450 6250 50  0001 C CNN
@@ -322,7 +322,7 @@ F 3 "" H 2450 6400 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Light_trainer-rescue:+5V-power #PWR09
+L archive:Light_trainer-rescue_+5V-power #PWR09
 U 1 1 6050C9D7
 P 3100 6400
 F 0 "#PWR09" H 3100 6250 50  0001 C CNN
@@ -333,7 +333,7 @@ F 3 "" H 3100 6400 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Light_trainer-rescue:+5V-power #PWR011
+L archive:Light_trainer-rescue_+5V-power #PWR011
 U 1 1 6051E1D9
 P 3750 6400
 F 0 "#PWR011" H 3750 6250 50  0001 C CNN
@@ -344,7 +344,7 @@ F 3 "" H 3750 6400 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Light_trainer-rescue:TestPoint-Connector TP4
+L archive:Light_trainer-rescue_TestPoint-Connector TP4
 U 1 1 606B57C6
 P 1950 3850
 F 0 "TP4" H 2008 3968 50  0000 L CNN
@@ -360,7 +360,7 @@ $EndComp
 Wire Wire Line
 	1950 3850 1950 4000
 $Comp
-L Light_trainer-rescue:TestPoint-Connector TP1
+L archive:Light_trainer-rescue_TestPoint-Connector TP1
 U 1 1 6070C247
 P 1400 6700
 F 0 "TP1" H 1050 7000 50  0000 L CNN
@@ -381,7 +381,7 @@ Connection ~ 1400 6750
 Wire Wire Line
 	1400 6750 1500 6750
 $Comp
-L Light_trainer-rescue:ESP32-DevKitC-32D-Work_Forestier U2
+L archive:Light_trainer-rescue_ESP32-DevKitC-32D-Work_Forestier U2
 U 1 1 6148669D
 P 5700 2900
 F 0 "U2" H 5700 4065 50  0000 C CNN
@@ -392,7 +392,7 @@ F 3 "https://media.digikey.com/pdf/Data%20Sheets/Espressif%20PDFs/ESP32-DevKitC_
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:Battery BT1
+L archive:Device_Battery BT1
 U 1 1 613C716D
 P 1000 2450
 F 0 "BT1" H 1108 2496 50  0000 L CNN
@@ -403,7 +403,7 @@ F 3 "~" V 1000 2510 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Regulator_Switching:LTC3525-5 U1
+L archive:Regulator_Switching_LTC3525-5 U1
 U 1 1 613E4BD4
 P 2800 2300
 F 0 "U1" H 2900 2650 50  0000 C CNN
@@ -416,7 +416,7 @@ $EndComp
 Wire Wire Line
 	2300 2300 2400 2300
 $Comp
-L Device:L L1
+L archive:Device_L L1
 U 1 1 613E7FA8
 P 3100 1800
 F 0 "L1" V 3290 1800 50  0000 C CNN
@@ -431,7 +431,7 @@ Wire Wire Line
 Wire Wire Line
 	3350 2200 3200 2200
 $Comp
-L Device:C C2
+L archive:Device_C C2
 U 1 1 613EB1F1
 P 3400 2600
 F 0 "C2" H 3515 2646 50  0000 L CNN
@@ -455,7 +455,7 @@ Wire Wire Line
 Wire Wire Line
 	3400 2800 3400 2750
 $Comp
-L Device:C C1
+L archive:Device_C C1
 U 1 1 613F1363
 P 2300 2600
 F 0 "C1" H 2415 2646 50  0000 L CNN
@@ -477,7 +477,7 @@ Wire Wire Line
 Wire Wire Line
 	3250 1800 3350 1800
 $Comp
-L Light_trainer-rescue:+5V-power #PWR013
+L archive:Light_trainer-rescue_+5V-power #PWR013
 U 1 1 60552CBF
 P 4400 6400
 F 0 "#PWR013" H 4400 6250 50  0001 C CNN
@@ -490,7 +490,7 @@ $EndComp
 Wire Wire Line
 	4750 6700 4750 6750
 $Comp
-L Light_trainer-rescue:TestPoint-Connector TP5
+L archive:Light_trainer-rescue_TestPoint-Connector TP5
 U 1 1 60377721
 P 4750 6700
 F 0 "TP5" H 4808 6818 50  0000 L CNN
@@ -510,7 +510,7 @@ Wire Wire Line
 Wire Wire Line
 	4750 6750 4700 6750
 $Comp
-L Light_trainer-rescue:SK6812-LED D5
+L archive:Light_trainer-rescue_SK6812-LED D5
 U 1 1 5FF5112C
 P 4400 6750
 F 0 "D5" H 4150 7100 50  0000 L CNN
@@ -524,7 +524,7 @@ F 6 "4,1" H 4400 6750 50  0001 C CNN "prix unité"
 	1    0    0    -1  
 $EndComp
 $Comp
-L Light_trainer-rescue:+5V-power #PWR08
+L archive:Light_trainer-rescue_+5V-power #PWR08
 U 1 1 61414884
 P 3500 2350
 F 0 "#PWR08" H 3500 2200 50  0001 C CNN
@@ -537,7 +537,7 @@ $EndComp
 Wire Wire Line
 	3500 2350 3500 2400
 $Comp
-L Light_trainer-rescue:GND-power #PWR05
+L archive:Light_trainer-rescue_GND-power #PWR05
 U 1 1 61415E58
 P 2800 2850
 F 0 "#PWR05" H 2800 2600 50  0001 C CNN
@@ -554,7 +554,7 @@ Wire Notes Line
 Wire Notes Line
 	800  1500 800  3150
 $Comp
-L Light_trainer-rescue:+5V-power #PWR017
+L archive:Light_trainer-rescue_+5V-power #PWR017
 U 1 1 61421D85
 P 4900 3700
 F 0 "#PWR017" H 4900 3550 50  0001 C CNN
@@ -569,7 +569,7 @@ Wire Wire Line
 Wire Wire Line
 	5350 3750 4900 3750
 $Comp
-L Light_trainer-rescue:GND-power #PWR021
+L archive:Light_trainer-rescue_GND-power #PWR021
 U 1 1 61424DCF
 P 6350 2000
 F 0 "#PWR021" H 6350 1750 50  0001 C CNN
@@ -584,7 +584,7 @@ Wire Wire Line
 Wire Wire Line
 	6050 1950 6350 1950
 $Comp
-L Light_trainer-rescue:GND-power #PWR022
+L archive:Light_trainer-rescue_GND-power #PWR022
 U 1 1 61427B71
 P 6350 2600
 F 0 "#PWR022" H 6350 2350 50  0001 C CNN
@@ -599,7 +599,7 @@ Wire Wire Line
 Wire Wire Line
 	6050 2550 6350 2550
 $Comp
-L Light_trainer-rescue:GND-power #PWR016
+L archive:Light_trainer-rescue_GND-power #PWR016
 U 1 1 6142C078
 P 4900 3300
 F 0 "#PWR016" H 4900 3050 50  0001 C CNN
@@ -614,7 +614,7 @@ Wire Wire Line
 Wire Wire Line
 	5350 3250 4900 3250
 $Comp
-L Connector:TestPoint TP6
+L archive:Connector_TestPoint TP6
 U 1 1 6142F575
 P 4800 4850
 F 0 "TP6" H 4858 4968 50  0000 L CNN
@@ -628,7 +628,7 @@ F 6 "~" H 4800 4850 50  0001 C CNN "prix unité"
 	1    0    0    -1  
 $EndComp
 $Comp
-L Light_trainer-rescue:GND-power #PWR015
+L archive:Light_trainer-rescue_GND-power #PWR015
 U 1 1 61430156
 P 4800 4900
 F 0 "#PWR015" H 4800 4650 50  0001 C CNN
@@ -641,7 +641,7 @@ $EndComp
 Wire Wire Line
 	4800 4900 4800 4850
 $Comp
-L Connector:TestPoint TP7
+L archive:Connector_TestPoint TP7
 U 1 1 61436086
 P 5350 4850
 F 0 "TP7" H 5408 4968 50  0000 L CNN
@@ -655,7 +655,7 @@ F 6 "~" H 5350 4850 50  0001 C CNN "prix unité"
 	1    0    0    -1  
 $EndComp
 $Comp
-L Light_trainer-rescue:+5V-power #PWR019
+L archive:Light_trainer-rescue_+5V-power #PWR019
 U 1 1 61439438
 P 5350 4950
 F 0 "#PWR019" H 5350 4800 50  0001 C CNN
@@ -668,7 +668,7 @@ $EndComp
 Wire Wire Line
 	5350 4850 5350 4950
 $Comp
-L Connector:TestPoint TP2
+L archive:Connector_TestPoint TP2
 U 1 1 6143AF5D
 P 2300 1900
 F 0 "TP2" H 2358 2018 50  0000 L CNN
@@ -682,7 +682,7 @@ F 6 "~" H 2300 1900 50  0001 C CNN "prix unité"
 	1    0    0    -1  
 $EndComp
 $Comp
-L Connector:TestPoint TP3
+L archive:Connector_TestPoint TP3
 U 1 1 6143D663
 P 2300 2850
 F 0 "TP3" H 2100 3000 50  0000 L CNN
@@ -704,7 +704,7 @@ Wire Wire Line
 Wire Wire Line
 	5100 1850 5100 1950
 $Comp
-L Light_trainer-rescue:+3.3V-power #PWR018
+L archive:Light_trainer-rescue_+3.3V-power #PWR018
 U 1 1 6144B410
 P 5100 1850
 F 0 "#PWR018" H 5100 1700 50  0001 C CNN
@@ -774,7 +774,7 @@ Alimentation 3 pile AA avec régulateur 5V\n
 Text Notes 4500 4550 0    50   ~ 0
 Test point GND/5V\n
 $Comp
-L Connector:TestPoint TP8
+L archive:Connector_TestPoint TP8
 U 1 1 614C7562
 P 5900 4850
 F 0 "TP8" H 5958 4968 50  0000 L CNN
@@ -788,7 +788,7 @@ F 6 "~" H 5900 4850 50  0001 C CNN "prix unité"
 	1    0    0    -1  
 $EndComp
 $Comp
-L Light_trainer-rescue:+3.3V-power #PWR020
+L archive:Light_trainer-rescue_+3.3V-power #PWR020
 U 1 1 614C9C11
 P 5900 4950
 F 0 "#PWR020" H 5900 4800 50  0001 C CNN
@@ -809,7 +809,7 @@ Wire Notes Line
 Wire Notes Line
 	4500 5250 6400 5250
 $Comp
-L Device:Jumper JP1
+L archive:Device_Jumper JP1
 U 1 1 614DCE52
 P 1900 1950
 F 0 "JP1" H 1900 2214 50  0000 C CNN
@@ -837,7 +837,7 @@ Wire Wire Line
 	2800 1950 2800 2000
 Connection ~ 2300 2800
 $Comp
-L Switch:SW_SPDT SW5
+L archive:Switch_SW_SPDT SW5
 U 1 1 61410395
 P 1300 2050
 F 0 "SW5" H 1300 2335 50  0000 C CNN
@@ -865,7 +865,7 @@ Wire Wire Line
 Wire Wire Line
 	1000 2250 1000 2050
 $Comp
-L Mechanical:MountingHole H1
+L archive:Mechanical_MountingHole H1
 U 1 1 6141B071
 P 7000 4750
 F 0 "H1" H 7100 4796 50  0000 L CNN
@@ -876,7 +876,7 @@ F 3 "~" H 7000 4750 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mechanical:MountingHole H2
+L archive:Mechanical_MountingHole H2
 U 1 1 6141E6D1
 P 7800 4750
 F 0 "H2" H 7900 4796 50  0000 L CNN
@@ -887,7 +887,7 @@ F 3 "~" H 7800 4750 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mechanical:MountingHole H4
+L archive:Mechanical_MountingHole H4
 U 1 1 6141E94E
 P 7800 5150
 F 0 "H4" H 7900 5196 50  0000 L CNN
@@ -898,7 +898,7 @@ F 3 "~" H 7800 5150 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mechanical:MountingHole H3
+L archive:Mechanical_MountingHole H3
 U 1 1 6141EBEB
 P 7000 5150
 F 0 "H3" H 7100 5196 50  0000 L CNN
