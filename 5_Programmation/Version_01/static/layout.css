@@ -1,0 +1,120 @@
+* {
+    padding: 0;
+    margin: 0;
+    font-family:verdana;
+    user-select: none;
+}
+
+header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    color: #FFF;
+    background-color: rgb(33, 150, 243);
+    background: linear-gradient(5deg, rgba(33,203,255,1) 30%, rgba(33,150,243,1) 70%);
+}
+
+header a {
+    color: #FFF;
+    width: 20px;
+    padding: 10px;
+    text-decoration: none;
+}
+
+header a:hover {
+    background-color: #ddd;
+}
+
+header div {
+    flex-grow: 3;
+    font-size: 20px;
+}
+
+.title {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+}
+
+.block {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+    align-items: center;
+
+    margin: 20px 50px;
+    padding: 10px;
+    box-shadow: 0px 0px 15px rgba(33, 150, 243,0.15);
+}
+
+.block p {
+    font-size: 20px;
+}
+
+.block a {
+    width: 70%;
+    height: 25px;
+    background-color: rgb(33, 150, 243);
+    background: linear-gradient(355deg, rgba(33,183,255,1) 30%, rgba(33,150,243,1) 70%);
+    text-decoration: none;
+    padding-top: 5px;
+    color: #FFF;
+    border-radius: 5px;
+}
+
+.block a:hover {
+    background-color: #aaa;
+    background: linear-gradient(4deg, rgba(201,201,201,1) 30%, rgba(176,176,176,1) 70%);
+    box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.2);
+    color: #000;
+}
+
+form {
+    width: 100%;
+}
+
+.on-off {
+    flex-direction: row;
+      justify-content: space-around;
+}
+
+.on, .off, .modifier {
+    width: 40%;
+    height: 25px;
+    border: none;
+    color: #fff;
+    border-radius: 5px;
+}
+
+.on {
+    background-color: #4CAF50;
+}
+
+.off {
+    background-color: #f44336;
+
+}
+
+.on:hover, .off:hover {
+    background-color: #ddd;
+    color: #000;
+}
+
+input {
+    width: 40%;
+}
+
+.modifier {
+    background-color: rgb(33, 150, 243);
+    background: linear-gradient(355deg, rgba(33,183,255,1) 30%, rgba(33,150,243,1) 70%);
+    margin: 5px;
+}
+
+.modifier:hover {
+    background: linear-gradient(4deg, rgba(201,201,201,1) 30%, rgba(176,176,176,1) 70%);
+    box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.2);
+    color: #000;
+}
