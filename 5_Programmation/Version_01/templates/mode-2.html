@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
 
     <meta name="author" content="Robin Forestier">
-    <meta name="description" content="Error page">
+    <meta name="description" content="Mode 2">
 
     <title>Mode 2</title>
-    <link rel="stylesheet" href="./static/layout.css">
+    <link rel="stylesheet" href="/css">
 </head>
 <body>
     <header>
@@ -19,17 +19,17 @@
         <a href="/settings">🔧</a>
     </header>
 
-    <form action="">
+    <form method="post" action="/mode-2">
         <div class="block on-off">
-            <button class="on">ON</button>
-            <button class="off">OFF</button>
+            <button class="on" type="submit" name="on-off" value="on">ON</button>
+            <button class="off" type="submit" name="on-off" value="off">OFF</button>
         </div>
     </form>
 
-    <form action="">
+    <form method="post" action="/mode-2">
         <div class="block on-off">
-                <input type="number" placeholder="Min en seconde">
-                <input type="number" placeholder="Max en seconde">
+			<input type="number" name="min-s" min="0" placeholder="Min en seconde">
+			<input type="number" name="max-s" min="0" placeholder="Max en seconde">
         </div>
 
         <div class="block">
@@ -37,7 +37,7 @@
             <input type="number" id="quantity" name="colors" min="1" max="5" value="1">
             <p>Nombre de light</p>
             <input type="number" id="quantity" name="light" min="1" max="5" value="1">
-            <button class="modifier">Modifier</button>
+            <button class="modifier" type="submit">Modifier</button>
         </div>
     </form>
 </body>

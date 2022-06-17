@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
 
     <meta name="author" content="Robin Forestier">
-    <meta name="description" content="Error page">
+    <meta name="description" content="Mode 3">
 
     <title>Mode 3</title>
-    <link rel="stylesheet" href="./static/layout.css">
+    <link rel="stylesheet" href="/css">
 </head>
 <body>
     <header>
@@ -19,22 +19,22 @@
         <a href="/settings">🔧</a>
     </header>
 
-    <form action="">
+    <form method="post" action="/mode-3">
         <div class="block on-off">
-            <button class="on">ON</button>
-            <button class="off">OFF</button>
+            <button class="on" type="submit" name="on-off" value="on">ON</button>
+            <button class="off" type="submit" name="on-off" value="off">OFF</button>
         </div>
     </form>
 
-    <form action="">
+    <form method="post" action="/mode-3">
         <div class="block on-off">
-                <input type="number" placeholder="Timer en seconde">
+            <input type="number" name="time" min="0" placeholder="Timer en seconde">
         </div>
 
         <div class="block">
             <p>Nombre de couleurs</p>
             <input type="number" id="quantity" name="colors" min="1" max="5" value="1">
-            <button class="modifier">Modifier</button>
+            <button class="modifier" type="submit">Modifier</button>
         </div>
     </form>
 </body>
