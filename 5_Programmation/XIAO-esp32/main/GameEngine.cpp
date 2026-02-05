@@ -2,8 +2,19 @@
 
 GameEngine Game;
 
+GameEngine::GameEngine() :
+  currentState(MENU),
+  currentMode(0),
+  menuTriggerStartTime(0),
+  isMenuTriggerActive(false),
+  startGameSequenceState(START_GAME_IDLE),
+  startGameTimer(0)
+{
+  // No hardware-dependent initialization here
+}
+
 void GameEngine::init() {
-  currentState = MENU;
+  // Moved to constructor: currentState = MENU;
   randomSeed(ESP.getEfuseMac());
   DEBUG_PRINT(DEBUG_INFO, "GameEngine initialized. Current state: MENU");
 }
@@ -11,6 +22,7 @@ void GameEngine::init() {
 void GameEngine::loop() {
   handleNetwork();
   handleInputs();
+  processStartGameSequence(); // Call the new non-blocking sequence handler
 
   // Gestion des délais multiples (multitâche)
   if (!pendingSpawns.empty()) {
@@ -40,14 +52,14 @@ void GameEngine::handleNetwork() {
   switch (msg.msgType) {
     case CMD_START:
       currentState = IDLE_LISTENER;
-      Hardware.setLight(0);
-      DEBUG_PRINT(DEBUG_INFO, "CMD_START received. Setting state to IDLE_LISTENER.");
+      Hardware.setLight(msg.color);
+      DEBUG_PRINT(DEBUG_INFO, "CMD_START received. Setting state to IDLE_LISTENER and color %X.", msg.color);
       break;
 
     case CMD_ACTIVATE:
-      DEBUG_PRINT(DEBUG_INFO, "CMD_ACTIVATE received for target ID %llu. My ID: %llu", msg.targetID, GameNetwork.myId);
+      DEBUG_PRINT(DEBUG_INFO, "CMD_ACTIVATE received for target ID %llu. My ID: %llu", msg.targetID, GameNetwork.getMyId());
       // Si on me demande de m'allumer
-      if (currentState == IDLE_LISTENER && msg.targetID == GameNetwork.myId) {
+      if (currentState == IDLE_LISTENER && msg.targetID == GameNetwork.getMyId()) {
         currentState = ACTIVE_TARGET;
         Hardware.setLight(msg.color);
         GameNetwork.broadcast(CMD_ACK, 0);
@@ -66,6 +78,14 @@ void GameEngine::handleNetwork() {
       DEBUG_PRINT(DEBUG_VERBOSE, "CMD_PING received. Sending ACK.");
       GameNetwork.broadcast(CMD_ACK, 0);
       break;
+
+    case CMD_RETURN_TO_MENU:
+      DEBUG_PRINT(DEBUG_INFO, "CMD_RETURN_TO_MENU received. Transitioning to MENU state.");
+      currentState = MENU;
+      Hardware.setLight(0); // Ensure all LEDs are off
+      activeTargets.clear();
+      pendingSpawns.clear();
+      break;
   }
 }
 
@@ -77,33 +97,41 @@ void GameEngine::handleInputs() {
       DEBUG_PRINT(DEBUG_INFO, "Serial command 's' received. Starting game.");
     }
     if (cmd == 'h') {
-      Hardware.triggerHit = true;
+      Hardware.setTriggerHit(true);
       DEBUG_PRINT(DEBUG_INFO, "Serial command 'h' received. Triggering hit.");
     }
     if (cmd >= '0' && cmd <= '3') {
-      currentMode = cmd - '0';
-      DEBUG_PRINT(DEBUG_INFO, "Serial command '%c' received. Setting mode to %d.", cmd, currentMode);
+      if (currentState == MENU) { // Only allow mode change in MENU state
+        currentMode = cmd - '0';
+        DEBUG_PRINT(DEBUG_INFO, "Serial command '%c' received. Setting mode to %d.", cmd, currentMode);
+      } else {
+        DEBUG_PRINT(DEBUG_WARNING, "Attempted to change mode via serial command while game is active (state: %d). Ignored.", currentState);
+      }
+    }
+    if (cmd == 'r') {
+      returnToMenu();
+      DEBUG_PRINT(DEBUG_INFO, "Serial command 'r' received. Returning to menu.");
     }
   }
 
   if (currentState == MENU) {
-    if (Hardware.triggerMode != -1) {
-      currentMode = Hardware.triggerMode;
-      DEBUG_PRINT(DEBUG_INFO, "Hardware trigger mode %d detected. Passing color %lx to blink.", currentMode, (unsigned long)modes[currentMode].color1);
-      Hardware.blink(modes[currentMode].color1, 1);
+    if (Hardware.getTriggerMode() != -1) {
+      currentMode = Hardware.getTriggerMode();
+      DEBUG_PRINT(DEBUG_INFO, "Hardware trigger mode %d detected. Setting light to color %#lx.", currentMode, (unsigned long)getGameMode(currentMode).color1);
+      Hardware.setLight(getGameMode(currentMode).color1);
     }
-    if (Hardware.triggerStart) {
+    if (Hardware.getTriggerStart()) {
       startGame();
       DEBUG_PRINT(DEBUG_INFO, "Hardware trigger START detected.");
     }
   } else if (currentState == ACTIVE_TARGET || currentState == CONTROLLER_TARGET) {
-    if (Hardware.triggerHit) {
+    if (Hardware.getTriggerHit()) {
       DEBUG_PRINT(DEBUG_INFO, "Hardware HIT trigger detected.");
       Hardware.setLight(0);
 
       if (currentState == CONTROLLER_TARGET) {
         currentState = CONTROLLER;
-        onHitReceived(GameNetwork.myId);  // Je suis le chef et j'ai touché
+        onHitReceived(GameNetwork.getMyId());  // Je suis le chef et j'ai touché
         DEBUG_PRINT(DEBUG_INFO, "Controller is target, self-hit confirmed.");
       } else {
         currentState = IDLE_LISTENER;
@@ -111,33 +139,89 @@ void GameEngine::handleInputs() {
         DEBUG_PRINT(DEBUG_INFO, "Slave hit confirmed. Broadcasting CMD_HIT.");
       }
     }
+
+    // --- Gestion du retour au menu par appui long ---
+    if (Hardware.getTriggerStart() && (currentState == CONTROLLER || currentState == CONTROLLER_TARGET || currentState == IDLE_LISTENER || currentState == ACTIVE_TARGET)) {
+      if (!isMenuTriggerActive) {
+        isMenuTriggerActive = true;
+        menuTriggerStartTime = millis();
+        DEBUG_PRINT(DEBUG_INFO, "Menu return trigger initiated.");
+      } else if (millis() - menuTriggerStartTime >= 3000) {
+        DEBUG_PRINT(DEBUG_INFO, "Menu return trigger held for 3 seconds.");
+        if (currentState == CONTROLLER || currentState == CONTROLLER_TARGET) {
+          returnToMenu(); // Controller takes action directly
+          DEBUG_PRINT(DEBUG_INFO, "Controller returning to menu.");
+        } else {
+          // Slave sends request to controller
+          GameNetwork.broadcast(CMD_RETURN_TO_MENU, 0);
+          DEBUG_PRINT(DEBUG_INFO, "Slave requesting return to menu from controller.");
+        }
+        isMenuTriggerActive = false; // Reset after trigger
+      }
+    } else {
+      isMenuTriggerActive = false; // Reset if sensor not covered
+    }
   }
 }
 
 void GameEngine::startGame() {
+  Hardware.setLight(0);
   currentState = CONTROLLER;
-  GameNetwork.broadcast(CMD_START, 0);
-  delay(500);
-  DEBUG_PRINT(DEBUG_INFO, "Starting new game. Setting state to CONTROLLER.");
-
+  
   // Nettoyage
   activeTargets.clear();
   pendingSpawns.clear();
   DEBUG_PRINT(DEBUG_VERBOSE, "Active targets and pending spawns cleared.");
 
-  // Lancement des boucles de couleur
-  // 1. Toujours lancer la couleur 1
-  scheduleNextTurn(modes[currentMode].color1);
-  DEBUG_PRINT(DEBUG_VERBOSE, "Scheduling initial turn for color %X.", modes[currentMode].color1);
+  // Start the non-blocking sequence
+  startGameSequenceState = START_GAME_WAIT_COLOR1_BROADCAST;
+  startGameTimer = millis(); // Set timer for first step
+  DEBUG_PRINT(DEBUG_INFO, "Starting new game non-blocking sequence. Setting state to CONTROLLER.");
+}
 
-  // 2. Si le mode a une 2ème couleur (Mode 1 ou 3), on lance sa boucle aussi
-  if (modes[currentMode].color2 != 0) {
-    // Petit décalage pour éviter que les deux s'allument exactement en même temps au start
-    delay(100);
-    scheduleNextTurn(modes[currentMode].color2);
-    DEBUG_PRINT(DEBUG_VERBOSE, "Scheduling second initial turn for color %X.", modes[currentMode].color2);
+void GameEngine::processStartGameSequence() {
+  unsigned long now = millis();
+  switch (startGameSequenceState) {
+    case START_GAME_IDLE:
+      // Do nothing
+      break;
+
+    case START_GAME_WAIT_COLOR1_BROADCAST:
+      // Broadcast CMD_START immediately, then wait for 500ms
+      GameNetwork.broadcast(CMD_START, getGameMode(currentMode).color1);
+      DEBUG_PRINT(DEBUG_VERBOSE, "Broadcasting CMD_START for color 1: %X.", modes[currentMode].color1);
+      scheduleNextTurn(getGameMode(currentMode).color1); // Schedule the actual game turn
+      
+      startGameSequenceState = START_GAME_WAIT_COLOR2_BROADCAST; // Move to next step
+      startGameTimer = now + 500; // Set timer for 500ms delay after broadcast
+      break;
+
+    case START_GAME_WAIT_COLOR2_BROADCAST:
+      if (now >= startGameTimer) { // Wait 500ms after color1 broadcast
+        if (getGameMode(currentMode).color2 != 0) {
+          GameNetwork.broadcast(CMD_START, getGameMode(currentMode).color2);
+          DEBUG_PRINT(DEBUG_VERBOSE, "Broadcasting CMD_START for color 2: %X.", modes[currentMode].color2);
+          scheduleNextTurn(getGameMode(currentMode).color2); // Schedule the actual game turn
+          startGameSequenceState = START_GAME_IDLE; // Sequence complete
+        } else {
+          startGameSequenceState = START_GAME_IDLE; // No color2, sequence complete
+        }
+      }
+      break;
   }
 }
+
+
+void GameEngine::returnToMenu() {
+  DEBUG_PRINT(DEBUG_INFO, "Returning to MENU state.");
+  currentState = MENU;
+  Hardware.setLight(0); // Turn off all LEDs
+  activeTargets.clear();
+  pendingSpawns.clear();
+  GameNetwork.broadcast(CMD_RETURN_TO_MENU, 0); // Broadcast to all
+  startGameSequenceState = START_GAME_IDLE; // Ensure sequence is reset
+}
+
 
 void GameEngine::scheduleNextTurn(uint32_t color) {
   ScheduledSpawn spawn;
@@ -145,8 +229,8 @@ void GameEngine::scheduleNextTurn(uint32_t color) {
   spawn.activationTime = millis();  // Par défaut : tout de suite
 
   // Ajout du délai si nécessaire (Mode 2 et 3)
-  if (modes[currentMode].delayMax > 0) {
-    uint32_t delayMs = random(modes[currentMode].delayMin, modes[currentMode].delayMax) * 1000;
+  if (getGameMode(currentMode).delayMax > 0) {
+    uint32_t delayMs = random(getGameMode(currentMode).delayMin, getGameMode(currentMode).delayMax) * 1000;
     spawn.activationTime += delayMs;
     DEBUG_PRINT(DEBUG_INFO, "Scheduling next turn for color %X. Delay: %lu ms.", color, delayMs);
   } else {
@@ -159,8 +243,8 @@ void GameEngine::scheduleNextTurn(uint32_t color) {
 void GameEngine::activateRandomPod(uint32_t color) {
   DEBUG_PRINT(DEBUG_INFO, "Activating random pod with color %X.", color);
   // Liste des candidats potentiels (tous les noeuds connus + moi)
-  std::vector<uint64_t> candidates = GameNetwork.knownNodes;
-  candidates.push_back(GameNetwork.myId);
+  std::vector<uint64_t> candidates = GameNetwork.getKnownNodes();
+  candidates.push_back(GameNetwork.getMyId());
 
   // Filtrer les candidats : retirer ceux qui sont déjà allumés
   // (pour éviter d'écraser une couleur existante)
@@ -189,7 +273,7 @@ void GameEngine::activateRandomPod(uint32_t color) {
   DEBUG_PRINT(DEBUG_INFO, "Chosen pod ID: %llu for color %X.", chosenID, color);
 
   // Activation
-  if (chosenID == GameNetwork.myId) {
+  if (chosenID == GameNetwork.getMyId()) {
     currentState = CONTROLLER_TARGET;
     Hardware.setLight(color);
     DEBUG_PRINT(DEBUG_INFO, "Activating self as CONTROLLER_TARGET with color %X.", color);
@@ -221,9 +305,9 @@ void GameEngine::onHitReceived(uint64_t senderId) {
     // Règle demandée : la prochaine est de la MEME couleur
     scheduleNextTurn(hitColor);
   } else {
-    DEBUG_PRINT(DEBUG_WARNING, "Hit received from unknown active target %llu. Rescheduling main color %X.", senderId, modes[currentMode].color1);
+    DEBUG_PRINT(DEBUG_WARNING, "Hit received from unknown active target %llu. Rescheduling main color %X.", senderId, getGameMode(currentMode).color1);
     // Cas rare : un message Hit reçu d'un pod qu'on ne pensait pas actif (lag ?)
     // Dans le doute, on relance la couleur principale
-    scheduleNextTurn(modes[currentMode].color1);
+    scheduleNextTurn(getGameMode(currentMode).color1);
   }
 }

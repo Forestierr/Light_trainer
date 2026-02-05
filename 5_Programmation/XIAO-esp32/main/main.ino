@@ -13,7 +13,8 @@ void setup() {
   // Initialiser le Hardware minimal
   Hardware.init();
 
-  WebConfig.loadSettings(Game.modes, 4);
+  WebConfig.loadSettings(Game.getAllGameModes());
+  Hardware.setBrightness(WebConfig.getBrightness());
   
   if (WebConfig.shouldEnterConfigMode()) {
     DEBUG_PRINT(DEBUG_INFO, "WebConfig mode triggered.");
@@ -26,12 +27,15 @@ void setup() {
   DEBUG_PRINT(DEBUG_INFO, "Starting Game...");
   GameNetwork.init();
   Game.init();
-  DEBUG_PRINT(DEBUG_INFO, "System Ready. ID: %llu", GameNetwork.myId);
+  DEBUG_PRINT(DEBUG_INFO, "System Ready. ID: %llu", GameNetwork.getMyId());
 }
 
 void loop() {
   // Boucle de jeu classique
   Hardware.update();
+#if ENABLE_BATTERY_MANAGEMENT
+  Hardware.updateBatteryLED(); // Update LEDs based on battery status
+#endif
   Hardware.checkSleep();
   Game.loop();
 

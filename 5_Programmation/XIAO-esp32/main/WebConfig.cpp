@@ -5,7 +5,7 @@ WebConfigManager WebConfig;
 
 // ---- INITIALISATION & DETECTION ----
 
-void WebConfigManager::init() {}
+// Removed void WebConfigManager::init() {} as it was unused and empty.
 
 bool WebConfigManager::shouldEnterConfigMode() {
   Hardware.init();
@@ -14,37 +14,46 @@ bool WebConfigManager::shouldEnterConfigMode() {
   unsigned long start = millis();
   bool detected = false;
 
-  // On laisse 3 secondes à l'utilisateur au démarrage
-  while (millis() - start < 3000) {
-    int d = Hardware.getDistance();
-    DEBUG_PRINT(DEBUG_VERBOSE, "Checking distance for config mode. Distance: %dmm", d);
-    // Si main détectée entre 5cm et 15cm
-    if (d > 50 && d < 150) {
-      detected = true;
-      Hardware.rainbowBlink(1, 75);  // Rainbow feedback = Mode Config
-      break;
+      // On laisse 3 secondes à l'utilisateur au démarrage
+    while (millis() - start < 3000) {
+      Hardware.rainbowAnimation(); // Continuous rainbow feedback
+      int d = Hardware.getDistance();
+      DEBUG_PRINT(DEBUG_VERBOSE, "Checking distance for config mode. Distance: %dmm", d);
+      // Si main détectée entre 5cm et 15cm
+      if (d > 50 && d < 150) {
+        detected = true;
+        // No break here, let the animation continue for the full duration
+        // Or, if we want immediate detection and then confirmation, handle differently.
+        // For now, let's keep the animation running for the duration even if detected.
+      }
+      delay(10);
     }
-    delay(10);
-  }
-
-  if (detected) {
-    DEBUG_PRINT(DEBUG_INFO, "Config mode gesture detected!");
-    // Clignotement de confirmation
-    Hardware.rainbowBlink(3, 100); // Rainbow blink for confirmation
-    return true;
-  }
-
+  
+    if (detected) {
+      DEBUG_PRINT(DEBUG_INFO, "Config mode gesture detected!");
+      // Clignotement de confirmation
+      Hardware.rainbowBlink(3, 100); // Rainbow blink for confirmation
+      return true;
+    }
   Hardware.setLight(0);  // Eteindre si pas de config
   DEBUG_PRINT(DEBUG_INFO, "Config mode not triggered. Continuing to game mode.");
   return false;
 }
 
-void WebConfigManager::loadSettings(GameMode* modes, int count) {
-  currentModes = modes;                    // Garder une référence
-  preferences.begin("trainer-cfg", true);  // Lecture seule
+void WebConfigManager::loadSettings(GameMode (&modes)[4]) { // Passed by reference
+  gameModesRef = modes;                    // Store the reference as a pointer
+  if (!preferences.begin("trainer-cfg", true)) {  // Lecture seule
+    DEBUG_PRINT(DEBUG_ERROR, "Failed to open NVS preferences in read mode.");
+    // Initialize with default brightness if NVS fails
+    currentBrightness = DEFAULT_BRIGHTNESS;
+    return;
+  }
   DEBUG_PRINT(DEBUG_INFO, "Loading settings from NVS...");
 
-  for (int i = 0; i < count; i++) {
+  currentBrightness = preferences.getUInt(NVS_KEY_BRIGHTNESS, DEFAULT_BRIGHTNESS);
+  DEBUG_PRINT(DEBUG_VERBOSE, "Loaded brightness: %d", currentBrightness);
+
+  for (int i = 0; i < 4; i++) { // Loop 4 times as array size is fixed
     String p = String(i);
     // On charge seulement si la clé existe, sinon on garde la valeur par défaut du code
     if (preferences.isKey(("c1_" + p).c_str())) {
@@ -137,8 +146,20 @@ void WebConfigManager::handleRoot() {
 }
 
 void WebConfigManager::handleSave() {
-  preferences.begin("trainer-cfg", false);  // Mode écriture
+  if (!preferences.begin("trainer-cfg", false)) {  // Mode écriture
+    DEBUG_PRINT(DEBUG_ERROR, "Failed to open NVS preferences in write mode.");
+    server.send(500, "text/plain", "Failed to save settings to NVS.");
+    return;
+  }
   DEBUG_PRINT(DEBUG_INFO, "Saving settings to NVS...");
+
+  // Save brightness
+  String brightnessStr = server.arg("brightness");
+  uint8_t newBrightness = brightnessStr.toInt();
+  // Constrain brightness to 10-100% (25-255 roughly)
+  newBrightness = constrain(newBrightness, 25, 255); // 10% of 255 is 25.5, so round to 25.
+  preferences.putUInt(NVS_KEY_BRIGHTNESS, newBrightness);
+  DEBUG_PRINT(DEBUG_INFO, "Saving brightness: %d", newBrightness);
 
   // On sauvegarde les 4 modes
   for (int i = 0; i < 4; i++) {
@@ -178,25 +199,42 @@ void WebConfigManager::handleSave() {
 String WebConfigManager::getHTML() {
   String h = "<!DOCTYPE html><html><head><meta charset='utf-8'>";
   h += "<meta name='viewport' content='width=device-width, initial-scale=1'>";
-  h += "<title>Light Trainer Config</title>";
+  h += "<title>Light Trainer</title>";
   h += "<style>";
-  h += "body { font-family: 'Segoe UI', sans-serif; background-color: #1e1e1e; color: #e0e0e0; margin: 0; padding: 20px; }";
-  h += "h1 { color: #00ff88; text-align: center; }";
-  h += ".card { background: #2d2d2d; border-radius: 12px; padding: 15px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }";
-  h += ".card h2 { margin-top: 0; border-bottom: 1px solid #444; padding-bottom: 10px; font-size: 1.2em; color: #ffcc00; }";
-  h += ".form-group { margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between; }";
-  h += "label { flex: 1; }";
-  h += "input[type='color'] { border: none; width: 50px; height: 35px; cursor: pointer; background: none; }";
-  h += "input[type='number'] { width: 60px; padding: 8px; border-radius: 5px; border: 1px solid #555; background: #333; color: white; }";
-  h += ".btn { display: block; width: 100%; padding: 15px; background: #00ff88; color: #000; font-weight: bold; border: none; border-radius: 8px; font-size: 1.1em; cursor: pointer; margin-top: 20px; }";
-  h += ".info { font-size: 0.8em; color: #888; text-align: center; margin-bottom: 20px; }";
-  h += "</style></head><body>";
-
-  h += "<h1>Light Trainer</h1>";
-  h += "<div class='info'>ID Contrôleur: " + String((uint32_t)ESP.getEfuseMac(), HEX) + "<br>";
-  h += "Note: Les esclaves ne sont pas visibles en mode WiFi.</div>";
+  h += "body { font-family: 'Montserrat', sans-serif; background-color: #000000; color: #FFFFFF; margin: 0; padding: 0; display: flex; flex-direction: column; justify-content: space-between; align-items: center; min-height: 100vh; }";
+  h += ".container { background: #282828; border-radius: 15px; padding: 25px; box-shadow: 0 8px 16px rgba(0,0,0,0.6); max-width: 500px; width: 100%; box-sizing: border-box; margin-top: 20px; }";
+  h += "h1 { color: #FFA500; text-align: center; margin-bottom: 25px; font-size: 2em; }";
+  h += ".card { background: #1C1C1C; border-radius: 10px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.3); }";
+  h += ".card h2 { margin-top: 0; border-bottom: 1px solid #FFA500; padding-bottom: 10px; font-size: 1.3em; color: #FFA500; }";
+  h += ".card p { font-size: 0.9em; color: #FFFFFF; margin-bottom: 15px; }";
+  h += ".form-group { margin-bottom: 15px; display: flex; flex-direction: column; align-items: flex-start; }";
+  h += ".form-group label { margin-bottom: 8px; color: #FFFFFF; font-weight: bold; }";
+  h += "input[type='color'] { -webkit-appearance: none; -moz-appearance: none; appearance: none; border: none; width: 50px; height: 35px; cursor: pointer; background: transparent; padding: 0; }";
+  h += "input[type='color']::-webkit-color-swatch-wrapper { padding: 0; }";
+  h += "input[type='color']::-webkit-color-swatch { border: 3px solid #FFA500; border-radius: 5px; }";
+  h += "input[type='color']::-moz-color-swatch-wrapper { padding: 0; }";
+  h += "input[type='color']::-moz-color-swatch { border: 3px solid #FFA500; border-radius: 5px; }";
+  h += "input[type='number'] { width: 100px; padding: 10px; border-radius: 5px; border: 1px solid #FFA500; background: #3C3C3C; color: #FFFFFF; font-size: 1em; margin-top: 5px; }";
+  h += ".btn { display: block; width: 100%; padding: 15px; background: #FFA500; color: #FFFFFF; font-weight: bold; border: none; border-radius: 8px; font-size: 1.1em; cursor: pointer; margin-top: 30px; transition: background-color 0.3s ease; }";
+  h += ".btn:hover { background-color: #FF8C00; }";
+  h += ".info { font-size: 0.85em; color: #FFFFFF; text-align: center; margin-bottom: 20px; line-height: 1.4; }";
+  h += ".footer { text-align: center; padding: 20px; font-size: 0.8em; color: #777; margin-top: 20px; }";
+  h += ".footer a { color: #FFA500; text-decoration: none; }";
+  h += ".footer a:hover { text-decoration: underline; }";
+  h += "</style></head><body><div class='container'>";
+  
+  h += "<h1>Configuration Light Trainer</h1>";
+  h += "<div class='info'>ID du contrôleur : " + String((uint32_t)ESP.getEfuseMac(), HEX) + "<br>";
+  h += "Note : Les modules esclaves ne sont pas visibles en mode WiFi.</div>";
 
   h += "<form action='/save' method='POST'>";
+
+  // Brightness Slider
+  h += "<div class='card'>";
+  h += "<h2>Luminosité des LEDs</h2>";
+  h += "<div class='form-group'><label for='brightness'>Luminosité (10-100%)</label>";
+  h += "<input type='range' id='brightness' name='brightness' min='25' max='255' step='25' value='" + String(currentBrightness) + "'></div>";
+  h += "</div>";
 
   String modeNames[4] = { "Mode 0 (Standard)", "Mode 1 (Duel Couleurs)", "Mode 2 (Réflexe)", "Mode 3 (Chaos)" };
   String modeDescriptions[4] = {
@@ -216,24 +254,27 @@ String WebConfigManager::getHTML() {
 
     // Couleur 1
     h += "<div class='form-group'><label>Couleur 1</label>";
-    h += "<input type='color' name='c1_" + p + "' value='" + colorToHex(currentModes[i].color1) + "'></div>";
+    h += "<input type='color' name='c1_" + p + "' value='" + colorToHex(gameModesRef[i].color1) + "'></div>";
 
     // Couleur 2 (Optionnelle visuellement, mais toujours là)
     h += "<div class='form-group'><label>Couleur 2</label>";
-    h += "<input type='color' name='c2_" + p + "' value='" + colorToHex(currentModes[i].color2) + "'></div>";
+    h += "<input type='color' name='c2_" + p + "' value='" + colorToHex(gameModesRef[i].color2) + "'></div>";
 
     // Délais
     h += "<div class='form-group'><label>Délai Min (s)</label>";
-    h += "<input type='number' name='dmin_" + p + "' value='" + String(currentModes[i].delayMin) + "'></div>";
+    h += "<input type='number' name='dmin_" + p + "' value='" + String(gameModesRef[i].delayMin) + "' min='0'></div>";
 
     h += "<div class='form-group'><label>Délai Max (s)</label>";
-    h += "<input type='number' name='dmax_" + p + "' value='" + String(currentModes[i].delayMax) + "'></div>";
+    h += "<input type='number' name='dmax_" + p + "' value='" + String(gameModesRef[i].delayMax) + "' min='0'></div>";
 
     h += "</div>";
   }
 
-  h += "<button type='submit' class='btn'>SAUVEGARDER & REBOOT</button>";
-  h += "</form></body></html>";
+  h += "<button type='submit' class='btn'>SAUVEGARDER & REDÉMARRER</button>";
+  h += "</form></div>"; // Close container
+  h += "<div class='footer'>";
+  h += "© Copyright 2026 | Documentation: <a href='https://github.com/Forestierr/Light_trainer' target='_blank'>GitHub</a>";
+  h += "</div></body></html>";
 
   return h;
 }
