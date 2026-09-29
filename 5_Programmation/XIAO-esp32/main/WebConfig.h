@@ -2,37 +2,41 @@
 #define WEBCONFIG_H
 
 #include <WebServer.h>
+#include <DNSServer.h>
 #include <Preferences.h>
 #include "Config.h"
-#include <WiFi.h>
-#include <DNSServer.h> // Include for Captive Portal functionality
 
 class WebConfigManager {
 public:
-  bool shouldEnterConfigMode();  // Détection du geste d'entrée
-  void run();                    // Boucle principale du mode config
+  WebConfigManager();
+  void init();
+  void update(); // Appel non-bloquant dans loop()
 
-  // Gestion des données
-  void loadSettings(GameMode (&modes)[4]);
+  // Gestion des paramètres NVS
+  void loadSettings(GameMode (&modes)[5]);
   uint8_t getBrightness() const { return currentBrightness; }
+  void setBrightness(uint8_t b) { currentBrightness = b; }
 
 private:
-  WebServer server = WebServer(80);
+  WebServer server;
+  DNSServer dnsServer;
   Preferences preferences;
-  DNSServer dnsServer; // DNS server for captive portal
 
-  // Pages Web
-  void handleRoot();
-  void handleSave();
-
-  // Helpers
-  String getHTML();
-  String colorToHex(uint32_t color);
-  uint32_t hexToColor(String hex);
-
-  // Stockage local temporaire pour l'affichage
+  uint8_t currentBrightness;
   GameMode* gameModesRef;
-  uint8_t currentBrightness; // New member for brightness
+
+  // Handlers Web
+  void handleRoot();
+  void handleApiStatus();
+  void handleApiPods();
+  void handleApiLogs();
+  void handleApiHistory();
+  void handleApiExport();
+  void handleApiGameControl();
+  void handleApiManualControl();
+  void handleApiTest();
+  void handleApiSettings();
+  void handleNotFound();
 };
 
 extern WebConfigManager WebConfig;

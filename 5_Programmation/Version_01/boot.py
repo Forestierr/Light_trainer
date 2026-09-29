@@ -1,9 +1,15 @@
 import network
 import time
 from server import app
+import machine, neopixel
+
+n = 5 #number of Neo Pixel LED
+p = 16 #Pin number
+np = neopixel.NeoPixel(machine.Pin(p), n)
 
 def detect_wlan():
     wlan = network.WLAN(network.STA_IF)
+    wlan.active(True)
     nets = wlan.scan()
     
     flag_conn = False
@@ -35,6 +41,9 @@ def connect_to_wifi():
             pass
         
     print("network config : ", wlan_ap.ifconfig())
+    for i in range(n):
+        np[i] = [0, 0, 255]
+    np.write()
 
 
 def create_wifi():
@@ -53,8 +62,15 @@ def create_wifi():
     print('Create WiFi ssid ' + ap_ssid + ', default password: ' + ap_password)
     
     print("start server")
+    for i in range(n):
+        np[i] = [0, 255, 0] # Green
+    np.write()
     app.run(host="0.0.0.0", port=80, debug=True)
 
 
 if __name__ == "__main__":
+    for i in range(n):
+        np[i] = [255, 0, 0]
+    np.write()
+    
     detect_wlan()

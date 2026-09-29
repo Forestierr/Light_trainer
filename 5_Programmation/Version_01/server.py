@@ -1,4 +1,5 @@
 from microdot import Microdot, send_file
+import urequests
 
 # setup webserver
 app = Microdot()
@@ -44,6 +45,10 @@ def mode1(request):
         print("received m-1 : ", request.form.get('on-off'))
         print("colors : ", request.form.get("colors"))
         print("light : ", request.form.get("light"))
+    
+        if request.form.get('on-off') == "on":
+            res = urequests.post("http://1.1.1.2/received", {'instruction':'test_comm'}).read()
+            print(res.status_code)
     
     response = send_file("./templates/mode-1.html")
     return response

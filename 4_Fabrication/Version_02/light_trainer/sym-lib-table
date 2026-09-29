@@ -1,0 +1,4 @@
+(sym_lib_table
+	(version 7)
+	(lib (name "light_trainer-cache") (type "Legacy") (uri "C:/Users/Robin/Desktop/GitHub/Light_trainer/4_Fabrication/Version_02/light_trainer/light_trainer-cache.lib") (options "") (descr "Librairie cache du projet hérité"))
+)

@@ -1,0 +1,46 @@
+# Compilateurs, builds et binaires
+build/
+bin/
+obj/
+*.bin
+*.elf
+*.map
+*.hex
+*.o
+*.d
+
+# CMake généré
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+
+# Environnements et IDE
+.vscode/
+.idea/
+.history/
+*.sublime-project
+*.sublime-workspace
+scratch/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.venv
+venv/
+
+# Systèmes d'exploitation
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# KiCAD fichiers temporaires
+*.kicad_prl
+*-save.kicad_pcb
+*-save.kicad_sch
+
+# PlatformIO
+.pio/
+.pioenvs/
+.piolibdeps/

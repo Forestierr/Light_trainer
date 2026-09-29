@@ -21,75 +21,80 @@ main/
 
 ## Matériel Requis
 
-- **ESP32-C3 XIAO** (ou compatible ESP32)
-- **Capteur VL53L0X** (distance laser)
-- **LEDs WS2812B** (ruban ou matrice)
-- **Batterie 3.7V**
-- **2 Résistances XXk**
+- **Seeed Studio XIAO ESP32-C3**
+- **Capteur VL53L0X** (distance laser ToF I2C)
+- **LEDs WS2812B** (ruban circulaire 7 LEDs)
+- **Batterie LiPo 3.7V**
+- **6 Résistances 100 kΩ** ($R_1$ à $R_6$)
+- **1 Condensateur 100 nF** ($C_1$)
+- **1 Interrupteur à glissière SPDT** ($SW_1$)
 
-## Gestion de la Batterie
+## Gestion de la Batterie & Recharge USB
 
-Le système intègre une gestion de la batterie pour surveiller l'état de charge et protéger la batterie.
+Le système intègre une gestion complète de la batterie et de la recharge :
 
 ### Fonctionnalités
 
-*   **Surveillance de la Tension :** Utilise un diviseur de tension externe connecté à un pin ADC (GPIO21 / D6) de l'ESP32 pour mesurer la tension de la batterie.
-*   **Indication LED :**
-    *   **Orange :** La batterie est en charge (détectée par une augmentation de tension).
-    *   **Rouge :** La batterie est faible (inférieure à 3.4V, environ 5%).
-    *   **Verte :** La batterie est complètement chargée (4.2V).
-    *   **Éteint :** La batterie a une charge suffisante mais n'est pas pleine.
-*   **Protection Contre la Décharge Profonde :** Le système entre automatiquement en mode "Deep Sleep" si le niveau de la batterie tombe en dessous de 2% pour éviter une décharge excessive et protéger la durée de vie de la batterie.
-*   **Activation/Désactivation :** La gestion de la batterie peut être activée ou désactivée via le drapeau `#define ENABLE_BATTERY_MANAGEMENT` dans `Config.h`.
+*   **Recharge USB-C automatique :** La batterie LiPo connectée aux pads `BAT+` / `GND` sous le XIAO est rechargée automatiquement dès le branchement du câble USB-C.
+*   **Détection matérielle de Charge (D10) :** La broche `D10` est reliée au 5V `VBUS` via un pont $100\text{ k}\Omega / 200\text{ k}\Omega$ ($3.33\text{ V}$) pour détecter instantanément la connexion USB.
+*   **Interrupteur ON/OFF & Veille Profonde (D2) :** L'interrupteur $SW_1$ coupe l'alimentation $3\text{V}3\_S$ du capteur/LEDs et bascule $D_2$ à LOW, mettant le XIAO en **Deep Sleep** ($\approx 10\,\mu\text{A}$). Le basculement sur ON réveille instantanément le système.
+*   **Surveillance de la Tension (D1) :** Pont diviseur $100\text{ k}\Omega / 100\text{ k}\Omega$ avec condensateur de découplage $100\text{ nF}$ sur la broche ADC `D1`.
+*   **Indication LED d'état :**
+    *   **Orange :** Câble USB branché (Recharge en cours).
+    *   **Rouge :** Batterie faible ($< 3.4\text{ V}$).
+    *   **Veille de sécurité :** Coupure automatique si la batterie descend sous $3.0\text{ V}$.
 
-### Configuration des Pins pour la Batterie (dans `Config.h`)
-
-```cpp
-#define BAT_ADC_PIN         D6    // GPIO21 pour la lecture de la tension de la batterie
-```
-
-## Configuration des Pins
+## Configuration des Pins (Schéma V3 / Veroboard)
 
 ```cpp
-#define LED_PIN     D0  // LEDs WS2812B
-#define SDA_PIN     D4  // I2C SDA pour VL53L0X
-#define SCL_PIN     D5  // I2C SCL pour VL53L0X
+#define LED_PIN     D7    // LEDs WS2812B Data (Broche 8)
+#define SCL_PIN     D4    // I2C SCL VL53L0X (Broche 5)
+#define SDA_PIN     D5    // I2C SDA VL53L0X (Broche 6)
+#define SW_PIN      D2    // Interrupteur ON/OFF & Wake-up (Broche 3)
+#define CHARGE_PIN  D10   // Détection Charge USB 5V (Broche 11)
+#define BAT_ADC_PIN D1    // Mesure ADC Batterie (Broche 2)
+#define BUZZER_PIN  D3    // Prévision Buzzer (Broche 4)
 ```
 
-### Schéma de Câblage (Conceptual)
+### Schéma de Câblage Veroboard
 
-Ce schéma décrit le raccordement des composants principaux. **Attention :** Ce n'est pas un diagramme Fritzing, mais une description textuelle des connexions.
-
-**1. Alimentation Générale :**
-*   Connectez le pôle négatif (GND) de la batterie LiPo au pin **GND** de l'ESP32-C3 XIAO.
-*   Le pôle positif (+) de la batterie alimentera le circuit via un diviseur de tension pour la mesure.
-*   Le 5V VBUS de l'USB (si utilisé pour l'alimentation ou la charge) se connecte aussi à l'ESP32.
-
-**2. LEDs WS2812B :**
-*   **Data Input (DIN) des LEDs**  ->  Pin **D0** de l'ESP32-C3 XIAO.
-*   **VCC des LEDs**               ->  Pin **5V** de l'ESP32-C3 XIAO (si alimenté par USB ou batterie avec un régulateur 5V, ou directement à la batterie si les LEDs supportent la tension). *Assurez-vous que l'alimentation des LEDs est adéquate.*
-*   **GND des LEDs**              ->  Pin **GND** de l'ESP32-C3 XIAO.
-
-**3. Capteur de Distance VL53L0X :**
-*   **SDA du Capteur** -> Pin **D4** (SDA) de l'ESP32-C3 XIAO.
-*   **SCL du Capteur** -> Pin **D5** (SCL) de l'ESP32-C3 XIAO.
-*   **VCC du Capteur** -> Pin **3V3** de l'ESP32-C3 XIAO.
-*   **GND du Capteur** -> Pin **GND** de l'ESP32-C3 XIAO.
-
-**4. Circuit de Mesure de la Tension de la Batterie (Diviseur de Tension) :**
-*   Connectez le pôle positif (+) de votre batterie LiPo à une extrémité de la résistance **R1** (par exemple, 4.7kΩ).
-*   Connectez l'autre extrémité de **R1** à une extrémité de la résistance **R2** (par exemple, 10kΩ) et également au pin **D6** de l'ESP32-C3 XIAO (configuré comme `BAT_ADC_PIN` dans `Config.h`).
-*   Connectez l'autre extrémité de **R2** au pin **GND** de l'ESP32-C3 XIAO.
-*   **Vérifiez bien les valeurs de vos résistances et le câblage pour ne pas endommager l'ESP32.**
+1. **Alimentation & Batterie :**
+   * Pôle (+) de la batterie $\rightarrow$ Pad `BAT+` (Pin 21) du XIAO.
+   * Pôle (-) de la batterie $\rightarrow$ Pad `GND` (Pin 22) du XIAO et masse commune `GND`.
+2. **Interrupteur $SW_1$ :**
+   * Broche 2 $\rightarrow$ `3V3_OUT` (Pin 12) du XIAO.
+   * Broche 1 $\rightarrow$ Rail $3\text{V}3\_S$, relié à la broche `D2` et à la résistance pull-down $R_3$ ($100\text{ k}\Omega$ vers `GND`).
+3. **LEDs WS2812B :**
+   * `DIN` $\rightarrow$ Broche `D7` du XIAO.
+   * `VDD` $\rightarrow$ Rail $3\text{V}3\_S$.
+   * `GND` $\rightarrow$ `GND`.
+4. **Capteur ToF VL53L0X :**
+   * `VIN` $\rightarrow$ Rail $3\text{V}3\_S$.
+   * `GND` $\rightarrow$ `GND`.
+   * `SCL` $\rightarrow$ Broche `D4` du XIAO.
+   * `SDA` $\rightarrow$ Broche `D5` du XIAO.
+5. **Diviseur Batterie :**
+   * $R_1$ ($100\text{ k}\Omega$) entre `BAT` et `D1`.
+   * $R_2$ ($100\text{ k}\Omega$) et $C_1$ ($100\text{ nF}$) en parallèle entre `D1` et `GND`.
+6. **Diviseur Détection USB (VBUS) :**
+   * $R_4$ ($100\text{ k}\Omega$) entre `VBUS` (Pin 14) et `D10`.
+   * $R_5 + R_6$ ($100\text{ k}\Omega + 100\text{ k}\Omega$) en série entre `D10` et `GND`.
 
 ## Modes de Jeu
 
-Le système supporte 4 modes de jeu différents :
+Le système supporte 5 modes de jeu différents :
 
-1.  **Mode 0**: Couleur principale : Vert (`0x00FF00`), sans délai.
-2.  **Mode 1**: Couleur principale : Rouge (`0xFF0000`), Couleur secondaire : Vert (`0x00FF00`), sans délai.
-3.  **Mode 2**: Couleur principale : Bleu (`0x0000FF`), délai aléatoire de 0 à 10s.
-4.  **Mode 3**: Couleur principale : Jaune (`0xFFFF00`), Couleur secondaire : Magenta (`0xFF00FF`), délai aléatoire de 0 à 10s.
+1.  **Mode 0**: Vitesse Solo — Couleur principale : Vert (`0x00FF00`), sans délai.
+2.  **Mode 1**: Duel Bicolore — Joueur 1 : Rouge (`0xFF0000`), Joueur 2 : Vert (`0x00FF00`), sans délai (2 cibles actives en permanence).
+3.  **Mode 2**: Réflexe Aléatoire — Couleur principale : Bleu (`0x0000FF`), délai aléatoire de 1 à 5s.
+4.  **Mode 3**: Agilité Cognitive — C1 : Jaune (`0xFFFF00`), C2 : Magenta (`0xFF00FF`), délai aléatoire de 1 à 5s.
+5.  **Mode 4**: Jeu Simon — Mémoire séquentielle & accélération progressive (rose de départ, couleurs signatures par pod).
+
+## Configuration de Compilation (IDE Arduino)
+
+> [!IMPORTANT]
+> Dans le menu **Outils $\rightarrow$ Partition Scheme**, sélectionnez impérativement **`Huge APP (3MB No OTA/1MB SPIFFS)`**.
+> Le microcontrôleur XIAO ESP32-C3 possède 4 Mo de mémoire Flash physique. La partition standard de 1.3 Mo est insuffisante pour le binaire incluant l'interface Web complète et provoque une erreur `Sketch too big`.
 
 ## Fonctionnalités Clés
 
@@ -110,14 +115,14 @@ Le système supporte 4 modes de jeu différents :
 stateDiagram-v2
     [*] --> MENU
 
-    MENU --> CONTROLLER : startGame() / 's' / ToF (<70mm)
+    MENU --> CONTROLLER : startGame() / 's' / ToF (< TOF_MIN_DISTANCE)
     MENU --> IDLE_LISTENER : CMD_START from CONTROLLER
 
     CONTROLLER --> CONTROLLER_TARGET : CMD_ACTIVATE (self)
-    CONTROLLER_TARGET --> CONTROLLER : triggerHit / ToF (<70mm)
+    CONTROLLER_TARGET --> CONTROLLER : triggerHit / ToF (< TOF_MIN_DISTANCE)
 
     IDLE_LISTENER --> ACTIVE_TARGET : CMD_ACTIVATE (self)
-    ACTIVE_TARGET --> IDLE_LISTENER : triggerHit / ToF (<70mm)
+    ACTIVE_TARGET --> IDLE_LISTENER : triggerHit / ToF (< TOF_MIN_DISTANCE)
 
     CONTROLLER --> MENU : returnToMenu() / 'r' / ToF (3s)
     CONTROLLER_TARGET --> MENU : returnToMenu() / 'r' / ToF (3s)
@@ -136,52 +141,79 @@ stateDiagram-v2
 - `CMD_START`: Démarrage du jeu
 - `CMD_ACTIVATE`: Activation d'une cible
 - `CMD_HIT`: Cible touchée
-- `CMD_PING`: Découverte des nœuds
-- `CMD_ACK`: Accusé de réception
-- `CMD_RETURN_TO_MENU`: Retour au menu principal
+- `CMD_PING`: Découverte des nœuds & mesure RTT/RSSI
+- `CMD_ACK`: Accusé de réception ping
+- `CMD_RETURN_TO_MENU`: Retour synchronisé au menu principal
+- `CMD_MANUAL_SET`: Allumage forcé en mode manuel coach
+- `CMD_TEST_LEDS`: Banc de test dynamique des LEDs
+- `CMD_POD_TELEMETRY`: Télémétrie périodique batterie & charge USB
 
 ### Structure des Messages
 
 ```cpp
-typedef struct struct_message {
-  uint8_t msgType;    // Type de message
+typedef struct __attribute__((packed)) struct_message {
+  uint32_t msgId;     // Identifiant unique séquentiel
+  uint64_t senderID;  // ID du pod expéditeur
+  uint64_t targetID;  // ID de la cible (0 = broadcast à tous)
+  uint8_t msgType;    // Type de message (CMD_*)
+  uint8_t ttl;        // Nombre de sauts restants (Mesh multi-hop)
   uint32_t color;     // Couleur à afficher
-  uint64_t targetID;  // ID de la cible
-  uint64_t senderID;  // ID de l'expéditeur
 } struct_message;
 ```
 
-## Utilisation
+## Utilisation & Expérience Utilisateur (UX)
 
-### Contrôles par Capteur (VL53L0X)
+### Contrôles Gestuels par Capteur ToF (VL53L0X)
 
-- **Distance < 70mm**: Démarrer le jeu (en mode MENU)
-- **Distance 70-200mm**: Changer de mode (en mode MENU)
-- **Distance < 80mm**: Toucher la cible (quand allumé)
-- **Distance < 70mm pendant 3 secondes**: Retour au menu principal (depuis n'importe quel état de jeu actif)
+L'interaction repose sur des gestes numériques fiables et rapides, avec tolérance aux reflets et micro-coupures optiques :
+
+- **Changer de Mode (en mode MENU) - *Tap Court*** :
+  - Un passage bref de la main ($< 150\text{ mm}$ pendant moins de $500\text{ ms}$) fait défiler les modes (**Mode 0 $\rightarrow$ 1 $\rightarrow$ 2 $\rightarrow$ 3 $\rightarrow$ 0**).
+  - Les 7 LEDs s'illuminent immédiatement de la couleur du mode sélectionné.
+- **Lancer la Partie (en mode MENU) - *Maintien 1.5s (Hold)*** :
+  - Maintenez la main au-dessus du pod ($< 150\text{ mm}$).
+  - Les 7 LEDs affichent une **jauge circulaire de progression** qui se remplit. À $100\%$ ($1.5\text{ s}$), un flash blanc confirme le départ et le jeu commence.
+- **Toucher une Cible (en Jeu) - *Hit Ultra-Rapide*** :
+  - Tout passage rapide à $< 150\text{ mm}$ valide instantanément la touche avec un **flash blanc de confirmation ($60\text{ ms}$)**.
+  - Le capteur tourne en mode `HIGH_SPEED` (50 Hz) pour garantir 0 latence.
+- **Retour au Menu (depuis n'importe quel état) - *Maintien 3s*** :
+  - Maintenez la main sur n'importe quel pod pendant $3\text{ secondes}$.
+  - L'action réinitialise tous les pods du réseau en mode MENU de manière synchronisée.
 
 ### Contrôles Série
 
-- `'s'`: Démarrer le jeu
+- `'s'`: Démarrer le jeu (le pod devient `CONTROLLER`)
 - `'h'`: Simuler un hit
-- `'0'-'3'`: Changer de mode
-- `'r'`: Retour au menu principale
+- `'0'-'3'`: Changer de mode de jeu (en mode `MENU`)
+- `'r'`: Retour au menu principal
+- `'d'`: Afficher immédiatement le Dashboard complet de débogage
+- `'?'`: Afficher l'aide des commandes série
 
-## Compilation
+## Débogage Série Avancé (Dashboard)
 
-1. Ouvrir `main.ino` dans Arduino IDE
-2. Sélectionner la carte ESP32 appropriée
-3. Installer les bibliothèques requises :
-   - FastLED
-   - Adafruit_VL53L0X
-4. Compiler et téléverser
+Le système intègre un **tableau de bord ASCII temps réel** imprimé automatiquement toutes les 5 secondes (ou sur commande `'d'`) sur le port Série (115200 bauds) :
 
-## Débogage
+```text
++-----------------------------------------------------------------------+
+|                     LIGHT TRAINER - DEBUG DASHBOARD                   |
++-----------------------------------------------------------------------+
+| Pod ID           : 34:B7:DA:55:A1:2C (Dec: 57962454147372)
+| Etat du Pod      : CONTROLLER (Master)
+| Mode de Jeu      : Mode 1 (Duel - 2 Couleurs, sans delai)
+| Parametres Mode  : C1=#FF0000, C2=#00FF00, Delai=[0ms - 0ms]
+| Capteur ToF      : 115 mm [MAIN DETECTEE - Zone active <= 150mm]
+| Pods Connectes   : 2 pod(s) decouvert(s)
+|   [1] ID: E0:5A:1B:77:88:99 (Dec: 246675200379033)
+|   [2] ID: F4:12:FA:11:22:33 (Dec: 268361099682355)
+| Cibles Actives   : 1 cible(s) en cours
+|   * Pod E0:5A:1B:77:88:99 | Couleur: #FF0000 | Activee depuis: 2.3s (Timeout: 15s)
+| Dernier Msg RX   : CMD_HIT (msgId: 14, Emetteur: E0:5A:1B:77:88:99, Cible: 0 (BROADCAST), Couleur: #FF0000, Il y a 1s)
+| Dernier Msg TX   : CMD_ACTIVATE (msgId: 15, Cible: E0:5A:1B:77:88:99, Couleur: #FF0000, Il y a 1s)
+| Derniere Erreur  : Aucune erreur enregistree
+| Uptime / RAM     : Uptime: 45s | Free Heap: 182340 octets
++-----------------------------------------------------------------------+
+| Commandes Serie  : [s]=Start  [h]=Hit  [0-3]=Mode  [r]=Menu  [d]=Dashboard [?]=Aide
++-----------------------------------------------------------------------+
+```
 
-Le système fournit des messages série détaillés pour le débogage :
-- États des capteurs
-- Messages ESP-NOW reçus/envoyés
-- Changements d'état
-- Informations de découverte de nœuds
-
-Vous pouvez modifier le niveau de debug en modifiant `#define CURRENT_DEBUG_LEVEL DEBUG_INFO` dans le fichier `config.h'.
+Vous pouvez également modifier la verbosité des logs en temps réel via `#define CURRENT_DEBUG_LEVEL` dans `Config.h` (`DEBUG_ERROR`, `DEBUG_INFO`, `DEBUG_VERBOSE`).
