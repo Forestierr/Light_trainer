@@ -4,6 +4,7 @@
 #include "Hardware.h"
 #include "GameNetwork.h"
 #include <esp_wifi.h>
+#include <Update.h>
 
 WebConfigManager WebConfig;
 
@@ -75,6 +76,36 @@ void WebConfigManager::init() {
   server.on("/api/test", HTTP_POST, [this]() { handleApiTest(); });
   server.on("/api/settings", HTTP_POST, [this]() { handleApiSettings(); });
 
+  // Endpoint OTA Mise à jour Firmware
+  server.on("/update", HTTP_POST, [this]() {
+    server.sendHeader("Connection", "close");
+    if (Update.hasError()) {
+      server.send(500, "text/plain", "Échec OTA");
+    } else {
+      server.send(200, "text/plain", "OK");
+      delay(500);
+      ESP.restart();
+    }
+  }, [this]() {
+    HTTPUpload& upload = server.upload();
+    if (upload.status == UPLOAD_FILE_START) {
+      DEBUG_PRINT(DEBUG_INFO, "OTA Démarrage: %s", upload.filename.c_str());
+      if (!Update.begin(UPDATE_SIZE_UNKNOWN)) {
+        Update.printError(Serial);
+      }
+    } else if (upload.status == UPLOAD_FILE_WRITE) {
+      if (Update.write(upload.buf, upload.currentSize) != upload.currentSize) {
+        Update.printError(Serial);
+      }
+    } else if (upload.status == UPLOAD_FILE_END) {
+      if (Update.end(true)) {
+        DEBUG_PRINT(DEBUG_INFO, "OTA Réussi: %u octets. Redémarrage...", upload.totalSize);
+      } else {
+        Update.printError(Serial);
+      }
+    }
+  });
+
   server.onNotFound([this]() { handleNotFound(); });
 
   routesRegistered = true;
@@ -89,7 +120,7 @@ void WebConfigManager::startSoftAP() {
   WiFi.mode(WIFI_AP_STA);
   IPAddress apIP(192, 168, 4, 1);
   IPAddress subnet(255, 255, 255, 0);
-  WiFi.softAPConfig(apIP, apIP, subnet, IPAddress(192, 168, 4, 2), apIP);
+  WiFi.softAPConfig(apIP, apIP, subnet);
   WiFi.softAP("LightTrainer", "", 1);
 
   dnsServer.start(53, "*", apIP);

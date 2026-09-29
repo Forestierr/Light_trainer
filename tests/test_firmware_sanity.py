@@ -42,6 +42,10 @@ class TestFirmwareSanity(unittest.TestCase):
         self.assertIn("/api/pods", decompressed_html, "Route /api/pods absente du JS")
         self.assertIn("pollStatus", decompressed_html)
         self.assertIn("fetchConfig", decompressed_html)
+        self.assertIn("/update", decompressed_html, "Route /update absente du JS")
+        self.assertIn("checkGitHubUpdate", decompressed_html, "Fonction checkGitHubUpdate absente")
+        self.assertIn("api.github.com/repos/Forestierr/Light_trainer", decompressed_html, "URL GitHub API absente")
+        self.assertIn("subpageOtaDetail", decompressed_html, "Sous-page OTA absente")
         print(f"\n[OK] DashboardHtml.h validé : {len(raw_bytes)} octets GZIP -> {len(decompressed_html)} octets HTML décompressés")
 
     def test_config_pins_and_protocol(self):
@@ -109,7 +113,7 @@ class TestFirmwareSanity(unittest.TestCase):
         print(f"[OK] Version Firmware SemVer validée : v{version}")
 
     def test_platformio_and_partitions_integrity(self):
-        """Vérifie la validité de platformio.ini et de la table de partition huge_app.csv."""
+        """Vérifie la validité de platformio.ini et le support OTA."""
         pio_ini_path = os.path.join(REPO_ROOT, "platformio.ini")
         self.assertTrue(os.path.exists(pio_ini_path), "platformio.ini introuvable à la racine")
 
@@ -117,25 +121,9 @@ class TestFirmwareSanity(unittest.TestCase):
             pio_content = f.read()
 
         self.assertIn("seeed_xiao_esp32c3", pio_content)
-        self.assertIn("huge_app.csv", pio_content)
+        self.assertIn("min_spiffs.csv", pio_content)
         self.assertIn("5_Programmation/XIAO-esp32-v3/main", pio_content)
-
-        # Vérifier huge_app.csv
-        part_path = os.path.join(REPO_ROOT, "huge_app.csv")
-        self.assertTrue(os.path.exists(part_path), "huge_app.csv introuvable")
-
-        with open(part_path, "r", encoding="utf-8") as f:
-            part_content = f.read()
-
-        # Vérifier que app0 fait au moins 2.5Mo (0x280000) et tient dans 4Mo (0x400000)
-        app0_match = re.search(r"app0,\s+app,\s+ota_0,\s+(0x[0-9A-Fa-f]+),\s+(0x[0-9A-Fa-f]+)", part_content)
-        self.assertIsNotNone(app0_match, "Entrée app0 introuvable dans huge_app.csv")
-        offset = int(app0_match.group(1), 16)
-        size = int(app0_match.group(2), 16)
-
-        self.assertGreaterEqual(size, 0x200000, "Partition app0 trop petite (< 2 Mo)")
-        self.assertLessEqual(offset + size, 0x400000, "Partition app0 dépasse la mémoire Flash physique (4 Mo)")
-        print(f"[OK] Table de partitions validée : app0 = {size / (1024*1024):.1f} Mo (Offset: 0x{offset:X})")
+        print("[OK] platformio.ini validé avec configuration partition OTA (min_spiffs.csv)")
 
 if __name__ == "__main__":
     unittest.main()

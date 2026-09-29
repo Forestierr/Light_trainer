@@ -8,11 +8,12 @@
 GameNetworkManager GameNetwork;
 
 // Callbacks globaux obligatoires pour ESP-NOW
-void OnDataSent(const wifi_tx_info_t *info, esp_now_send_status_t status) {
+#if defined(ESP_ARDUINO_VERSION_MAJOR) && ESP_ARDUINO_VERSION_MAJOR >= 3
+void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
   DEBUG_PRINT(DEBUG_VERBOSE, "ESP-NOW data sent status: %d", status);
 }
 
-void OnDataRecv(const esp_now_recv_info *recv_info, const uint8_t *data, int len) {
+void OnDataRecv(const esp_now_recv_info_t *recv_info, const uint8_t *data, int len) {
   if (len != sizeof(struct_message)) {
     DEBUG_PRINT(DEBUG_WARNING, "Received ESP-NOW message of incorrect length: %d (expected %d)", len, sizeof(struct_message));
     return;
@@ -22,9 +23,25 @@ void OnDataRecv(const esp_now_recv_info *recv_info, const uint8_t *data, int len
   memcpy(&incomingMsg, data, sizeof(struct_message));
 
   int8_t rssi = 0;
-  if (recv_info->rx_ctrl != NULL) {
+  if (recv_info && recv_info->rx_ctrl != NULL) {
     rssi = recv_info->rx_ctrl->rssi;
   }
+#else
+void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
+  DEBUG_PRINT(DEBUG_VERBOSE, "ESP-NOW data sent status: %d", status);
+}
+
+void OnDataRecv(const uint8_t *mac_addr, const uint8_t *data, int len) {
+  if (len != sizeof(struct_message)) {
+    DEBUG_PRINT(DEBUG_WARNING, "Received ESP-NOW message of incorrect length: %d (expected %d)", len, sizeof(struct_message));
+    return;
+  }
+
+  struct_message incomingMsg;
+  memcpy(&incomingMsg, data, sizeof(struct_message));
+
+  int8_t rssi = 0;
+#endif
 
   // 1. Ignorer ses propres messages
   if (incomingMsg.senderID == GameNetwork.getMyId()) {

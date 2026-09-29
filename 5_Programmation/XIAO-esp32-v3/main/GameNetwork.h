@@ -28,7 +28,11 @@ struct NodeInfo {
 
 class GameNetworkManager {
   // Callback ESP-NOW déclaré comme ami pour accéder aux membres de debug
-  friend void OnDataRecv(const esp_now_recv_info *recv_info, const uint8_t *data, int len);
+#if defined(ESP_ARDUINO_VERSION_MAJOR) && ESP_ARDUINO_VERSION_MAJOR >= 3
+  friend void OnDataRecv(const esp_now_recv_info_t *recv_info, const uint8_t *data, int len);
+#else
+  friend void OnDataRecv(const uint8_t *mac_addr, const uint8_t *data, int len);
+#endif
 
 public:
   void init();

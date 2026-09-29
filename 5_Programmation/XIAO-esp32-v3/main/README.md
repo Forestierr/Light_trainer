@@ -90,11 +90,11 @@ Le système supporte 5 modes de jeu différents :
 4.  **Mode 3**: Agilité Cognitive — C1 : Jaune (`0xFFFF00`), C2 : Magenta (`0xFF00FF`), délai aléatoire de 1 à 5s.
 5.  **Mode 4**: Jeu Simon — Mémoire séquentielle & accélération progressive (rose de départ, couleurs signatures par pod).
 
-## Configuration de Compilation (IDE Arduino)
+## Configuration de Compilation (IDE Arduino / PlatformIO)
 
 > [!IMPORTANT]
-> Dans le menu **Outils $\rightarrow$ Partition Scheme**, sélectionnez impérativement **`Huge APP (3MB No OTA/1MB SPIFFS)`**.
-> Le microcontrôleur XIAO ESP32-C3 possède 4 Mo de mémoire Flash physique. La partition standard de 1.3 Mo est insuffisante pour le binaire incluant l'interface Web complète et provoque une erreur `Sketch too big`.
+> Dans le menu **Outils $\rightarrow$ Partition Scheme**, sélectionnez **`Minimal SPIFFS (1.9MB APP with OTA/190KB SPIFFS)`** (ou `min_spiffs.csv` sous PlatformIO).
+> Grâce à la pré-compression GZIP de l'interface Web (réduite de 84 Ko à 18 Ko), le binaire complet ne pèse que 1.45 Mo. Cela permet de réserver **deux partitions applicatives de 1.9 Mo** (`ota_0` et `ota_1`) et d'assurer les mises à jour sans fil **Over-The-Air (OTA)** sans câble USB.
 
 ## Fonctionnalités Clés
 
