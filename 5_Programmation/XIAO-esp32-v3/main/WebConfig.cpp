@@ -140,7 +140,7 @@ void WebConfigManager::handleNotFound() {
 }
 
 void WebConfigManager::handleApiConfig() {
-  String json = "{\"brightness\":";
+  String json = "{\"version\":\"" FIRMWARE_VERSION "\",\"brightness\":";
   json += String(currentBrightness) + ",\"modes\":[";
   for (int i = 0; i < 5; i++) {
     if (i > 0) json += ",";

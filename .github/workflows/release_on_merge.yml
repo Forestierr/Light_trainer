@@ -1,0 +1,117 @@
+name: Release on Merge
+
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - '**.md'
+      - '.gitignore'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-master
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Build, Tag & Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run Firmware Sanity Tests
+        run: |
+          python -m unittest tests/test_firmware_sanity.py
+
+      - name: Cache PlatformIO packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.platformio
+            ~/.cache/pip
+          key: ${{ runner.os }}-pio-${{ hashFiles('**/platformio.ini') }}
+          restore-keys: |
+            ${{ runner.os }}-pio-
+
+      - name: Install PlatformIO
+        run: |
+          python -m pip install --upgrade pip
+          pip install platformio
+
+      - name: Compile Production Firmware
+        run: |
+          pio run -e xiao_esp32c3_v3
+
+      - name: Prepare Release Assets and Tag
+        id: release_info
+        run: |
+          VERSION=$(python scripts/get_version.py)
+          BASE_TAG="v${VERSION}"
+          echo "Firmware Version detected: $VERSION"
+
+          # Vérifier si le tag existe déjà sur le dépôt distant
+          if git rev-parse "$BASE_TAG" >/dev/null 2>&1; then
+            TAG="${BASE_TAG}-build.${{ github.run_number }}"
+            RELEASE_NAME="Light Trainer Firmware ${BASE_TAG} (Build ${{ github.run_number }})"
+          else
+            TAG="$BASE_TAG"
+            RELEASE_NAME="Light Trainer Firmware ${BASE_TAG}"
+          fi
+
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+          echo "name=$RELEASE_NAME" >> $GITHUB_OUTPUT
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+          # Préparation des binaires pour le téléchargement OTA / USB
+          mkdir -p release_assets
+          cp .pio/build/xiao_esp32c3_v3/firmware.bin release_assets/light-trainer-v3-${TAG}.bin
+          cp .pio/build/xiao_esp32c3_v3/firmware.bin release_assets/firmware.bin
+          if [ -f .pio/build/xiao_esp32c3_v3/partitions.bin ]; then
+            cp .pio/build/xiao_esp32c3_v3/partitions.bin release_assets/partitions.bin
+          fi
+          if [ -f .pio/build/xiao_esp32c3_v3/bootloader.bin ]; then
+            cp .pio/build/xiao_esp32c3_v3/bootloader.bin release_assets/bootloader.bin
+          fi
+
+      - name: Create and Push Git Tag
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag -a "${{ steps.release_info.outputs.tag }}" -m "Release ${{ steps.release_info.outputs.tag }}"
+          git push origin "${{ steps.release_info.outputs.tag }}"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.release_info.outputs.tag }}
+          name: ${{ steps.release_info.outputs.name }}
+          generate_release_notes: true
+          body: |
+            ## 🚀 Light Trainer Firmware ${{ steps.release_info.outputs.tag }}
+
+            Binaire de production compilé automatiquement pour le microcontrôleur **Seeed Studio XIAO ESP32-C3** via PlatformIO.
+
+            ### 📦 Fichiers et Artéfacts disponibles :
+            - `light-trainer-v3-${{ steps.release_info.outputs.tag }}.bin` : Binaire complet de l'application (prêt pour flash USB ou OTA)
+            - `firmware.bin` : Binaire nommé de manière standard pour scripts de mise à jour
+            - `partitions.bin` : Table de partition personnalisée (3 Mo App / 1 Mo Data)
+            - `bootloader.bin` : Chargeur d'amorçage ESP32-C3
+
+            ### ⚙️ Caractéristiques du build :
+            - **Cible** : Seeed Studio XIAO ESP32-C3 (RISC-V 160MHz)
+            - **Partition Scheme** : `huge_app.csv` (3 Mo Flash)
+            - **Web UI** : Dashboard compressé GZIP (15.6 Ko vs 73 Ko), design Apple iOS
+            - **Réseau** : Mesh ESP-NOW avec élection dynamique automatique du Master et bascule transparente
+          files: release_assets/*

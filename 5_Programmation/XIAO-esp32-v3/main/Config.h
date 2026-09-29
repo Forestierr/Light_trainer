@@ -3,6 +3,9 @@
 
 #include <Arduino.h>
 
+// Version du firmware (utilisée pour l'UI, l'API et les releases OTA)
+#define FIRMWARE_VERSION "3.1.0"
+
 // ---- CONFIGURATION MATERIELLE (Alignée Schéma V3 & Veroboard) ----
 #define LED_PIN D7        // Broche 8 de U1 (LEDS WS2812B Data)
 #define NUM_LEDS 7
